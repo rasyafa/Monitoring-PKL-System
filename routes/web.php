@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Middleware\CheckRole;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,10 +16,14 @@ Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+// });
+
+Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
+    Route::get('/siswa/beranda', [SiswaController::class, 'index'])->name('siswa.beranda');
 });
 
-// Route::middleware(['auth', 'role:admin'])->group(function () {
-//     // Routes for admin
-// });
+// ROUTE UNTUK SISWA
+// Rute untuk menampilkan halaman beranda siswa
+// Route::middleware(['auth', CheckRole::class . ':siswa'])->get('/siswa/beranda', [SiswaController::class, 'index'])->name('siswa.beranda');
