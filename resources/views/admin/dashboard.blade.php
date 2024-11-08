@@ -185,7 +185,7 @@
             </div>
             <div class="list-group list-group-flush my-3">
                 <!-- Dashboard -->
-                <a href="" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                <a href="{{ route('admin.dashboard') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                 </a>
 
@@ -220,12 +220,14 @@
 
 
                 <!-- Logout -->
-
-                <button type="submit"
-                    class="list-group-item list-group-item-action bg-transparent text-danger fw-bold mt-2"
-                    style="border: none; background: none;">
-                    <i class="fas fa-power-off me-2"></i>Log out
-                </button>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="list-group-item list-group-item-action bg-transparent text-danger fw-bold mt-2"
+                        style="border: none; background: none;">
+                        <i class="fas fa-power-off me-2"></i>Log out
+                    </button>
+                </form>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->

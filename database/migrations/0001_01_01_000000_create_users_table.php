@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('gender', ['male', 'female']);
             $table->string('email')->unique();
             $table->string('city');
-            $table->enum('role', ['siswa', 'pembimbing', 'mitra', 'mentor'])->default('siswa'); 
+            $table->enum('role', ['siswa', 'pembimbing', 'mitra', 'mentor', 'admin'])->default('siswa');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
