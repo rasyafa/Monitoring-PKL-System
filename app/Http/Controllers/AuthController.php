@@ -15,16 +15,19 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'username' => ['required', 'string'], // Ubah ini
-            'password' => ['required'],
-        ]);
+{
+    $credentials = $request->validate([
+        'username' => ['required', 'string'],
+        'password' => ['required'],
+    ]);
+    @dd($credentials);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
-        }
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+
+        // Redirect berdasarkan role
+        return $this->authenticated($request, Auth::user());
+    }
 
     return back()->withErrors([
         'username' => 'The provided credentials do not match our records.',
@@ -69,4 +72,23 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect('/');
     }
+
+    protected function authenticated(Request $request, $user)
+
+{
+    if ($user->role == 'admin') {
+        return redirect()->route('admin.dashboard');
+    } elseif ($user->role == 'siswa') {
+        return redirect()->route('siswa.beranda');
+    } elseif ($user->role == 'pembimbing') {
+        return redirect()->route('pembimbing.dashboard');
+    } elseif ($user->role == 'mitra') {
+        return redirect()->route('mitra.dashboard');
+    } elseif ($user->role == 'mentor') {
+        return redirect()->route('mentor.dashboard');
+    }
+
+    // Default redirect jika role tidak cocok
+    return redirect('/');
+}
 }

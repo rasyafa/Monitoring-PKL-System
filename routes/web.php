@@ -16,13 +16,13 @@ Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// ROUTE UNTUK SISWA
-Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
-    Route::get('/siswa/beranda', [SiswaController::class, 'index'])->name('siswa.beranda');
+// routes admin
+Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 });
 
 
-// routes admin
-Route::middleware(['auth', CheckRole::class .  ':admin'])->prefix('admin')->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+//route siswa
+Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
+    Route::get('/siswa/beranda', [SiswaController::class, 'index'])->name('siswa.beranda');
 });
