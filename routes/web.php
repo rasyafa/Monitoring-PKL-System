@@ -16,6 +16,14 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // routes admin
-Route::middleware(['auth', CheckRole::class .  ':admin'])->prefix('admin')->group(function () {
+Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 });
+
+
+//route siswa
+Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
+    Route::get('/siswa/beranda', [SiswaController::class, 'index'])->name('siswa.beranda');
+});
+
+
