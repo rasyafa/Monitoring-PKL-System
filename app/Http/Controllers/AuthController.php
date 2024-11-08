@@ -17,21 +17,20 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'username' => ['required', 'string'],
+            'username' => ['required', 'string'], // Ubah ini
             'password' => ['required'],
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
-            // Redirect berdasarkan role
-            return $this->authenticated($request, Auth::user());
+            return redirect()->intended('/dashboard');
         }
 
-        return back()->withErrors([
-            'username' => 'The provided credentials do not match our records.',
-        ]);
-    }
+    return back()->withErrors([
+        'username' => 'The provided credentials do not match our records.',
+    ]);
+    // @dd($this);
+}
 
     public function showRegistrationForm()
     {
@@ -68,24 +67,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
-    }
-
-    protected function authenticated(Request $request, $user)
-    {
-        if ($user->role == 'admin') {
-            return redirect()->route('admin.dashboard');
-        } elseif ($user->role == 'siswa') {
-            return redirect()->route('siswa.dashboard');
-        } elseif ($user->role == 'pembimbing') {
-            return redirect()->route('pembimbing.dashboard');
-        } elseif ($user->role == 'mitra') {
-            return redirect()->route('mitra.dashboard');
-        } elseif ($user->role == 'mentor') {
-            return redirect()->route('mentor.dashboard');
-        }
-
-        // Default redirect jika role tidak cocok
         return redirect('/');
     }
 }
