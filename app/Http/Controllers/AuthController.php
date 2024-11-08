@@ -15,6 +15,7 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
+
 {
     $credentials = $request->validate([
         'username' => ['required', 'string'],
@@ -74,6 +75,7 @@ class AuthController extends Controller
     }
 
     protected function authenticated(Request $request, $user)
+
 {
     if ($user->role == 'admin') {
         return redirect()->route('admin.dashboard');
@@ -91,3 +93,4 @@ class AuthController extends Controller
     return redirect('/');
 }
 }
+

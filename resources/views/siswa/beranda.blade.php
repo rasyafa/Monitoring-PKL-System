@@ -218,9 +218,9 @@
                 <i class="fas fa-user-graduate me-2"></i>Siswa
             </div>
             <div class="list-group list-group-flush my-3">
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text active">
+                <a href="{{ route('siswa.beranda') }}" class="list-group-item list-group-item-action bg-transparent second-text active">
                     <i class="fas fa-home me-2"></i>Beranda</a>
-                <a href="{{ route('siswa.show', Auth::user()->id) }}"
+                <a href=""
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-user me-2"></i>Profile</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
@@ -287,7 +287,7 @@
                 labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
                 datasets: [{
                     label: 'Data Siswa',
-                    data: [39, 45, 40, 30, 60, 60, 50, 65, 70, 80, 55, 59, 100],
+                    data: @json($data), // Menggunakan data yang dikirim dari controller
                     backgroundColor: [
                         'rgba(75, 192, 192, 0.2)',
                         'rgba(153, 102, 255, 0.2)',
