@@ -43,7 +43,7 @@ class SiswaController extends Controller
     {
         $request->validate([
             'status' => 'required',
-            'jurusan' => 'required',
+            
         ]);
 
         // Cek apakah siswa sudah absen hari ini
@@ -60,7 +60,7 @@ class SiswaController extends Controller
             'user_id' => Auth::id(),
             'tanggal' => today(),
             'status' => $request->status,
-            'jurusan' => $request->jurusan,
+
         ]);
 
         return redirect()->route('siswa.absen')->with('success', 'Absen berhasil disimpan.');
