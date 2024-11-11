@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Absen;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SiswaController extends Controller
@@ -27,5 +28,41 @@ class SiswaController extends Controller
 
         // Mengirimkan data ke view
         return view('siswa.beranda', compact('data'));
+    }
+
+    // Fungsi untuk menampilkan riwayat absen siswa
+    public function absenIndex()
+    {
+        // Ambil data absen siswa yang sedang login
+        $absens = Absen::where('user_id', Auth::id())->get();
+        return view('siswa.absen', compact('absens'));
+    }
+
+    // Fungsi untuk menyimpan absen siswa
+    public function absenStore(Request $request)
+    {
+        $request->validate([
+            'status' => 'required',
+            'jurusan' => 'required',
+        ]);
+
+        // Cek apakah siswa sudah absen hari ini
+        $existingAbsen = Absen::where('user_id', Auth::id())
+            ->where('tanggal', today())
+            ->first();
+
+        if ($existingAbsen) {
+            return back()->withErrors(['error' => 'Anda sudah absen hari ini.']);
+        }
+
+        // Simpan data absen
+        Absen::create([
+            'user_id' => Auth::id(),
+            'tanggal' => today(),
+            'status' => $request->status,
+            'jurusan' => $request->jurusan,
+        ]);
+
+        return redirect()->route('siswa.absen')->with('success', 'Absen berhasil disimpan.');
     }
 }
