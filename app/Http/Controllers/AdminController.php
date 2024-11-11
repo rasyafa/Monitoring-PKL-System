@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Http\Requests\UserRequest;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class AdminController extends Controller
@@ -31,44 +30,77 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('data'));
     }
 
-    public function userManagement()
+    // Tampilkan daftar pengguna
+    public function manageUsers()
     {
-        $users = User::paginate(2);
+        $users = User::whereIn('role', ['siswa', 'pembimbing', 'mentor', 'mitra'])->paginate(10);
         return view('admin.users.index', compact('users'));
     }
 
+    // Tampilkan form untuk membuat pengguna baru
     public function createUser()
     {
         return view('admin.users.create');
     }
 
-    public function storeUser(UserRequest $request)
+    // Simpan pengguna baru
+    public function storeUser(Request $request)
     {
-        $validated = $request->validated();
-        $validated['password'] = Hash::make($validated['password']);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|in:siswa,pembimbing,mentor,mitra',
+            'gender' => 'required|in:male,female',
+            'city' => 'required|string|max:255',
+        ]);
 
-        User::create($validated);
+        User::create([
+            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+            'gender' => $request->gender,
+            'city' => $request->city,
+        ]);
 
         return redirect()->route('admin.users')->with('success', 'User berhasil ditambahkan');
     }
 
+    // Tampilkan form untuk mengedit pengguna
     public function editUser(User $user)
     {
         return view('admin.users.edit', compact('user'));
     }
 
-    public function updateUser(UserRequest $request, User $user)
+    // Update data pengguna
+    public function updateUser(Request $request, User $user)
     {
-        $validated = $request->validated();
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'role' => 'required|in:siswa,pembimbing,mentor,mitra',
+            'gender' => 'required|in:male,female',
+            'city' => 'required|string|max:255',
+        ]);
 
-        $user->update($validated);
+        $data = $request->only('name', 'username', 'email', 'role', 'gender', 'city');
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $user->update($data);
 
         return redirect()->route('admin.users')->with('success', 'User berhasil diperbarui');
     }
 
+    // Hapus pengguna
     public function deleteUser(User $user)
     {
         $user->delete();
-        return redirect()->route('admin.users')->with('success', 'User deleted successfully');
+        return redirect()->route('admin.users')->with('success', 'User berhasil dihapus');
     }
 }

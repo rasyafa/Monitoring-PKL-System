@@ -311,7 +311,7 @@
                     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                     datasets: [{
                         label: 'Jumlah Siswa',
-                        data: [50, 60, 70, 80, 90, 100, 50, 60, 70, 80, 100, 80],
+                        data: @json($data),
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1
