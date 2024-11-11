@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\AbsenController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,4 +26,9 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
 //route siswa
 Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
     Route::get('/siswa/beranda', [SiswaController::class, 'index'])->name('siswa.beranda');
+});
+
+Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
+    Route::get('/absen', [SiswaController::class, 'absenIndex'])->name('siswa.absen');
+    Route::post('/absen', [SiswaController::class, 'absenStore'])->name('siswa.absen.store');
 });

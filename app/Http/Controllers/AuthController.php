@@ -15,25 +15,24 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-{
-    $credentials = $request->validate([
-        'username' => ['required', 'string'],
-        'password' => ['required'],
-    ]);
-    @dd($credentials);
+    {
+        $credentials = $request->validate([
+            'username' => ['required', 'string'],
+            'password' => ['required'],
+        ]);
 
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
 
-        // Redirect berdasarkan role
-        return $this->authenticated($request, Auth::user());
+            // Redirect berdasarkan role
+            return $this->authenticated($request, Auth::user());
+        }
+
+        return back()->withErrors([
+            'username' => 'The provided credentials do not match our records.',
+        ]);
+
     }
-
-    return back()->withErrors([
-        'username' => 'The provided credentials do not match our records.',
-    ]);
-    // @dd($this);
-}
 
     public function showRegistrationForm()
     {
@@ -75,20 +74,20 @@ class AuthController extends Controller
 
     protected function authenticated(Request $request, $user)
 
-{
-    if ($user->role == 'admin') {
-        return redirect()->route('admin.dashboard');
-    } elseif ($user->role == 'siswa') {
-        return redirect()->route('siswa.beranda');
-    } elseif ($user->role == 'pembimbing') {
-        return redirect()->route('pembimbing.dashboard');
-    } elseif ($user->role == 'mitra') {
-        return redirect()->route('mitra.dashboard');
-    } elseif ($user->role == 'mentor') {
-        return redirect()->route('mentor.dashboard');
-    }
+    {
+        if ($user->role == 'admin') {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->role == 'siswa') {
+            return redirect()->route('siswa.beranda');
+        } elseif ($user->role == 'pembimbing') {
+            return redirect()->route('pembimbing.dashboard');
+        } elseif ($user->role == 'mitra') {
+            return redirect()->route('mitra.dashboard');
+        } elseif ($user->role == 'mentor') {
+            return redirect()->route('mentor.dashboard');
+        }
 
-    // Default redirect jika role tidak cocok
-    return redirect('/');
-}
+        // Default redirect jika role tidak cocok
+        return redirect('/');
+    }
 }
