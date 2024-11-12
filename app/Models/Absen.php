@@ -9,7 +9,7 @@ class Absen extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'tanggal', 'status', 'jurusan'];
+    protected $fillable = ['user_id', 'tanggal', 'status'];
 
     // Pastikan kolom tanggal di-cast ke Carbon
     protected $casts = [

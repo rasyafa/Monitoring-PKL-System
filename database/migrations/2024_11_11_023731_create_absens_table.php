@@ -18,7 +18,6 @@ class CreateAbsensTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->date('tanggal');
             $table->enum('status', ['Hadir', 'Sakit', 'Izin', 'Alpha']);
-            $table->string('jurusan');
             $table->timestamps();
 
             $table->unique(['user_id', 'tanggal']); // Agar siswa hanya bisa absen 1 kali per hari

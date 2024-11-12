@@ -231,8 +231,15 @@
                     <i class="fas fa-chart-bar me-2"></i>Nilai</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-bell me-2"></i>Notifikasi</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold">
-                    <i class="fas fa-power-off me-2"></i>Keluar</a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-power-off me-2"></i>Keluar
+                </a>
+
+                <!-- Form Logout -->
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+
             </div>
         </div>
 
