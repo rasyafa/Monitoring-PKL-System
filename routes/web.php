@@ -34,8 +34,19 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
 Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
     Route::get('/siswa/beranda', [SiswaController::class, 'index'])->name('siswa.beranda');
 });
-
+// route untuk absen siswa
 Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
     Route::get('/absen', [SiswaController::class, 'absenIndex'])->name('siswa.absen');
     Route::post('/absen', [SiswaController::class, 'absenStore'])->name('siswa.absen.store');
+});
+
+Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
+    // Route untuk menampilkan riwayat kegiatan
+    Route::get('/siswa/riwayat-kegiatan', [SiswaController::class, 'kegiatan'])->name('siswa.riwayat-kegiatan');
+
+    // Route untuk menampilkan halaman tambah kegiatan
+    Route::get('/siswa/kegiatan/create', [SiswaController::class, 'create'])->name('siswa.kegiatan.create'); // <-- Pastikan ada route ini
+
+    // Route untuk menyimpan kegiatan baru
+    Route::post('/siswa/kegiatan', [SiswaController::class, 'store'])->name('siswa.kegiatan.store');
 });

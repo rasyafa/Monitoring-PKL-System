@@ -225,7 +225,7 @@
                     <i class="fas fa-user me-2"></i>Profile</a>
                 <a href="{{ route('siswa.absen') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-clipboard-list me-2"></i>Absen</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                <a href="{{ route('siswa.riwayat-kegiatan') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-calendar-day me-2"></i>Kegiatan Harian</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-chart-bar me-2"></i>Nilai</a>
