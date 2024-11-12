@@ -5,7 +5,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\AbsenController;
 
 Route::get('/', function () {
     return view('welcome');
