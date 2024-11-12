@@ -13,7 +13,7 @@
 
         :root {
             --main-bg-color: #009d63;
-            --main-text-color: #32CD32;
+            --main-text-color: #30ed30;
             --second-text-color: #464343;
             /* Set text color to black */
             --second-bg-color: #ffffff;
