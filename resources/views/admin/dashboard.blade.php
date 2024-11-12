@@ -185,7 +185,9 @@
             </div>
             <div class="list-group list-group-flush my-3">
                 <!-- Dashboard -->
-                <a href="dashboard" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+
+                <a href="{{ route('admin.dashboard') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+
                     <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                 </a>
 
@@ -220,12 +222,14 @@
 
 
                 <!-- Logout -->
-
-                <button type="submit"
-                    class="list-group-item list-group-item-action bg-transparent text-danger fw-bold mt-2"
-                    style="border: none; background: none;">
-                    <i class="fas fa-power-off me-2"></i>Log out
-                </button>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="list-group-item list-group-item-action bg-transparent text-danger fw-bold mt-2"
+                        style="border: none; background: none;">
+                        <i class="fas fa-power-off me-2"></i>Log out
+                    </button>
+                </form>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -309,7 +313,7 @@
                     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                     datasets: [{
                         label: 'Jumlah Siswa',
-                        data: [50, 60, 70, 80, 90, 100, 50, 60, 70, 80, 100, 80],
+                        data: @json($data),
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1

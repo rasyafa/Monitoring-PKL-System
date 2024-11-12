@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SiswaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,10 +16,37 @@ Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+// routes admin
+Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    //Route untuk manajemen user
+    Route::get('/admin/users', [AdminController::class, 'manageUsers'])->name('admin.users.index');
+    Route::get('/admin/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
+    Route::post('/admin/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
+    Route::get('/admin/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
+    Route::put('/admin/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
+    Route::delete('/admin/users/{user}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
 });
 
-// Route::middleware(['auth', 'role:admin'])->group(function () {
-//     // Routes for admin
-// });
+
+//route siswa
+Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
+    Route::get('/siswa/beranda', [SiswaController::class, 'index'])->name('siswa.beranda');
+});
+// route untuk absen siswa
+Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
+    Route::get('/absen', [SiswaController::class, 'absenIndex'])->name('siswa.absen');
+    Route::post('/absen', [SiswaController::class, 'absenStore'])->name('siswa.absen.store');
+});
+
+Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
+    // Route untuk menampilkan riwayat kegiatan
+    Route::get('/siswa/riwayat-kegiatan', [SiswaController::class, 'kegiatan'])->name('siswa.riwayat-kegiatan');
+
+    // Route untuk menampilkan halaman tambah kegiatan
+    Route::get('/siswa/kegiatan/create', [SiswaController::class, 'create'])->name('siswa.kegiatan.create'); // <-- Pastikan ada route ini
+
+    // Route untuk menyimpan kegiatan baru
+    Route::post('/siswa/kegiatan', [SiswaController::class, 'store'])->name('siswa.kegiatan.store');
+});
