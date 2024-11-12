@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Absen;
 use Illuminate\Http\Request;
+use App\Models\KegiatanHarian;
 use Illuminate\Support\Facades\Auth;
 
 class SiswaController extends Controller
@@ -43,7 +44,7 @@ class SiswaController extends Controller
     {
         $request->validate([
             'status' => 'required',
-            
+
         ]);
 
         // Cek apakah siswa sudah absen hari ini
@@ -65,4 +66,43 @@ class SiswaController extends Controller
 
         return redirect()->route('siswa.absen')->with('success', 'Absen berhasil disimpan.');
     }
+
+    public function kegiatan()
+    {
+        // Ambil semua kegiatan yang terkait dengan siswa yang sedang login
+        $kegiatans = KegiatanHarian::where('user_id', Auth::id())->get();
+
+        // Kirimkan data ke view
+        return view('siswa.kegiatan', compact('kegiatans'));
+    }
+
+
+    // Metode untuk menampilkan form tambah kegiatan
+    public function create()
+    {
+        return view('siswa.tambah');
+    }
+
+    // Metode untuk menyimpan kegiatan baru
+    public function store(Request $request)
+    {
+        $request->validate([
+            'tanggal' => 'required|date',
+            'waktu_mulai' => 'required|date_format:H:i',
+            'waktu_selesai' => 'required|date_format:H:i',
+            'kegiatan' => 'required|string',
+        ]);
+
+        KegiatanHarian::create([
+            'user_id' => Auth::id(),
+            'tanggal' => $request->tanggal,
+            'waktu_mulai' => $request->waktu_mulai,
+            'waktu_selesai' => $request->waktu_selesai,
+            'kegiatan' => $request->kegiatan,
+        ]);
+
+        return redirect()->route('siswa.riwayat-kegiatan')->with('success', 'Kegiatan berhasil disimpan.');
+    }
+
+
 }
