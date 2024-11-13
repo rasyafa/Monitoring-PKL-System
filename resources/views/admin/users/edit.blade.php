@@ -9,54 +9,65 @@
     <style>
         body {
             background-color: #f1f1f1;
-            /* Mengganti latar belakang menjadi abu muda */
             font-family: sans-serif;
         }
 
         .container {
-            padding: 20px;
+            padding: 15px;
+            background-color: #ffffff;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #ffffff;
-            /* Warna putih untuk kontainer form */
+            max-width: 500px;
+            /* Mengurangi lebar card */
         }
 
         h2 {
-            color: #333;
+            color: #272727;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
         }
 
         .form-label {
             color: #333;
         }
 
-        .btn-primary {
+        .btn-success {
             background-color: #17d033;
-            border-color: #00b158;
+            border-color: #48d75d;
+            width: 100%;
+            /* Tombol memenuhi lebar form */
+        }
+
+        .btn-success:hover {
+            background-color: #169e28;
+            border-color: #3bb14b;
         }
 
         .alert-danger {
             background-color: #e19c91ab;
             border-color: #de8d8dbe;
             color: #fff;
+            margin-bottom: 15px;
         }
 
-        .btn-success {
-            background-color: #17d033;
-            border-color: #48d75d;
+        .form-control,
+        .form-select {
+            padding: 8px;
+            /* Mengurangi padding input untuk menghemat ruang */
         }
 
-        .btn-success:hover {
-            background-color: #169e28;
-            /* Warna latar belakang saat hover */
-            border-color: #3bb14b;
-            /* Warna border saat hover */
+        .mb-3 {
+            margin-bottom: 1rem;
+            /* Memperkecil jarak antar elemen */
         }
     </style>
 </head>
 
 <body>
     <div class="container mt-5">
-        <h2>Edit User</h2>
+        <h2>Edit Data</h2>
+
         @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -87,7 +98,11 @@
             <div class="mb-3">
                 <label for="role" class="form-label">Role</label>
                 <select class="form-select" id="role" name="role">
-                    <option value="">Select Role</option>
+                <option value="" disabled selected>Pilih Role</option>
+                <option value="siswa">Siswa</option>
+                <option value="Pembimbing">Pembimbing</option>
+                <option value="Mitra">Mitra</option>
+                <option value="Mentor">Mentor</option>
                     @foreach ($roles as $role)
                     <option value="{{ $role->id }}" {{ old('role', $user->role) == $role->id ? 'selected' : '' }}>
                         {{ $role->name }}
