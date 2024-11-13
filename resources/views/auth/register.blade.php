@@ -130,28 +130,30 @@
                     @enderror
                 </div>
 
-                <div>
-                    <button type="submit"
-                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Daftar
-                    </button>
-                </div>
+                            <div>
+                <button type="submit"
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+                    style="background-color: #03d703; hover:background-color: #02c502;">
+                    Daftar
+                </button>
+            </div>
+
             </form>
 
             <div class="mt-6">
-                <div class="relative">
-                    <div class="relative flex justify-center text-sm">
-                        <span class="px-2 bg-white text-gray-500">
-                            Sudah punya akun?
-                            <a href="{{ route('login') }}" class="font-medium text-blue-600 hover:text-blue-500">
-                                Masuk
-                            </a><br>
-                            <a href="{{ route('welcome') }}" class="font-medium text-blue-600 hover:text-blue-500">
-                                Kembali ke Beranda
-                            </a>
-                        </span>
-                    </div>
+            <div class="relative">
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-2 bg-white text-gray-500">
+                        Sudah punya akun?
+                        <a href="{{ route('login') }}" class="font-medium text-[#03d703] hover:text-[#02c502]">
+                            Masuk
+                        </a><br>
+                        <a href="{{ route('welcome') }}" class="font-medium text-[#03d703] hover:text-[#02c502]">
+                            Kembali ke Beranda
+                        </a>
+                    </span>
                 </div>
+            </div>
             </div>
         </div>
     </div>
