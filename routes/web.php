@@ -27,6 +27,14 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::get('/admin/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
     Route::put('/admin/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/admin/users/{user}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
+
+    //Route untuk Manajemen Absen
+    Route::get('/absensi', [AdminController::class, 'manageAbsensi'])->name('admin.absensi');
+    Route::get('/absensi/create', [AdminController::class, 'createAbsensi'])->name('admin.absensi.create');
+    Route::post('/absensi', [AdminController::class, 'storeAbsensi'])->name('admin.absensi.store');
+    Route::get('/absensi/{absensi}/edit', [AdminController::class, 'editAbsensi'])->name('admin.absensi.edit');
+    Route::put('/absensi/{absensi}', [AdminController::class, 'updateAbsensi'])->name('admin.absensi.update');
+    Route::delete('/absensi/{absensi}', [AdminController::class, 'deleteAbsensi'])->name('admin.absensi.delete');
 });
 
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Absen;
+use App\Models\KegiatanHarian;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -103,4 +105,81 @@ class AdminController extends Controller
         $user->delete();
         return redirect()->route('admin.users')->with('success', 'User berhasil dihapus');
     }
+
+    // CRUD ABSEN SISWA
+
+    // Menampilkan daftar absensi seluruh siswa
+    public function manageAbsensi()
+    {
+        // Mengambil data absensi dengan paginasi (10 data per halaman)
+        $absensis = Absen::paginate(5);
+
+        // Mengirim data absensi ke view 'admin.absensi.index'
+        return view('admin.absensi.index', compact('absensis'));
+    }
+
+    // Menampilkan form untuk menambahkan absensi baru
+    public function createAbsensi()
+    {
+        // Mengambil data siswa untuk dipilih dalam absensi baru
+        $students = User::where('role', 'siswa')->get();
+
+        // Mengirim data siswa ke view 'admin.absensi.create'
+        return view('admin.absensi.create', compact('students'));
+    }
+
+    // Menyimpan data absensi baru ke database
+    public function storeAbsensi(Request $request)
+    {
+        // Validasi input dari form absensi
+        $request->validate([
+            'user_id' => 'required|exists:users,id', // Pastikan user_id ada di tabel users
+            'tanggal' => 'required|date',            // Tanggal harus dalam format yang valid
+            'status' => 'required|in:Hadir,Sakit,Izin,Alpha', // Status harus salah satu dari empat nilai ini
+        ]);
+
+        // Menyimpan data absensi baru ke database
+        Absen::create($request->all());
+
+        // Redirect ke halaman daftar absensi dengan pesan sukses
+        return redirect()->route('admin.absensi')->with('success', 'Data absensi berhasil ditambahkan');
+    }
+
+    // Menampilkan form untuk mengedit data absensi
+    public function editAbsensi(Absen $absensi)
+    {
+        // Mengambil data siswa untuk dipilih dalam absensi
+        $students = User::where('role', 'siswa')->get();
+
+        // Mengirim data absensi dan siswa ke view 'admin.absensi.edit'
+        return view('admin.absensi.edit', compact('absensi', 'students'));
+    }
+
+    // Memperbarui data absensi di database
+    public function updateAbsensi(Request $request, Absen $absensi)
+    {
+        // Validasi input dari form edit absensi
+        $request->validate([
+            'user_id' => 'required|exists:users,id', // Pastikan user_id ada di tabel users
+            'tanggal' => 'required|date',            // Tanggal harus dalam format yang valid
+            'status' => 'required|in:Hadir,Sakit,Izin,Alpha', // Status harus salah satu dari empat nilai ini
+        ]);
+
+        // Mengupdate data absensi sesuai dengan input dari form
+        $absensi->update($request->all());
+
+        // Redirect ke halaman daftar absensi dengan pesan sukses
+        return redirect()->route('admin.absensi')->with('success', 'Data absensi berhasil diperbarui');
+    }
+
+    // Menghapus data absensi dari database
+    public function deleteAbsensi(Absen $absensi)
+    {
+        // Menghapus data absensi yang dipilih
+        $absensi->delete();
+
+        // Redirect ke halaman daftar absensi dengan pesan sukses
+        return redirect()->route('admin.absensi')->with('success', 'Data absensi berhasil dihapus');
+    }
+
 }
