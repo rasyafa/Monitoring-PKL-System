@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\PembimbingController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -66,3 +67,17 @@ Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
     // Route untuk menyimpan kegiatan baru
     Route::post('/siswa/kegiatan', [SiswaController::class, 'store'])->name('siswa.kegiatan.store');
 });
+
+//route pembimbing
+
+// Menampilkan halaman utama (home) pembimbing
+Route::get('/pembimbing', [PembimbingController::class, 'index'])->name('pembimbing.home');
+
+// Menampilkan semua kegiatan
+Route::get('/pembimbing/kegiatan', [PembimbingController::class, 'indexkegiatan'])->name('pembimbing.index');
+
+// Menampilkan form untuk membuat kegiatan
+Route::get('/pembimbing/kegiatan/create', [PembimbingController::class, 'create'])->name('pembimbing.create');
+
+// Menyimpan kegiatan baru
+Route::post('/pembimbing/kegiatan', [PembimbingController::class, 'store'])->name('pembimbing.store');
