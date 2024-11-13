@@ -185,27 +185,29 @@
             </div>
             <div class="list-group list-group-flush my-3">
                 <!-- Dashboard -->
-                <a href="coba.html" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                <a href="{{ route('admin.dashboard') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                 </a>
 
-                <a href="DataSemua.html" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                <a href="{{ route('admin.users.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-users me-2"></i>Manage Users
                 </a>
 
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                <a href="{{ route('admin.absensi.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-calendar-check me-2"></i>Data Absen</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                <a href="{{ route('admin.kegiatan.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-file-alt me-2"></i>Data Logbook</a>
 
 
                 <!-- Logout -->
-
-                <button type="submit"
-                    class="list-group-item list-group-item-action bg-transparent text-danger fw-bold mt-2"
-                    style="border: none; background: none;">
-                    <i class="fas fa-power-off me-2"></i>Log out
-                </button>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="list-group-item list-group-item-action bg-transparent text-danger fw-bold mt-2"
+                        style="border: none; background: none;">
+                        <i class="fas fa-power-off me-2"></i>Log out
+                    </button>
+                </form>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->

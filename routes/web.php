@@ -29,7 +29,7 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::delete('/admin/users/{user}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
 
     //Route untuk Manajemen Absen
-    Route::get('/absensi', [AdminController::class, 'manageAbsensi'])->name('admin.absensi');
+    Route::get('/absensi', [AdminController::class, 'manageAbsensi'])->name('admin.absensi.index');
     Route::get('/absensi/create', [AdminController::class, 'createAbsensi'])->name('admin.absensi.create');
     Route::post('/absensi', [AdminController::class, 'storeAbsensi'])->name('admin.absensi.store');
     Route::get('/absensi/{absensi}/edit', [AdminController::class, 'editAbsensi'])->name('admin.absensi.edit');

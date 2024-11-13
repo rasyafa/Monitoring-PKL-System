@@ -85,7 +85,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="password_confirmation" class="form-label">Confirm Password</label>
+                <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
                 <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
                     required>
             </div>
@@ -123,6 +123,7 @@
             </div>
 
             <button type="submit" class="btn btn-success">Create User</button>
+            <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Cancel</a>
         </form>
     </div>
 </body>
