@@ -35,6 +35,14 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::get('/absensi/{absensi}/edit', [AdminController::class, 'editAbsensi'])->name('admin.absensi.edit');
     Route::put('/absensi/{absensi}', [AdminController::class, 'updateAbsensi'])->name('admin.absensi.update');
     Route::delete('/absensi/{absensi}', [AdminController::class, 'deleteAbsensi'])->name('admin.absensi.delete');
+
+    //Route untuk Manajemen Log-Book
+    Route::get('/kegiatan', [AdminController::class, 'manageKegiatan'])->name('admin.kegiatan.index');
+    Route::get('/kegiatan/create', [AdminController::class, 'createKegiatan'])->name('admin.kegiatan.create');
+    Route::post('/kegiatan', [AdminController::class, 'storeKegiatan'])->name('admin.kegiatan.store');
+    Route::get('/kegiatan/{id}/edit', [AdminController::class, 'editKegiatan'])->name('admin.kegiatan.edit');
+    Route::put('/kegiatan/{id}', [AdminController::class, 'updateKegiatan'])->name('admin.kegiatan.update');
+    Route::delete('/kegiatan/{id}', [AdminController::class, 'deleteKegiatan'])->name('admin.kegiatan.delete');
 });
 
 

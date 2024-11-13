@@ -182,4 +182,86 @@ class AdminController extends Controller
         return redirect()->route('admin.absensi')->with('success', 'Data absensi berhasil dihapus');
     }
 
+    // CRUD Log-Book
+    // Menampilkan daftar kegiatan harian semua siswa
+    public function manageKegiatan()
+    {
+        // Mengambil semua data kegiatan harian beserta informasi siswa
+        $kegiatans = KegiatanHarian::with('user')->paginate(10);
+        return view('admin.kegiatan.index', compact('kegiatans'));
+    }
+
+    // Menampilkan form untuk membuat kegiatan harian baru
+    public function createKegiatan()
+    {
+        // Mengambil semua siswa untuk dipilih pada form
+        $students = User::where('role', 'siswa')->get();
+        return view('admin.kegiatan.create', compact('students'));
+    }
+
+    // Menyimpan kegiatan harian baru ke database
+    public function storeKegiatan(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'tanggal' => 'required|date',
+            'waktu_mulai' => 'required|date_format:H:i',
+            'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
+            'kegiatan' => 'required|string',
+        ]);
+
+        KegiatanHarian::create([
+            'user_id' => $request->user_id,
+            'tanggal' => $request->tanggal,
+            'waktu_mulai' => $request->waktu_mulai,
+            'waktu_selesai' => $request->waktu_selesai,
+            'kegiatan' => $request->kegiatan,
+        ]);
+
+        return redirect()->route('admin.kegiatan.index')->with('success', 'Kegiatan harian berhasil ditambahkan');
+    }
+
+    // Menampilkan form untuk mengedit kegiatan harian
+    public function editKegiatan($id)
+    {
+        // Ambil data kegiatan harian berdasarkan ID
+        $kegiatan = KegiatanHarian::findOrFail($id);
+
+        // Ambil data siswa untuk pilihan
+        $students = User::where('role', 'siswa')->get();
+
+        return view('admin.kegiatan.edit', compact('kegiatan', 'students'));
+    }
+
+    // Memperbarui data kegiatan harian yang ada
+    public function updateKegiatan(Request $request, $id)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'tanggal' => 'required|date',
+            'waktu_mulai' => 'required|date_format:H:i',
+            'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
+            'kegiatan' => 'required|string',
+        ]);
+
+        $kegiatan = KegiatanHarian::findOrFail($id);
+        $kegiatan->update([
+            'user_id' => $request->user_id,
+            'tanggal' => $request->tanggal,
+            'waktu_mulai' => $request->waktu_mulai,
+            'waktu_selesai' => $request->waktu_selesai,
+            'kegiatan' => $request->kegiatan,
+        ]);
+
+        return redirect()->route('admin.kegiatan.index')->with('success', 'Kegiatan harian berhasil diperbarui');
+    }
+
+    // Menghapus kegiatan harian dari database
+    public function deleteKegiatan($id)
+    {
+        $kegiatan = KegiatanHarian::findOrFail($id);
+        $kegiatan->delete();
+
+        return redirect()->route('admin.kegiatan.index')->with('success', 'Kegiatan harian berhasil dihapus');
+    }
 }
