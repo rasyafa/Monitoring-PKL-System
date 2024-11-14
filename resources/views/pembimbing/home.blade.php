@@ -272,7 +272,7 @@
                                 <i class="fas fa-file-alt me-2"></i>Laporan Harian</a>
                         </ul>
                     </div>
-                    <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <a href="{{ route('pembimbing.monitoring') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                         <i class="fas fa-file-alt me-2"></i>Monotoring</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold">
                     <i class="fas fa-sign-out-alt me-2"></i>Log Out</a>
