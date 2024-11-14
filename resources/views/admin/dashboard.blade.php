@@ -13,7 +13,7 @@
 
         :root {
             --main-bg-color: #009d63;
-            --main-text-color: #30ed30;
+            --main-text-color: #32CD32;
             --second-text-color: #464343;
             /* Set text color to black */
             --second-bg-color: #ffffff;
@@ -185,40 +185,18 @@
             </div>
             <div class="list-group list-group-flush my-3">
                 <!-- Dashboard -->
-
                 <a href="{{ route('admin.dashboard') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-
                     <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                 </a>
 
-                <!-- Dropdown for Manage Users -->
-                <a class="list-group-item list-group-item-action bg-transparent second-text fw-bold dropdown-toggle"
-                    data-bs-toggle="collapse" href="#manageUsersDropdown" role="button" aria-expanded="false"
-                    aria-controls="manageUsersDropdown">
+                <a href="{{ route('admin.users.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-users me-2"></i>Manage Users
                 </a>
 
-                <div class="collapse" id="manageUsersDropdown">
-                    <ul class="list-group list-group-flush ms-3">
-                        <li><a href="#" class="list-group-item list-group-item-action bg-transparent second-text">
-                                <i class="fas fa-user-graduate me-2"></i>Data Siswa</a>
-                        </li>
-                        <li><a href="#" class="list-group-item list-group-item-action bg-transparent second-text">
-                                <i class="fas fa-chalkboard-teacher me-2"></i>Data Pembimbing</a>
-                        </li>
-                        <li><a href="#" class="list-group-item list-group-item-action bg-transparent second-text">
-                                <i class="fas fa-handshake me-2"></i>Data Mitra</a>
-                        </li>
-                        <li><a href="#" class="list-group-item list-group-item-action bg-transparent second-text">
-                                <i class="fas fa-user-tie me-2"></i>Data Mentor</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-calendar-check me-2"></i>Laporan Absen</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-file-alt me-2"></i>Laporan Siswa</a>
+                <a href="{{ route('admin.absensi.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-calendar-check me-2"></i>Data Absen</a>
+                <a href="{{ route('admin.kegiatan.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-file-alt me-2"></i>Data Logbook</a>
 
 
                 <!-- Logout -->
@@ -313,7 +291,7 @@
                     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                     datasets: [{
                         label: 'Jumlah Siswa',
-                        data: @json($data),
+                        data: [50, 60, 70, 80, 90, 100, 50, 60, 70, 80, 100, 80],
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1
