@@ -47,24 +47,23 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
 });
 
 
-//route siswa
+//ROUTE SISWA
+    // BERANDA SISWA
 Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
     Route::get('/siswa/beranda', [SiswaController::class, 'index'])->name('siswa.beranda');
-});
-// route untuk absen siswa
-Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
+
+    // PROFILE SISWA
+    Route::get('profil/{id}', [SiswaController::class, 'show'])->name('siswa.show');
+    Route::get('profil/{id}/edit', [SiswaController::class, 'edit'])->name('siswa.edit');
+    Route::put('profil/{id}', [SiswaController::class, 'update'])->name('siswa.update');
+
+    // ABSEN SISWA
     Route::get('/absen', [SiswaController::class, 'absenIndex'])->name('siswa.absen');
     Route::post('/absen', [SiswaController::class, 'absenStore'])->name('siswa.absen.store');
-});
 
-Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
-    // Route untuk menampilkan riwayat kegiatan
+    // KEGIATAN HARIAN SISWA
     Route::get('/siswa/riwayat-kegiatan', [SiswaController::class, 'kegiatan'])->name('siswa.riwayat-kegiatan');
-
-    // Route untuk menampilkan halaman tambah kegiatan
-    Route::get('/siswa/kegiatan/create', [SiswaController::class, 'create'])->name('siswa.kegiatan.create'); // <-- Pastikan ada route ini
-
-    // Route untuk menyimpan kegiatan baru
+    Route::get('/siswa/kegiatan/create', [SiswaController::class, 'create'])->name('siswa.kegiatan.create');
     Route::post('/siswa/kegiatan', [SiswaController::class, 'store'])->name('siswa.kegiatan.store');
 });
 
@@ -77,5 +76,3 @@ Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function ()
     Route::get('/pembimbing/kegiatan/create', [PembimbingController::class, 'create'])->name('pembimbing.create');
     Route::post('/pembimbing/kegiatan', [PembimbingController::class, 'store'])->name('pembimbing.store');
 });
-
-

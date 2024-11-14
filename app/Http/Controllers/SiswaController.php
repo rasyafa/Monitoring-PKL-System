@@ -7,10 +7,11 @@ use App\Models\Absen;
 use Illuminate\Http\Request;
 use App\Models\KegiatanHarian;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class SiswaController extends Controller
 {
-
+// BERANDA
     // Fungsi untuk menampilkan beranda siswa dengan data chart
     public function index()
     {
@@ -30,7 +31,82 @@ class SiswaController extends Controller
         // Mengirimkan data ke view
         return view('siswa.beranda', compact('data'));
     }
+// AKHIR BERANDA
 
+// PROFILE
+    // Fungsi untuk melihat profil siswa
+    public function show($id)
+    {
+        $user = Auth::user();
+
+        // Cek akses, hanya bisa lihat profil sendiri
+        if ($user->role !== 'siswa' || $user->id != $id) {
+            return redirect()->route('home')->with('error', 'Akses ditolak! Anda hanya bisa melihat profil Anda sendiri.');
+        }
+
+        // Ambil data siswa berdasarkan id
+        $siswa = User::findOrFail($id);
+
+        return view('siswa.show', compact('siswa'));
+    }
+
+    // Fungsi untuk edit profil siswa
+    public function edit($id)
+    {
+        $siswa = User::findOrFail($id);
+
+        // Pastikan hanya siswa yang sedang login yang bisa mengedit profilnya
+        if (
+            Auth::id() !== $siswa->id
+        ) {
+            return redirect()->route('home')->with('error', 'Akses ditolak! Anda hanya bisa mengedit profil Anda sendiri.');
+        }
+
+        return view('siswa.edit', compact('siswa'));
+    }
+
+    // Fungsi untuk update data profil siswa
+    // Siswa2Controller.php
+
+    public function update(Request $request, $id)
+    {
+        // Validasi data
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'city' => 'required|string|max:255',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif', // Validasi foto
+        ]);
+
+        // Cari user berdasarkan ID
+        $siswa = User::findOrFail($id);
+
+        // Update data user
+        $siswa->name = $request->input('name');
+        $siswa->email = $request->input('email');
+        $siswa->city = $request->input('city');
+
+        // Proses upload foto jika ada
+        if ($request->hasFile('profile_photo')) {
+            // Cek jika foto lama ada dan hapus
+            if ($siswa->profile_photo) {
+                Storage::delete($siswa->profile_photo); // Hapus foto lama
+            }
+
+            // Simpan foto baru
+            $photoPath = $request->file('profile_photo')->store('profile_photos', 'public');
+            $siswa->profile_photo = $photoPath; // Simpan path foto
+        }
+
+        // Simpan perubahan ke database
+        $siswa->save();
+
+        // Redirect ke halaman profil dengan pesan sukses
+        return redirect()->route('siswa.show', $siswa->id)->with('success', 'Profil berhasil diperbarui.');
+    }
+// AKHIR PROFILE
+
+// ABSEN
     // Fungsi untuk menampilkan riwayat absen siswa
     public function absenIndex()
     {
@@ -66,7 +142,9 @@ class SiswaController extends Controller
 
         return redirect()->route('siswa.absen')->with('success', 'Absen berhasil disimpan.');
     }
+// AKHIR ABSEN
 
+//  KEGIATAN HARIAN
     public function kegiatan()
     {
         // Ambil semua kegiatan yang terkait dengan siswa yang sedang login
@@ -75,7 +153,6 @@ class SiswaController extends Controller
         // Kirimkan data ke view
         return view('siswa.kegiatan', compact('kegiatans'));
     }
-
 
     // Metode untuk menampilkan form tambah kegiatan
     public function create()
@@ -103,6 +180,6 @@ class SiswaController extends Controller
 
         return redirect()->route('siswa.riwayat-kegiatan')->with('success', 'Kegiatan berhasil disimpan.');
     }
-
+// AKHIR KEGIATAN HARIAN
 
 }

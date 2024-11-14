@@ -220,8 +220,7 @@
             <div class="list-group list-group-flush my-3">
                 <a href="{{ route('siswa.beranda') }}" class="list-group-item list-group-item-action bg-transparent second-text active">
                     <i class="fas fa-home me-2"></i>Beranda</a>
-                <a href=""
-                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                <a href="{{ route('siswa.show', Auth::user()->id) }}"class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-user me-2"></i>Profile</a>
                 <a href="{{ route('siswa.absen') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-clipboard-list me-2"></i>Absen</a>
