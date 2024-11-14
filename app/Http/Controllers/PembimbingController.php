@@ -19,7 +19,7 @@ class PembimbingController extends Controller
     public function indexkegiatan()
     {
         $kegiatan = Kegiatan::all();
-        return view('pembimbing.index', compact('kegiatan'));
+        return view('pembimbing.monitoring', compact('kegiatan'));
     }
 
     // Menampilkan form untuk menambah kegiatan
