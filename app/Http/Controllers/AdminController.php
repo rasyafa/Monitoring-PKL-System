@@ -107,106 +107,105 @@ class AdminController extends Controller
     }
 
     // CRUD ABSEN SISWA
-
-    // Menampilkan daftar absensi seluruh siswa
-    public function manageAbsensi()
+    // Menampilkan daftar absen semua siswa
+    public function absenIndex()
     {
-        // Mengambil data absensi dengan paginasi (10 data per halaman)
-        $absensis = Absen::paginate(5);
-
-        // Mengirim data absensi ke view 'admin.absensi.index'
-        return view('admin.absensi.index', compact('absensis'));
+        $absens = Absen::with('user')->get(); // Mengambil data absen beserta data siswa
+        return view('admin.absen.index', compact('absens'));
     }
 
-    // Menampilkan form untuk menambahkan absensi baru
-    public function createAbsensi()
+    // Menampilkan form untuk membuat absen baru
+    public function absenCreate()
     {
-        // Mengambil data siswa untuk dipilih dalam absensi baru
-        $students = User::where('role', 'siswa')->get();
-
-        // Mengirim data siswa ke view 'admin.absensi.create'
-        return view('admin.absensi.create', compact('students'));
+        $students = User::where('role', 'siswa')->get(); // Mengambil data siswa saja
+        return view('admin.absen.create', compact('students'));
     }
 
-    // Menyimpan data absensi baru ke database
-    public function storeAbsensi(Request $request)
+    // Menyimpan data absen yang baru
+    public function absenStore(Request $request)
     {
-        // Validasi input dari form absensi
         $request->validate([
-            'user_id' => 'required|exists:users,id', // Pastikan user_id ada di tabel users
-            'tanggal' => 'required|date',            // Tanggal harus dalam format yang valid
-            'status' => 'required|in:Hadir,Sakit,Izin,Alpha', // Status harus salah satu dari empat nilai ini
+            'user_id' => 'required|exists:users,id',
+            'tanggal' => 'required|date',
+            'status' => 'required|string',
         ]);
 
-        // Menyimpan data absensi baru ke database
-        Absen::create($request->all());
+        // Cek apakah data absen untuk user dan tanggal yang sama sudah ada
+        $existingAbsen = Absen::where('user_id', $request->user_id)
+            ->where('tanggal', $request->tanggal)
+            ->first();
 
-        // Redirect ke halaman daftar absensi dengan pesan sukses
-        return redirect()->route('admin.absensi')->with('success', 'Data absensi berhasil ditambahkan');
-    }
+        if ($existingAbsen) {
+            return redirect()->back()->withErrors(['error' => 'Siswa sudah absen pada tanggal ini.']);
+        }
 
-    // Menampilkan form untuk mengedit data absensi
-    public function editAbsensi(Absen $absensi)
-    {
-        // Mengambil data siswa untuk dipilih dalam absensi
-        $students = User::where('role', 'siswa')->get();
-
-        // Mengirim data absensi dan siswa ke view 'admin.absensi.edit'
-        return view('admin.absensi.edit', compact('absensi', 'students'));
-    }
-
-    // Memperbarui data absensi di database
-    public function updateAbsensi(Request $request, Absen $absensi)
-    {
-        // Validasi input dari form edit absensi
-        $request->validate([
-            'user_id' => 'required|exists:users,id', // Pastikan user_id ada di tabel users
-            'tanggal' => 'required|date',            // Tanggal harus dalam format yang valid
-            'status' => 'required|in:Hadir,Sakit,Izin,Alpha', // Status harus salah satu dari empat nilai ini
+        Absen::create([
+            'user_id' => $request->user_id,
+            'tanggal' => $request->tanggal,
+            'status' => $request->status,
         ]);
 
-        // Mengupdate data absensi sesuai dengan input dari form
-        $absensi->update($request->all());
-
-        // Redirect ke halaman daftar absensi dengan pesan sukses
-        return redirect()->route('admin.absensi')->with('success', 'Data absensi berhasil diperbarui');
+        return redirect()->route('admin.absen.index')->with('success', 'Data absen berhasil disimpan.');
     }
 
-    // Menghapus data absensi dari database
-    public function deleteAbsensi(Absen $absensi)
+    // Menampilkan form edit untuk absen tertentu
+    public function absenEdit($id)
     {
-        // Menghapus data absensi yang dipilih
-        $absensi->delete();
-
-        // Redirect ke halaman daftar absensi dengan pesan sukses
-        return redirect()->route('admin.absensi')->with('success', 'Data absensi berhasil dihapus');
+        $absen = Absen::findOrFail($id);
+        $students = User::where('role', 'siswa')->get();
+        return view('admin.absen.edit', compact('absen', 'students'));
     }
 
-    // CRUD Log-Book
-    // Menampilkan daftar kegiatan harian semua siswa
-    public function manageKegiatan()
+    // Mengupdate data absen yang sudah ada
+    public function absenUpdate(Request $request, $id)
     {
-        // Mengambil semua data kegiatan harian beserta informasi siswa
-        $kegiatans = KegiatanHarian::with('user')->paginate(10);
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'tanggal' => 'required|date',
+            'status' => 'required|string',
+        ]);
+
+        $absen = Absen::findOrFail($id);
+        $absen->update([
+            'user_id' => $request->user_id,
+            'tanggal' => $request->tanggal,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('admin.absen.index')->with('success', 'Data absen berhasil diperbarui.');
+    }
+
+    // Menghapus data absen
+    public function absenDelete($id)
+    {
+        $absen = Absen::findOrFail($id);
+        $absen->delete();
+
+        return redirect()->route('admin.absen.index')->with('success', 'Data absen berhasil dihapus.');
+    }
+
+    // Menampilkan daftar kegiatan semua siswa
+    public function kegiatanIndex()
+    {
+        $kegiatans = KegiatanHarian::with('user')->get(); // Mengambil data kegiatan beserta data siswa
         return view('admin.kegiatan.index', compact('kegiatans'));
     }
 
-    // Menampilkan form untuk membuat kegiatan harian baru
-    public function createKegiatan()
+    // Menampilkan form untuk membuat kegiatan baru
+    public function kegiatanCreate()
     {
-        // Mengambil semua siswa untuk dipilih pada form
-        $students = User::where('role', 'siswa')->get();
-        return view('admin.kegiatan.create', compact('students'));
+        $students = User::where('role', 'siswa')->get(); // Mengambil data siswa saja
+        return view('admin.kegiatan.create', compact('siswa'));
     }
 
-    // Menyimpan kegiatan harian baru ke database
-    public function storeKegiatan(Request $request)
+    // Menyimpan data kegiatan baru
+    public function kegiatanStore(Request $request)
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'tanggal' => 'required|date',
             'waktu_mulai' => 'required|date_format:H:i',
-            'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
+            'waktu_selesai' => 'required|date_format:H:i',
             'kegiatan' => 'required|string',
         ]);
 
@@ -218,29 +217,25 @@ class AdminController extends Controller
             'kegiatan' => $request->kegiatan,
         ]);
 
-        return redirect()->route('admin.kegiatan.index')->with('success', 'Kegiatan harian berhasil ditambahkan');
+        return redirect()->route('admin.kegiatan.index')->with('success', 'Data kegiatan berhasil disimpan.');
     }
 
-    // Menampilkan form untuk mengedit kegiatan harian
-    public function editKegiatan($id)
+    // Menampilkan form edit untuk kegiatan tertentu
+    public function kegiatanEdit($id)
     {
-        // Ambil data kegiatan harian berdasarkan ID
         $kegiatan = KegiatanHarian::findOrFail($id);
-
-        // Ambil data siswa untuk pilihan
         $students = User::where('role', 'siswa')->get();
-
-        return view('admin.kegiatan.edit', compact('kegiatan', 'students'));
+        return view('admin.kegiatan.edit', compact('kegiatan', 'siswa'));
     }
 
-    // Memperbarui data kegiatan harian yang ada
-    public function updateKegiatan(Request $request, $id)
+    // Mengupdate data kegiatan yang sudah ada
+    public function kegiatanUpdate(Request $request, $id)
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'tanggal' => 'required|date',
             'waktu_mulai' => 'required|date_format:H:i',
-            'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
+            'waktu_selesai' => 'required|date_format:H:i',
             'kegiatan' => 'required|string',
         ]);
 
@@ -253,15 +248,15 @@ class AdminController extends Controller
             'kegiatan' => $request->kegiatan,
         ]);
 
-        return redirect()->route('admin.kegiatan.index')->with('success', 'Kegiatan harian berhasil diperbarui');
+        return redirect()->route('admin.kegiatan.index')->with('success', 'Data kegiatan berhasil diperbarui.');
     }
 
-    // Menghapus kegiatan harian dari database
-    public function deleteKegiatan($id)
+    // Menghapus data kegiatan
+    public function kegiatanDelete($id)
     {
         $kegiatan = KegiatanHarian::findOrFail($id);
         $kegiatan->delete();
 
-        return redirect()->route('admin.kegiatan.index')->with('success', 'Kegiatan harian berhasil dihapus');
+        return redirect()->route('admin.kegiatan.index')->with('success', 'Data kegiatan berhasil dihapus.');
     }
 }

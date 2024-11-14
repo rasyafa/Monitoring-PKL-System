@@ -193,7 +193,7 @@
                     <i class="fas fa-users me-2"></i>Manage Users
                 </a>
 
-                <a href="{{ route('admin.absensi.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                <a href="{{ route('admin.absen.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-calendar-check me-2"></i>Data Absen</a>
                 <a href="{{ route('admin.kegiatan.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-file-alt me-2"></i>Data Logbook</a>

@@ -29,21 +29,21 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
 
-    //Route untuk Manajemen Absen
-    Route::get('/absensi', [AdminController::class, 'manageAbsensi'])->name('admin.absensi.index');
-    Route::get('/absensi/create', [AdminController::class, 'createAbsensi'])->name('admin.absensi.create');
-    Route::post('/absensi', [AdminController::class, 'storeAbsensi'])->name('admin.absensi.store');
-    Route::get('/absensi/{absensi}/edit', [AdminController::class, 'editAbsensi'])->name('admin.absensi.edit');
-    Route::put('/absensi/{absensi}', [AdminController::class, 'updateAbsensi'])->name('admin.absensi.update');
-    Route::delete('/absensi/{absensi}', [AdminController::class, 'deleteAbsensi'])->name('admin.absensi.delete');
+    // Route untuk CRUD data Absen
+    Route::get('/absen', [AdminController::class, 'absenIndex'])->name('admin.absen.index'); // Menampilkan daftar absen
+    Route::get('/absen/create', [AdminController::class, 'absenCreate'])->name('admin.absen.create'); // Form untuk membuat absen baru
+    Route::post('/absen', [AdminController::class, 'absenStore'])->name('admin.absen.store'); // Menyimpan absen baru
+    Route::get('/absen/{id}/edit', [AdminController::class, 'absenEdit'])->name('admin.absen.edit'); // Form edit absen
+    Route::put('/absen/{id}', [AdminController::class, 'absenUpdate'])->name('admin.absen.update'); // Mengupdate absen
+    Route::delete('/absen/{id}', [AdminController::class, 'absenDelete'])->name('admin.absen.delete'); // Menghapus absen
 
-    //Route untuk Manajemen Log-Book
-    Route::get('/kegiatan', [AdminController::class, 'manageKegiatan'])->name('admin.kegiatan.index');
-    Route::get('/kegiatan/create', [AdminController::class, 'createKegiatan'])->name('admin.kegiatan.create');
-    Route::post('/kegiatan', [AdminController::class, 'storeKegiatan'])->name('admin.kegiatan.store');
-    Route::get('/kegiatan/{id}/edit', [AdminController::class, 'editKegiatan'])->name('admin.kegiatan.edit');
-    Route::put('/kegiatan/{id}', [AdminController::class, 'updateKegiatan'])->name('admin.kegiatan.update');
-    Route::delete('/kegiatan/{id}', [AdminController::class, 'deleteKegiatan'])->name('admin.kegiatan.delete');
+    // Route untuk CRUD data Kegiatan Harian
+    Route::get('/kegiatan', [AdminController::class, 'kegiatanIndex'])->name('admin.kegiatan.index'); // Menampilkan daftar kegiatan
+    Route::get('/kegiatan/create', [AdminController::class, 'kegiatanCreate'])->name('admin.kegiatan.create'); // Form untuk membuat kegiatan baru
+    Route::post('/kegiatan', [AdminController::class, 'kegiatanStore'])->name('admin.kegiatan.store'); // Menyimpan kegiatan baru
+    Route::get('/kegiatan/{id}/edit', [AdminController::class, 'kegiatanEdit'])->name('admin.kegiatan.edit'); // Form edit kegiatan
+    Route::put('/kegiatan/{id}', [AdminController::class, 'kegiatanUpdate'])->name('admin.kegiatan.update'); // Mengupdate kegiatan
+    Route::delete('/kegiatan/{id}', [AdminController::class, 'kegiatanDelete'])->name('admin.kegiatan.delete'); // Menghapus kegiatan
 });
 
 
