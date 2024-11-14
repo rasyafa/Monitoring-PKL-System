@@ -18,7 +18,6 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-width: 500px;
-            /* Mengurangi lebar card */
         }
 
         h2 {
@@ -36,7 +35,6 @@
             background-color: #17d033;
             border-color: #48d75d;
             width: 100%;
-            /* Tombol memenuhi lebar form */
         }
 
         .btn-success:hover {
@@ -54,12 +52,10 @@
         .form-control,
         .form-select {
             padding: 8px;
-            /* Mengurangi padding input untuk menghemat ruang */
         }
 
         .mb-3 {
             margin-bottom: 1rem;
-            /* Memperkecil jarak antar elemen */
         }
     </style>
 </head>
@@ -81,35 +77,66 @@
         <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
             @csrf
             @method('PUT')
+
+            <!-- Name Field -->
             <div class="mb-3">
                 <label for="name" class="form-label">Nama Lengkap</label>
                 <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $user->name) }}">
             </div>
+
+            <!-- Username Field -->
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" name="username"
                     value="{{ old('username', $user->username) }}">
             </div>
+
+            <!-- Password Field -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Password (Kosongkan jika tidak ingin mengubah)</label>
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+
+            <!-- Password Confirmation Field -->
+            <div class="mb-3">
+                <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
+                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+            </div>
+
+            <!-- Role Field -->
+            <div class="mb-3">
+                <label for="role" class="form-label">Role</label>
+                <select class="form-select" id="role" name="role">
+                    <option value="siswa" {{ old('role', $user->role) == 'siswa' ? 'selected' : '' }}>Siswa</option>
+                    <option value="pembimbing" {{ old('role', $user->role) == 'pembimbing' ? 'selected' : ''}}>Pembimbing</option>
+                    <option value="mitra" {{ old('role', $user->role) == 'mitra' ? 'selected' : '' }}>Mitra</option>
+                    <option value="mentor" {{ old('role', $user->role) == 'mentor' ? 'selected' : '' }}>Mentor</option>
+                </select>
+            </div>
+
+            <!-- Gender Field -->
+            <div class="mb-3">
+                <label for="gender" class="form-label">Gender</label>
+                <select class="form-select" id="gender" name="gender">
+                    <option value="male" {{ old('gender', $user->gender) == 'male' ? 'selected' : ''}}>Laki-Laki</option>
+                    <option value="female" {{ old('gender', $user->gender) == 'female' ? 'selected' : ''}}>Perempuan</option>
+                </select>
+            </div>
+
+            <!-- Email Field -->
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email"
                     value="{{ old('email', $user->email) }}">
             </div>
+
+            <!-- City Field -->
             <div class="mb-3">
-                <label for="role" class="form-label">Role</label>
-                <select class="form-select" id="role" name="role">
-                <option value="" disabled selected>Pilih Role</option>
-                <option value="siswa">Siswa</option>
-                <option value="Pembimbing">Pembimbing</option>
-                <option value="Mitra">Mitra</option>
-                <option value="Mentor">Mentor</option>
-                    @foreach ($roles as $role)
-                    <option value="{{ $role->id }}" {{ old('role', $user->role) == $role->id ? 'selected' : '' }}>
-                        {{ $role->name }}
-                    </option>
-                    @endforeach
-                </select>
+                <label for="city" class="form-label">Kota</label>
+                <input type="text" class="form-control" id="city" name="city" value="{{ old('city', $user->city) }}">
             </div>
+
+            <!-- Submit and Cancel Buttons -->
             <button type="submit" class="btn btn-success">Update User</button>
             <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Cancel</a>
         </form>

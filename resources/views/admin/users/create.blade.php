@@ -68,7 +68,9 @@
             <ul id="error-list"></ul>
         </div>
 
-        <form id="create-user-form">
+        <form id="create-user-form" action="{{ route('admin.users.store') }}" method="POST">
+        @csrf
+
             <div class="mb-3">
                 <label for="name" class="form-label">Nama Lengkap</label>
                 <input type="text" class="form-control" id="name" name="name" required>
@@ -95,19 +97,18 @@
                 <div class="col-md-6">
                     <label for="role" class="form-label">Role</label>
                     <select id="role" class="form-select" name="role" required>
-                        <option value="" disabled selected>Pilih Role</option>
                         <option value="siswa">Siswa</option>
-                        <option value="Pembimbing">Pembimbing</option>
-                        <option value="Mitra">Mitra</option>
-                        <option value="Mentor">Mentor</option>
+                        <option value="pembimbing">Pembimbing</option>
+                        <option value="mitra">Mitra</option>
+                        <option value="mentor">Mentor</option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <label for="gender" class="form-label">Gender</label>
                     <select id="gender" class="form-select" name="gender" required>
-                        <option value="" disabled selected>Pilih Gender</option>
-                        <option value="Laki-Laki">Laki-Laki</option>
-                        <option value="Perempuan">Perempuan</option>
+                        <option value="">Pilih Gender</option>
+                        <option value="male">Laki-laki</option>
+                        <option value="female">Perempuan</option>
                     </select>
                 </div>
             </div>
@@ -123,6 +124,7 @@
             </div>
 
             <button type="submit" class="btn btn-success">Create User</button>
+            <br>
             <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Cancel</a>
         </form>
     </div>

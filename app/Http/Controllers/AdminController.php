@@ -50,25 +50,25 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users',
-            'email' => 'required|email|max:255|unique:users',
+            'username' => 'required|string|unique:users|max:255',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:siswa,pembimbing,mentor,mitra',
-            'gender' => 'required|in:male,female',
+            'role' => 'required|in:siswa,pembimbing,mitra,mentor,admin',
+            'email' => 'required|string|email|max:255|unique:users',
+            'gender' => 'required|string',
             'city' => 'required|string|max:255',
         ]);
 
         User::create([
             'name' => $request->name,
             'username' => $request->username,
-            'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
+            'email' => $request->email,
             'gender' => $request->gender,
             'city' => $request->city,
         ]);
-
-        return redirect()->route('admin.users')->with('success', 'User berhasil ditambahkan');
+        // @dd($request->all());
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambahkan');
     }
 
     // Tampilkan form untuk mengedit pengguna
@@ -96,14 +96,14 @@ class AdminController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('admin.users')->with('success', 'User berhasil diperbarui');
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil diperbarui');
     }
 
     // Hapus pengguna
     public function deleteUser(User $user)
     {
         $user->delete();
-        return redirect()->route('admin.users')->with('success', 'User berhasil dihapus');
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus');
     }
 
     // CRUD ABSEN SISWA
