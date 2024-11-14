@@ -69,15 +69,13 @@ Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
 });
 
 //route pembimbing
+Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function () {
+    Route::get('/pembimbing/home', [PembimbingController::class, 'index'])->name('pembimbing.home');
 
-// Menampilkan halaman utama (home) pembimbing
-Route::get('/pembimbing', [PembimbingController::class, 'index'])->name('pembimbing.home');
+    // Route untul monitoring
+    Route::get('/pembimbing/kegiatan', [PembimbingController::class, 'indexkegiatan'])->name('pembimbing.monitoring');
+    Route::get('/pembimbing/kegiatan/create', [PembimbingController::class, 'create'])->name('pembimbing.create');
+    Route::post('/pembimbing/kegiatan', [PembimbingController::class, 'store'])->name('pembimbing.store');
+});
 
-// Menampilkan semua kegiatan
-Route::get('/pembimbing/kegiatan', [PembimbingController::class, 'indexkegiatan'])->name('pembimbing.index');
 
-// Menampilkan form untuk membuat kegiatan
-Route::get('/pembimbing/kegiatan/create', [PembimbingController::class, 'create'])->name('pembimbing.create');
-
-// Menyimpan kegiatan baru
-Route::post('/pembimbing/kegiatan', [PembimbingController::class, 'store'])->name('pembimbing.store');
