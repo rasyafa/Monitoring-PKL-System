@@ -273,9 +273,15 @@
                         </ul>
                     </div>
                     <a href="{{ route('pembimbing.monitoring') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                        <i class="fas fa-file-alt me-2"></i>Monotoring</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold">
-                    <i class="fas fa-sign-out-alt me-2"></i>Log Out</a>
+                        <i class="fas fa-file-alt me-2"></i>Monitoring</a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-power-off me-2"></i>Logout
+                </a>
+
+                <!-- Form Logout -->
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
