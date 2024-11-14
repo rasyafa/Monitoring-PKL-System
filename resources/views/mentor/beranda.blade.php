@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Dashboard Pembimbing</title>
+    <title>Dashboard Mentor</title>
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
@@ -190,7 +190,7 @@
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text active">
                     <i class="fas fa-home me-2"></i>Beranda</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-user me-2"></i>Profile</a>
+                    <i class="fas fa-user me-2"></i>Profil</a>
                 <!-- Dropdown for Manage Users -->
                 <a class="list-group-item list-group-item-action bg-transparent second-text fw-bold dropdown-toggle"
                     data-bs-toggle="collapse" href="#manageUsersDropdown" role="button" aria-expanded="false"
@@ -206,8 +206,9 @@
                         <li><a href="#" class="list-group-item list-group-item-action bg-transparent second-text">
                                 <i class="fas fa-chalkboard-teacher me-2"></i>Absen</a>
                         </li>
-                        <li><a href="#" class="list-group-item list-group-item-action bg-transparent second-text">
+                        <li><a href="{{ route('mentor.kegiatansiswa') }}" class="list-group-item list-group-item-action bg-transparent second-text">
                                 <i class="fas fa-handshake me-2"></i>Kegiatan Harian</a>
+
                         </li>
                         <li><a href="#" class="list-group-item list-group-item-action bg-transparent second-text">
                                 <i class="fas fa-user-tie me-2"></i>Nilai</a>
@@ -272,120 +273,120 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Toggle sidebar
-            $("#menu-toggle").click(function (e) {
-                e.preventDefault();
-                $("#wrapper").toggleClass("toggled");
-            });
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
 
-            // Chart.js Initialization
-            var studentCtx = document.getElementById('studentChart').getContext('2d');
-            var studentChart = new Chart(studentCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Siswa 1', 'Siswa 2', 'Siswa 3', 'Siswa 4'],
+        // Chart.js Initialization
+        var studentCtx = document.getElementById('studentChart').getContext('2d');
+        var studentChart = new Chart(studentCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Siswa 1', 'Siswa 2', 'Siswa 3', 'Siswa 4'],
 
-                    datasets: [{
-                        label: 'Jumlah Siswa',
-                        data: [10, 20, 30, 40],
-                        backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'],
-                        borderColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                            titleFont: {
-                                size: 16
-                            },
-                            bodyFont: {
-                                size: 14
-                            },
-                            padding: 10
-                        }
-                    }
-                }
-            });
-
-            var partnerCtx = document.getElementById('partnerChart').getContext('2d');
-            var partnerChart = new Chart(partnerCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Mitra 1', 'Mitra 2', 'Mitra 3', 'Mitra 4'],
-                    datasets: [{
-                        label: 'Jumlah Mitra',
-                        data: [15, 25, 35, 25],
-                        backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'],
-                        borderColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                            titleFont: {
-                                size: 16
-                            },
-                            bodyFont: {
-                                size: 14
-                            },
-                            padding: 10
-                        }
-                    }
-                }
-            });
-
-
-            var mentorCtx = document.getElementById('mentorChart').getContext('2d');
-            var mentorChart = new Chart(mentorCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agust', 'Sept', 'Okt', 'Nov', 'Des'],
-                    datasets: [{
-                        label: 'Jumlah Pembimbing',
-                        data: [12, 19, 3, 5, 2, 3, 10, 8, 9, 15, 20, 2],
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+                datasets: [{
+                    label: 'Jumlah Siswa',
+                    data: [10, 20, 30, 40],
+                    backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'],
+                    borderColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
                     },
-                    plugins: {
-                        legend: {
-                            display: false
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        titleFont: {
+                            size: 16
                         },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                            titleFont: {
-                                size: 16
-                            },
-                            bodyFont: {
-                                size: 14
-                            },
-                            padding: 10
-                        }
+                        bodyFont: {
+                            size: 14
+                        },
+                        padding: 10
                     }
                 }
-            });
+            }
+        });
+
+        var partnerCtx = document.getElementById('partnerChart').getContext('2d');
+        var partnerChart = new Chart(partnerCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Mitra 1', 'Mitra 2', 'Mitra 3', 'Mitra 4'],
+                datasets: [{
+                    label: 'Jumlah Mitra',
+                    data: [15, 25, 35, 25],
+                    backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'],
+                    borderColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        titleFont: {
+                            size: 16
+                        },
+                        bodyFont: {
+                            size: 14
+                        },
+                        padding: 10
+                    }
+                }
+            }
+        });
+
+
+        var mentorCtx = document.getElementById('mentorChart').getContext('2d');
+        var mentorChart = new Chart(mentorCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agust', 'Sept', 'Okt', 'Nov', 'Des'],
+                datasets: [{
+                    label: 'Jumlah Pembimbing',
+                    data: [12, 19, 3, 5, 2, 3, 10, 8, 9, 15, 20, 2],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        titleFont: {
+                            size: 16
+                        },
+                        bodyFont: {
+                            size: 14
+                        },
+                        padding: 10
+                    }
+                }
+            }
+        });
 
     </script>
 

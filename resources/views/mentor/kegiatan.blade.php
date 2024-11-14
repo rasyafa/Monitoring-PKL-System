@@ -1,10 +1,11 @@
+<!-- resources/views/logbook.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Logbook</title>
+    <title>Kegiatan Siswa</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -52,12 +53,13 @@
             margin: 10px 0;
             color: rgb(50, 50, 50);
         }
+
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h2>Data Logbook</h2>
+        <h2>Kegiatan Siswa</h2>
         <table class="table-container">
             <thead>
                 <tr>
@@ -67,22 +69,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Hilma Fitri Solehah</td>
-                    <td><a href="#link1">Lihat laporan Hilma Fitri Solehah</a></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Yehezkiel Frederick Ruru</td>
-                    <td><a href="#link2">Lihat laporan Yehezkiel Frederick Ruru</a></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Hana Hanifah</td>
-                    <td><a href="#link3">Lihat laporan Hana Hanifah</a></td>
-                </tr>
-            </tbody>
+                @foreach ($users as $index => $user)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $user['nama'] }}</td>
+                        <td>
+                            <!-- Link ke halaman detail kegiatan -->
+                            <a href="{{ route('mentor.detailKegiatan', ['id' => $index + 1]) }}">Lihat laporan {{ $user['nama'] }}</a>
+                        </td>
+                    </tr>
+                @endforeach
+</tbody>
+
         </table>
     </div>
 </body>

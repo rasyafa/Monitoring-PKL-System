@@ -78,37 +78,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>2024-11-13</td>
-                    <td>08:00</td>
-                    <td>10:00</td>
-                    <td>Rapat Tim</td>
+                    <td>{{ $kegiatanDetail['id'] }}</td>
+                    <td>{{ $kegiatanDetail['tanggal'] }}</td>
+                    <td>{{ $kegiatanDetail['waktu_mulai'] }}</td>
+                    <td>{{ $kegiatanDetail['waktu_selesai'] }}</td>
+                    <td>{{ $kegiatanDetail['kegiatan'] }}</td>
                     <td>
-                        <a href="confirm_page_1.html">
-                            <button class="button confirm-btn">Konfirmasi</button>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>2024-11-13</td>
-                    <td>10:30</td>
-                    <td>12:00</td>
-                    <td>Analisis Data</td>
-                    <td>
-                        <a href="confirm_page_2.html">
-                            <button class="button confirm-btn">Konfirmasi</button>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>2024-11-13</td>
-                    <td>13:00</td>
-                    <td>15:00</td>
-                    <td>Penyusunan Laporan</td>
-                    <td>
-                        <a href="confirm_page_3.html">
+                        <a href="confirm_page_{{ $kegiatanDetail['id'] }}.html">
                             <button class="button confirm-btn">Konfirmasi</button>
                         </a>
                     </td>
