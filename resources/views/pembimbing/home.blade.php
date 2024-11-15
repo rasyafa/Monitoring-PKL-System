@@ -265,7 +265,7 @@
                             <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                                 <i class="fas fa-users me-2"></i>Data Siswa</a>
                             </li>
-                            <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                            <a href="{{ route('pembimbing.absen') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                                 <i class="fas fa-bell me-2"></i>Absen</a>
                             </li>
                             <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
@@ -273,9 +273,15 @@
                         </ul>
                     </div>
                     <a href="{{ route('pembimbing.monitoring') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                        <i class="fas fa-file-alt me-2"></i>Monotoring</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold">
-                    <i class="fas fa-sign-out-alt me-2"></i>Log Out</a>
+                        <i class="fas fa-file-alt me-2"></i>Monitoring</a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-power-off me-2"></i>Logout
+                </a>
+
+                <!-- Form Logout -->
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -294,9 +300,8 @@
                                 <div class="col-md-6">
                                     <div class="card income-card">
                                         <div class="card-body">
-                                            <div class="card-title">Total Income</div>
-                                            <div class="card-value">$ 579,000</div>
-                                            <div class="card-subtext">Saved 25%</div>
+                                            <div class="card-title">Data Absen</div>
+                                            <div class="card-value">25%</div>
                                         </div>
                                     </div>
                                 </div>

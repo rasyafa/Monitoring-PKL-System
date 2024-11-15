@@ -74,9 +74,11 @@ Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
 Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function () {
     Route::get('/pembimbing/home', [PembimbingController::class, 'index'])->name('pembimbing.home');
 
-    // Route untul monitoring
+    // Route untuk monitoring
     Route::get('/pembimbing/kegiatan', [PembimbingController::class, 'indexkegiatan'])->name('pembimbing.monitoring');
-    Route::get('/pembimbing/kegiatan/create', [PembimbingController::class, 'create'])->name('pembimbing.create');
-    Route::post('/pembimbing/kegiatan', [PembimbingController::class, 'store'])->name('pembimbing.store');
+    Route::get('/monitoring', [PembimbingController::class, 'indexkegiatan'])->name('monitoring');
+    Route::get('/monitoring/create', [PembimbingController::class, 'create'])->name('pembimbing.create');
+    Route::post('/monitoring/store', [PembimbingController::class, 'store'])->name('pembimbing.store');
+    Route::get('/pembimbing/absen', [PembimbingController::class, 'absenIndex'])->name('pembimbing.absen');
 });
 

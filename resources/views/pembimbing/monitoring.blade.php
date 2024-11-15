@@ -19,19 +19,26 @@
             background-color: #ffffff;
         }
 
-        .btn-green {
+         .btn-custom {
             background-color: #03d703;
+            border-color: #03d703;
             color: white;
-            border: none;
         }
 
-        .btn-green:hover {
-            background-color: #029f02;
+        .btn-custom:hover {
+            background-color: #028d02;
+            border-color: #028d02;
         }
 
-        .btn-warning {
-            background-color: #03d703;
+        .btn-secondary-custom {
+            background-color: #6c757d;
+            border-color: #6c757d;
             color: white;
+        }
+
+        .btn-secondary-custom:hover {
+            background-color: #5a6268;
+            border-color: #5a6268;
         }
 
         h2,
@@ -102,10 +109,11 @@
         <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <!-- Tombol "Tambah Kegiatan" dipindahkan ke kanan -->
-        <div class="btn-container">
-            <a href="{{ route('pembimbing.create') }}" class="btn btn-green mb-3">Tambah Kegiatan</a>
-        </div>
+        <!-- Tombol Tambah dan kembali -->
+            <div class="btn-container">
+                <a href="{{ route('pembimbing.create') }}" class="btn btn-custom me-2">Tambah Kegiatan</a>
+                <a href="{{ route('pembimbing.home') }}" class="btn btn-secondary-custom">Kembali</a>
+            </div>
 
         <!-- Tabel Responsif -->
         <div class="table-responsive">
@@ -125,29 +133,14 @@
                             <!-- Menggunakan textarea untuk kegiatan, agar bisa diedit -->
                             <textarea class="form-control" rows="4" disabled>{{ $data->kegiatan }}</textarea>
                         </td>
-                        <td><img src="{{ asset('storage/gambar/' . $data->gambar) }}" width="100"></td>
+                        <td><img src="{{ asset('storage/gambar/' . $data->image) }}" width="100"></td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
+            {{ $kegiatan->links() }}
             <!-- pagination -->
-            <nav>
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+
         </div> <!-- End of .table-responsive -->
     </div>
 
