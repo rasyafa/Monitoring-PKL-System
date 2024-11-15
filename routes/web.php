@@ -38,7 +38,9 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::delete('/absen/{id}', [AdminController::class, 'absenDelete'])->name('admin.absen.delete'); // Menghapus absen
 
     // Route untuk CRUD data Kegiatan Harian
-    Route::get('/kegiatan', [AdminController::class, 'kegiatanIndex'])->name('admin.kegiatan.index'); // Menampilkan daftar kegiatan
+    Route::get('/kegiatan', [AdminController::class, 'kegiatanIndex'])->name('admin.kegiatan.index'); // Menampilkan daftar siswa
+    Route::get('/kegiatan/{id}', [AdminController::class, 'kegiatanShow'])->name('admin.kegiatan.show'); // Menampilkan kegiatan siswa yang dipilih
+
     Route::get('/kegiatan/create', [AdminController::class, 'kegiatanCreate'])->name('admin.kegiatan.create'); // Form untuk membuat kegiatan baru
     Route::post('/kegiatan', [AdminController::class, 'kegiatanStore'])->name('admin.kegiatan.store'); // Menyimpan kegiatan baru
     Route::get('/kegiatan/{id}/edit', [AdminController::class, 'kegiatanEdit'])->name('admin.kegiatan.edit'); // Form edit kegiatan
@@ -72,8 +74,12 @@ Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
 Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function () {
     Route::get('/pembimbing/home', [PembimbingController::class, 'index'])->name('pembimbing.home');
 
-    // Route untul monitoring
+    // Route untuk monitoring
     Route::get('/pembimbing/kegiatan', [PembimbingController::class, 'indexkegiatan'])->name('pembimbing.monitoring');
-    Route::get('/pembimbing/kegiatan/create', [PembimbingController::class, 'create'])->name('pembimbing.create');
-    Route::post('/pembimbing/kegiatan', [PembimbingController::class, 'store'])->name('pembimbing.store');
+
+    Route::get('/monitoring', [PembimbingController::class, 'indexkegiatan'])->name('monitoring');
+    Route::get('/monitoring/create', [PembimbingController::class, 'create'])->name('pembimbing.create');
+    Route::post('/monitoring/store', [PembimbingController::class, 'store'])->name('pembimbing.store');
+    Route::get('/pembimbing/absen', [PembimbingController::class, 'absenIndex'])->name('pembimbing.absen');
 });
+

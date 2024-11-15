@@ -29,6 +29,17 @@
             border-color: #02be02;
         }
 
+        .btn-secondary-custom {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary-custom:hover {
+            background-color: #5a6268;
+            border-color: #5a6268;
+        }
+
         body,
         label,
         h2 {
@@ -57,34 +68,36 @@
         @endif
 
         <!-- Form untuk menambahkan kegiatan -->
-        <form action="{{ route('pembimbing.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
+       <form action="{{ route('pembimbing.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
 
-            <!-- Input Tanggal -->
-            <div class="form-group">
-                <label for="tanggal">Tanggal</label>
-                <input type="date" name="tanggal" class="form-control" required>
+    <!-- Input Tanggal -->
+    <div class="form-group">
+        <label for="tanggal">Tanggal</label>
+        <input type="date" name="tanggal" class="form-control" required>
+    </div>
+
+    <!-- Input Kegiatan (Textarea) -->
+    <div class="form-group">
+        <label for="kegiatan">Kegiatan</label>
+        <textarea name="kegiatan" class="form-control" rows="4" required></textarea>
+    </div>
+
+    <!-- Input Image -->
+    <div class="mb-3">
+        <label for="image" class="form-label">Image</label>
+        <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
+        @error('image')
+        <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <!-- Tombol Tambah dan kembali -->
+            <div class="btn-container">
+                <button type="submit" class="btn btn-primary">Tambah Kegiatan</button>
+                <a href="{{ route('pembimbing.home') }}" class="btn btn-secondary-custom">Kembali</a>
             </div>
-
-            <!-- Input Kegiatan (Textarea) -->
-            <div class="form-group">
-                <label for="kegiatan">Kegiatan</label>
-                <textarea name="kegiatan" class="form-control" rows="4" required></textarea>
-            </div>
-
-            <!-- Input Image -->
-            <div class="mb-3">
-                <label for="image" class="form-label">Image</label>
-                <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
-                @error('image')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <!-- Tombol Kirim -->
-            <br>
-            <button type="submit" class="btn btn-primary">Tambah Kegiatan</button>
-        </form>
+</form>
     </div>
     @endsection
 

@@ -187,15 +187,16 @@ class AdminController extends Controller
     // Menampilkan daftar kegiatan semua siswa
     public function kegiatanIndex()
     {
-        $kegiatans = KegiatanHarian::with('user')->get(); // Mengambil data kegiatan beserta data siswa
-        return view('admin.kegiatan.index', compact('kegiatans'));
+        // Mendapatkan data siswa dengan role 'siswa'
+        $students = User::where('role', 'siswa')->get(); // Mengambil data siswa dengan peran 'siswa'
+        return view('admin.kegiatan.index', compact('students'));
     }
 
     // Menampilkan form untuk membuat kegiatan baru
     public function kegiatanCreate()
     {
         $students = User::where('role', 'siswa')->get(); // Mengambil data siswa saja
-        return view('admin.kegiatan.create', compact('siswa'));
+        return view('admin.kegiatan.create', compact('students'));
     }
 
     // Menyimpan data kegiatan baru
@@ -223,9 +224,9 @@ class AdminController extends Controller
     // Menampilkan form edit untuk kegiatan tertentu
     public function kegiatanEdit($id)
     {
-        $kegiatan = KegiatanHarian::findOrFail($id);
+        $kegiatans = KegiatanHarian::findOrFail($id);
         $students = User::where('role', 'siswa')->get();
-        return view('admin.kegiatan.edit', compact('kegiatan', 'siswa'));
+        return view('admin.kegiatan.edit', compact('kegiatans', 'students'));
     }
 
     // Mengupdate data kegiatan yang sudah ada
@@ -239,8 +240,8 @@ class AdminController extends Controller
             'kegiatan' => 'required|string',
         ]);
 
-        $kegiatan = KegiatanHarian::findOrFail($id);
-        $kegiatan->update([
+        $kegiatans = KegiatanHarian::findOrFail($id);
+        $kegiatans->update([
             'user_id' => $request->user_id,
             'tanggal' => $request->tanggal,
             'waktu_mulai' => $request->waktu_mulai,
@@ -254,9 +255,22 @@ class AdminController extends Controller
     // Menghapus data kegiatan
     public function kegiatanDelete($id)
     {
-        $kegiatan = KegiatanHarian::findOrFail($id);
-        $kegiatan->delete();
+        $kegiatans = KegiatanHarian::findOrFail($id);
+        $kegiatans->delete();
 
         return redirect()->route('admin.kegiatan.index')->with('success', 'Data kegiatan berhasil dihapus.');
+    }
+
+    // Menampilkan detail kegiatan/logbook siswa berdasarkan ID
+    public function kegiatanShow($id)
+    {
+        // Cari siswa berdasarkan ID
+        $students = User::findOrFail($id);
+
+        // Ambil data kegiatan siswa berdasarkan ID siswa
+        $kegiatans = KegiatanHarian::where('user_id', $id)->get();
+
+        // Kirim data ke view
+        return view('admin.kegiatan.show', compact('students', 'kegiatans'));
     }
 }
