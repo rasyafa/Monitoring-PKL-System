@@ -187,7 +187,7 @@
                 <i class="fas fa-chalkboard-teacher me-2"></i>Mentor
             </div>
             <div class="list-group list-group-flush my-3">
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text active">
+                <a href="{{ route('mentor.beranda') }}" class="list-group-item list-group-item-action bg-transparent second-text active">
                     <i class="fas fa-home me-2"></i>Beranda</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-user me-2"></i>Profil</a>
@@ -203,7 +203,7 @@
                         <li><a href="#" class="list-group-item list-group-item-action bg-transparent second-text">
                                 <i class="fas fa-user-graduate me-2"></i>Data</a>
                         </li>
-                        <li><a href="{{ route('mentor.absen') }}" class="list-group-item list-group-item-action bg-transparent second-text">
+                        <li><a href="{{ route('mentor.absenIndex') }}" class="list-group-item list-group-item-action bg-transparent second-text">
                                 <i class="fas fa-chalkboard-teacher me-2"></i>Absen</a>
                         </li>
                         <li><a href="{{ route('mentor.kegiatansiswa') }}" class="list-group-item list-group-item-action bg-transparent second-text">
@@ -220,6 +220,10 @@
                     <i class="fas fa-bell me-2"></i>Notifikasi</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold">
                     <i class="fas fa-power-off me-2"></i>Keluar</a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </div>
         </div>
 

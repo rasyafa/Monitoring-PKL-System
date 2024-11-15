@@ -6,6 +6,8 @@ use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\PembimbingController;
+use App\Http\Controllers\MentorController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -78,15 +80,12 @@ Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function ()
     Route::post('/pembimbing/kegiatan', [PembimbingController::class, 'store'])->name('pembimbing.store');
 });
 
-//route pembimbing
+//route mentor
 Route::middleware(['auth', CheckRole::class . ':mentor'])->group(function () {
-    Route::get('/mentor/beranda', [PembimbingController::class, 'index'])->name('mentor.beranda');
+    Route::get('/mentor/beranda', [MentorController::class, 'index'])->name('mentor.beranda');
 
-    Route::get('/kegiatan', [MentorController::class, 'index']);
-
+Route::get('/kegiatan', [MentorController::class, 'index']);
 Route::get('/kegiatansiswa', [MentorController::class, 'kegiatanSiswa'])->name('mentor.kegiatansiswa');
-
 Route::get('/kegiatan/{id}', [MentorController::class, 'detailKegiatan'])->name('mentor.detailKegiatan');
-
 Route::get('/mentor/absen', [MentorController::class, 'absenIndex'])->name('mentor.absenIndex');
 });
