@@ -62,9 +62,9 @@ Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
     Route::post('/absen', [SiswaController::class, 'absenStore'])->name('siswa.absen.store');
 
     // KEGIATAN HARIAN SISWA
-    Route::get('/siswa/riwayat-kegiatan', [SiswaController::class, 'kegiatan'])->name('siswa.riwayat-kegiatan');
-    Route::get('/siswa/kegiatan/create', [SiswaController::class, 'create'])->name('siswa.kegiatan.create');
-    Route::post('/siswa/kegiatan', [SiswaController::class, 'store'])->name('siswa.kegiatan.store');
+    Route::get('/riwayat-kegiatan', [SiswaController::class, 'kegiatan'])->name('siswa.riwayat-kegiatan');
+    Route::get('/kegiatan/create', [SiswaController::class, 'create'])->name('siswa.kegiatan.create');
+    Route::post('/kegiatan', [SiswaController::class, 'store'])->name('siswa.kegiatan.store');
 });
 
 
@@ -77,4 +77,3 @@ Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function ()
     Route::get('/pembimbing/kegiatan/create', [PembimbingController::class, 'create'])->name('pembimbing.create');
     Route::post('/pembimbing/kegiatan', [PembimbingController::class, 'store'])->name('pembimbing.store');
 });
-
