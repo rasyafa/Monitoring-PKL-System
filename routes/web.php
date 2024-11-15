@@ -78,3 +78,15 @@ Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function ()
     Route::post('/pembimbing/kegiatan', [PembimbingController::class, 'store'])->name('pembimbing.store');
 });
 
+//route pembimbing
+Route::middleware(['auth', CheckRole::class . ':mentor'])->group(function () {
+    Route::get('/mentor/beranda', [PembimbingController::class, 'index'])->name('mentor.beranda');
+
+    Route::get('/kegiatan', [MentorController::class, 'index']);
+
+Route::get('/kegiatansiswa', [MentorController::class, 'kegiatanSiswa'])->name('mentor.kegiatansiswa');
+
+Route::get('/kegiatan/{id}', [MentorController::class, 'detailKegiatan'])->name('mentor.detailKegiatan');
+
+Route::get('/mentor/absen', [MentorController::class, 'absenIndex'])->name('mentor.absenIndex');
+});

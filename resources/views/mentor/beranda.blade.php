@@ -203,7 +203,7 @@
                         <li><a href="#" class="list-group-item list-group-item-action bg-transparent second-text">
                                 <i class="fas fa-user-graduate me-2"></i>Data</a>
                         </li>
-                        <li><a href="#" class="list-group-item list-group-item-action bg-transparent second-text">
+                        <li><a href="{{ route('mentor.absen') }}" class="list-group-item list-group-item-action bg-transparent second-text">
                                 <i class="fas fa-chalkboard-teacher me-2"></i>Absen</a>
                         </li>
                         <li><a href="{{ route('mentor.kegiatansiswa') }}" class="list-group-item list-group-item-action bg-transparent second-text">
