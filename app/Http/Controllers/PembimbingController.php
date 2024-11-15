@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kegiatan;
+use App\Models\Absen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -53,5 +54,10 @@ class PembimbingController extends Controller
 
         // Redirect ke halaman monitoring setelah berhasil
         return redirect()->route('monitoring')->with('success', 'Kegiatan berhasil ditambahkan!');
+    }
+    public function absenIndex()
+    {
+        $absens = Absen::with('user')->get(); // Mengambil data absen beserta data siswa
+        return view('pembimbing.absen', compact('absens'));
     }
 }

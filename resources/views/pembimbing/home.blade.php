@@ -265,7 +265,7 @@
                             <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                                 <i class="fas fa-users me-2"></i>Data Siswa</a>
                             </li>
-                            <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                            <a href="{{ route('pembimbing.absen') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                                 <i class="fas fa-bell me-2"></i>Absen</a>
                             </li>
                             <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
@@ -300,9 +300,8 @@
                                 <div class="col-md-6">
                                     <div class="card income-card">
                                         <div class="card-body">
-                                            <div class="card-title">Total Income</div>
-                                            <div class="card-value">$ 579,000</div>
-                                            <div class="card-subtext">Saved 25%</div>
+                                            <div class="card-title">Data Absen</div>
+                                            <div class="card-value">25%</div>
                                         </div>
                                     </div>
                                 </div>

@@ -77,5 +77,6 @@ Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function ()
     Route::get('/monitoring', [PembimbingController::class, 'indexkegiatan'])->name('monitoring');
     Route::get('/monitoring/create', [PembimbingController::class, 'create'])->name('pembimbing.create');
     Route::post('/monitoring/store', [PembimbingController::class, 'store'])->name('pembimbing.store');
+    Route::get('/pembimbing/absen', [PembimbingController::class, 'absenIndex'])->name('pembimbing.absen');
 });
 
