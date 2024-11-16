@@ -35,6 +35,7 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     // Route untuk CRUD data Kegiatan Harian
     Route::get('/kegiatan', [AdminController::class, 'kegiatanIndex'])->name('admin.kegiatan.index'); // Menampilkan daftar siswa
     Route::get('/kegiatan/{id}', [AdminController::class, 'kegiatanShow'])->name('admin.kegiatan.show'); // Menampilkan kegiatan siswa yang dipilih
+    Route::post('/kegiatan/{id}/validasi', [AdminController::class, 'validasiKegiatan'])->name('admin.kegiatan.acc');
 });
 
 

@@ -176,8 +176,6 @@ class AdminController extends Controller
         return view('admin.kegiatan.index', compact('students'));
     }
 
-
-
     // Menampilkan detail kegiatan/logbook siswa berdasarkan ID
     public function kegiatanShow($id)
     {
@@ -190,4 +188,22 @@ class AdminController extends Controller
         // Kirim data ke view
         return view('admin.kegiatan.show', compact('students', 'kegiatans'));
     }
+
+    // Method untuk validasi kegiatan
+    public function validasiKegiatan($id)
+    {
+        $kegiatan = KegiatanHarian::findOrFail($id);
+
+        // Mengubah status menjadi 'acc' dan menambahkan catatan jika ada
+        $kegiatan->status = 'acc';
+        if (request()->has('catatan')) {
+            $kegiatan->catatan = request('catatan');
+        }
+
+        $kegiatan->save();
+
+        return redirect()->route('admin.kegiatan.show', $kegiatan->user_id)
+        ->with('success', 'Kegiatan telah diterima (ACC).');
+    }
+
 }

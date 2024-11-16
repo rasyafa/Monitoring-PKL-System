@@ -8,25 +8,31 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #ffffff;
             color: #333;
         }
 
         h2 {
             color: #3a3d3a;
-            /* Hijau */
         }
 
-        .table-primary {
+        /* .table-primary {
             background-color: #ffffff;
-            /* Hijau muda */
             color: #333;
+        } */
+
+        .table-head {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+
+        .table-tbody {
+            background-color: #ffffff;
         }
 
         .btn-info,
         .btn-warning {
             background-color: #ffc107;
-            /* Hijau gelap */
             color: 212529;
             border: none;
         }
@@ -34,19 +40,16 @@
         .btn-info:hover,
         .btn-warning:hover {
             background-color: #ffc107;
-            /* Hijau lebih gelap */
         }
 
         .btn-success {
             background-color: #17d033;
-            /* Hijau gelap */
             color: 212529;
             border: none;
         }
 
         .btn-success:hover {
             background-color: #1b5e20;
-            /* Hijau lebih gelap */
         }
 
         .btn-danger {
@@ -57,7 +60,6 @@
 
         .btn-danger:hover {
             background-color: #791616;
-            /* Merah tua */
         }
     </style>
 </head>
@@ -74,16 +76,17 @@
         @endif
 
         <table class="table table-striped table-hover table-bordered">
-            <thead class="table-primary text-center">
+            <thead class="table-head text-center">
                 <tr>
                     <th>Tanggal</th>
                     <th>Waktu Mulai</th>
                     <th>Waktu Selesai</th>
                     <th>Kegiatan</th>
                     <th>Status</th>
+                    <th>Catatan</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="table-tbody">
                 @foreach ($kegiatans as $kegiatan)
                 <tr>
                     <td>{{ \Carbon\Carbon::parse($kegiatan->tanggal)->format('d-m-Y') }}</td>
@@ -91,14 +94,19 @@
                     <td>{{ $kegiatan->waktu_selesai }}</td>
                     <td>{{ $kegiatan->kegiatan }}</td>
                     <td class="text-center">
-                        @if($kegiatan->status == 'pending')
-                        <form action="{{ route('admin.kegiatan.validasi', $kegiatan->id) }}" method="POST"
-                            class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-success btn-sm">Validasi</button>
-                        </form>
+                        @if($kegiatan->status == 'acc')
+                        <span class="text-success">Sudah Diterima (ACC)</span>
+                        @elseif($kegiatan->status == 'revisi')
+                        <span class="text-danger">Perlu Revisi</span>
                         @else
-                        <span class="text-success">Sudah Tervalidasi</span>
+                        <span class="text-warning">Menunggu Validasi</span>
+                        @endif
+                    </td>
+                    <td>
+                        @if($kegiatan->catatan)
+                        {{ $kegiatan->catatan }}
+                        @else
+                        <span class="text-muted">Tidak ada catatan</span>
                         @endif
                     </td>
                 </tr>
@@ -107,7 +115,7 @@
         </table>
 
         <div class="d-flex justify-content-between mt-3">
-            <a href="{{ route('admin.kegiatan.index') }}" class="btn btn-secondary">Kembali ke Daftar Siswa</a>
+            <a href="{{ route('admin.kegiatan.index') }}" class="btn btn-secondary">Kembali ke Daftar Kegiatan</a>
         </div>
     </div>
 </body>
