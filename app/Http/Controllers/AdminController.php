@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class AdminController extends Controller
@@ -107,81 +108,64 @@ class AdminController extends Controller
     }
 
     // CRUD ABSEN SISWA
-    // Menampilkan daftar absen semua siswa
+    // Fungsi untuk menampilkan halaman absensi
     public function absenIndex()
     {
-        $absens = Absen::with('user')->get(); // Mengambil data absen beserta data siswa
-        return view('admin.absen.index', compact('absens'));
-    }
+        // Mengambil data siswa yang berperan sebagai siswa
+        $students = User::where('role', 'siswa')->get();
 
-    // Menampilkan form untuk membuat absen baru
-    public function absenCreate()
-    {
-        $students = User::where('role', 'siswa')->get(); // Mengambil data siswa saja
-        return view('admin.absen.create', compact('students'));
-    }
+        // Mengambil semua data absensi dari tabel absens
+        $attendances = Absen::all();
 
-    // Menyimpan data absen yang baru
-    public function absenStore(Request $request)
-    {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'tanggal' => 'required|date',
-            'status' => 'required|string',
-        ]);
+        // Tentukan tanggal awal dan akhir PKL
+        $startDate = '2023-08-05';
+        $endDate = '2023-12-05';
 
-        // Cek apakah data absen untuk user dan tanggal yang sama sudah ada
-        $existingAbsen = Absen::where('user_id', $request->user_id)
-            ->where('tanggal', $request->tanggal)
-            ->first();
+        // Dapatkan daftar hari kerja selama periode PKL
+        $workingDays = $this->getWorkingDays($startDate, $endDate);
 
-        if ($existingAbsen) {
-            return redirect()->back()->withErrors(['error' => 'Siswa sudah absen pada tanggal ini.']);
+        // Hitung persentase kehadiran untuk setiap siswa
+        foreach ($students as $student) {
+            // Hitung total sesi berdasarkan hari kerja dalam periode
+            $totalSessions = count($workingDays);
+            $presentSessions = $attendances->where('user_id', $student->id)->where('status', 'Hadir')->count();
+
+            // Persentase kehadiran berdasarkan status "Hadir"
+            $student->attendance_percentage = $totalSessions > 0 ? ($presentSessions / $totalSessions) * 100 : 0;
+            $student->total_sessions = $totalSessions;
+            $student->present_sessions = $presentSessions;
         }
 
-        Absen::create([
-            'user_id' => $request->user_id,
-            'tanggal' => $request->tanggal,
-            'status' => $request->status,
-        ]);
-
-        return redirect()->route('admin.absen.index')->with('success', 'Data absen berhasil disimpan.');
+        // Kirim data ke view
+        return view('admin.absen.index', compact('students', 'attendances'));
     }
 
-    // Menampilkan form edit untuk absen tertentu
-    public function absenEdit($id)
+    // Method privat untuk menghitung hari kerja
+    private function getWorkingDays($startDate, $endDate)
     {
-        $absen = Absen::findOrFail($id);
-        $students = User::where('role', 'siswa')->get();
-        return view('admin.absen.edit', compact('absen', 'students'));
-    }
+        // Mengubah tanggal awal dan akhir ke objek Carbon
+        $start = Carbon::createFromFormat('Y-m-d', $startDate);
+        $end = Carbon::createFromFormat('Y-m-d', $endDate);
 
-    // Mengupdate data absen yang sudah ada
-    public function absenUpdate(Request $request, $id)
-    {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'tanggal' => 'required|date',
-            'status' => 'required|string',
-        ]);
+        // Pastikan tanggal akhir lebih besar atau sama dengan tanggal awal
+        if ($start->gt($end)) {
+            return [];
+        }
 
-        $absen = Absen::findOrFail($id);
-        $absen->update([
-            'user_id' => $request->user_id,
-            'tanggal' => $request->tanggal,
-            'status' => $request->status,
-        ]);
+        $workingDays = [];
 
-        return redirect()->route('admin.absen.index')->with('success', 'Data absen berhasil diperbarui.');
-    }
+        // Iterasi setiap hari dari tanggal mulai hingga tanggal akhir
+        while ($start->lte($end)) {
+            // Cek apakah hari ini adalah Senin-Jumat (1=Senin, ..., 5=Jumat)
+            if ($start->isWeekday()) {
+                // Jika ya, tambahkan ke array hari kerja
+                $workingDays[] = $start->toDateString();
+            }
+            // Tambahkan satu hari ke tanggal saat ini
+            $start->addDay();
+        }
 
-    // Menghapus data absen
-    public function absenDelete($id)
-    {
-        $absen = Absen::findOrFail($id);
-        $absen->delete();
-
-        return redirect()->route('admin.absen.index')->with('success', 'Data absen berhasil dihapus.');
+        return $workingDays;
     }
 
     // Menampilkan daftar kegiatan semua siswa
@@ -192,74 +176,7 @@ class AdminController extends Controller
         return view('admin.kegiatan.index', compact('students'));
     }
 
-    // Menampilkan form untuk membuat kegiatan baru
-    public function kegiatanCreate()
-    {
-        $students = User::where('role', 'siswa')->get(); // Mengambil data siswa saja
-        return view('admin.kegiatan.create', compact('students'));
-    }
 
-    // Menyimpan data kegiatan baru
-    public function kegiatanStore(Request $request)
-    {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'tanggal' => 'required|date',
-            'waktu_mulai' => 'required|date_format:H:i',
-            'waktu_selesai' => 'required|date_format:H:i',
-            'kegiatan' => 'required|string',
-        ]);
-
-        KegiatanHarian::create([
-            'user_id' => $request->user_id,
-            'tanggal' => $request->tanggal,
-            'waktu_mulai' => $request->waktu_mulai,
-            'waktu_selesai' => $request->waktu_selesai,
-            'kegiatan' => $request->kegiatan,
-        ]);
-
-        return redirect()->route('admin.kegiatan.index')->with('success', 'Data kegiatan berhasil disimpan.');
-    }
-
-    // Menampilkan form edit untuk kegiatan tertentu
-    public function kegiatanEdit($id)
-    {
-        $kegiatans = KegiatanHarian::findOrFail($id);
-        $students = User::where('role', 'siswa')->get();
-        return view('admin.kegiatan.edit', compact('kegiatans', 'students'));
-    }
-
-    // Mengupdate data kegiatan yang sudah ada
-    public function kegiatanUpdate(Request $request, $id)
-    {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'tanggal' => 'required|date',
-            'waktu_mulai' => 'required|date_format:H:i',
-            'waktu_selesai' => 'required|date_format:H:i',
-            'kegiatan' => 'required|string',
-        ]);
-
-        $kegiatans = KegiatanHarian::findOrFail($id);
-        $kegiatans->update([
-            'user_id' => $request->user_id,
-            'tanggal' => $request->tanggal,
-            'waktu_mulai' => $request->waktu_mulai,
-            'waktu_selesai' => $request->waktu_selesai,
-            'kegiatan' => $request->kegiatan,
-        ]);
-
-        return redirect()->route('admin.kegiatan.index')->with('success', 'Data kegiatan berhasil diperbarui.');
-    }
-
-    // Menghapus data kegiatan
-    public function kegiatanDelete($id)
-    {
-        $kegiatans = KegiatanHarian::findOrFail($id);
-        $kegiatans->delete();
-
-        return redirect()->route('admin.kegiatan.index')->with('success', 'Data kegiatan berhasil dihapus.');
-    }
 
     // Menampilkan detail kegiatan/logbook siswa berdasarkan ID
     public function kegiatanShow($id)

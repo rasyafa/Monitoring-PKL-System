@@ -1,55 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.admin')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Absen Siswa</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-</head>
+@section('title', 'Data Absen')
 
-<body>
-    <div class="container mt-4">
-        <h2 class="mb-4">Daftar Absen Siswa</h2>
+@section('page-title', 'Data Absensi')
 
-        <!-- Tampilkan pesan sukses -->
-        @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-        @endif
-
-        <!-- Tabel daftar absen -->
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Nama</th>
-                    <th>Tanggal</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($absens as $absen)
-                <tr>
-                    <td>{{ $absen->user->name }}</td>
-                    <td>{{ \Carbon\Carbon::parse($absen->tanggal)->format('d-m-Y') }}</td>
-                    <td>{{ $absen->status }}</td>
-                    <td>
-                        <a href="{{ route('admin.absen.edit', $absen->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                        <form action="{{ route('admin.absen.delete', $absen->id) }}" method="POST"
-                            style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                        </form>
-                    </td>
-                </tr>
+@section('content')
+<div class="container mt-4">
+    <h2 class="mb-4">Rekap Kehadiran Siswa</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>Alamat Surel</th>
+                <th>Sesi Diambil</th>
+                <th>Poin</th>
+                <th>Persentase</th>
+                <!-- Kolom sesi berdasarkan tanggal -->
+                @foreach ($attendances->unique('tanggal') as $attendance)
+                <th>{{ \Carbon\Carbon::parse($attendance->tanggal)->format('M d, hA') }}</th>
                 @endforeach
-            </tbody>
-        </table>
-        <a href="{{ route('admin.absen.create') }}" class="btn btn-success">Tambah Absen</a>
-    </div>
-</body>
-
-</html>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($students as $student)
+            <tr>
+                <td>{{ $student->email }}</td>
+                <td>{{ $student->total_sessions }}</td>
+                <td>{{ $student->present_sessions }} / {{ $student->total_sessions }}</td>
+                <td>{{ number_format($student->attendance_percentage, 1) }}%</td>
+                <!-- Tampilan untuk status kehadiran setiap sesi -->
+                @foreach ($attendances->unique('tanggal') as $attendance)
+                @php
+                $session = $attendances->where('user_id', $student->id)
+                ->where('tanggal', $attendance->tanggal)
+                ->first();
+                @endphp
+                <td>
+                    @if ($session)
+                    @if ($session->status == 'Hadir')
+                    H ({{ $session->point ?? '2' }}/2)
+                    @elseif ($session->status == 'Sakit')
+                    S
+                    @elseif ($session->status == 'Izin')
+                    I
+                    @else
+                    A
+                    @endif
+                    @else
+                    ?
+                    @endif
+                </td>
+                @endforeach
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@endsection

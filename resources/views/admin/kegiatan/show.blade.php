@@ -24,7 +24,7 @@
         }
 
         .btn-info,
-        .btn-warning{
+        .btn-warning {
             background-color: #ffc107;
             /* Hijau gelap */
             color: 212529;
@@ -32,21 +32,21 @@
         }
 
         .btn-info:hover,
-        .btn-warning:hover{
+        .btn-warning:hover {
             background-color: #ffc107;
             /* Hijau lebih gelap */
         }
 
         .btn-success {
-        background-color: #17d033;
-        /* Hijau gelap */
-        color: 212529;
-        border: none;
+            background-color: #17d033;
+            /* Hijau gelap */
+            color: 212529;
+            border: none;
         }
 
         .btn-success:hover {
-        background-color: #1b5e20;
-        /* Hijau lebih gelap */
+            background-color: #1b5e20;
+            /* Hijau lebih gelap */
         }
 
         .btn-danger {
@@ -80,7 +80,7 @@
                     <th>Waktu Mulai</th>
                     <th>Waktu Selesai</th>
                     <th>Kegiatan</th>
-                    <th>Aksi</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -91,14 +91,15 @@
                     <td>{{ $kegiatan->waktu_selesai }}</td>
                     <td>{{ $kegiatan->kegiatan }}</td>
                     <td class="text-center">
-                        <a href="{{ route('admin.kegiatan.edit', $kegiatan->id) }}"
-                            class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('admin.kegiatan.delete', $kegiatan->id) }}" method="POST"
+                        @if($kegiatan->status == 'pending')
+                        <form action="{{ route('admin.kegiatan.validasi', $kegiatan->id) }}" method="POST"
                             class="d-inline">
                             @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                            <button type="submit" class="btn btn-success btn-sm">Validasi</button>
                         </form>
+                        @else
+                        <span class="text-success">Sudah Tervalidasi</span>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
@@ -107,7 +108,6 @@
 
         <div class="d-flex justify-content-between mt-3">
             <a href="{{ route('admin.kegiatan.index') }}" class="btn btn-secondary">Kembali ke Daftar Siswa</a>
-            <a href="{{ route('admin.kegiatan.create') }}" class="btn btn-success">Tambah Kegiatan</a>
         </div>
     </div>
 </body>
