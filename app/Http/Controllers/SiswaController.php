@@ -73,6 +73,7 @@ class SiswaController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
+            'password' => 'nullable|min:8|confirmed',
             'city' => 'required|string|max:255',
             'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
@@ -85,6 +86,10 @@ class SiswaController extends Controller
         $siswa->email = $request->input('email');
         $siswa->city = $request->input('city');
 
+        if ($request->filled('password')) {
+            $siswa->password = bcrypt($request->input('password'));
+        }
+        
         // Proses upload foto jika ada
         if ($request->hasFile('profile_photo')) {
             // Cek jika foto lama ada dan hapus
@@ -187,5 +192,6 @@ class SiswaController extends Controller
         return redirect()->route('siswa.riwayat-kegiatan')->with('success', 'Kegiatan berhasil disimpan.');
     }
 // AKHIR KEGIATAN HARIAN
+
 
 }
