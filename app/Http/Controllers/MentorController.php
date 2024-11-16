@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Controllers\MentorController;
+
 use Illuminate\Http\Request;
 use App\Models\Absen;
+use App\Models\KegiatanHarian;
 use App\Models\User;
 
 class MentorController extends Controller
