@@ -13,15 +13,15 @@
         <h1 class="text-center mb-4">Edit Kegiatan Harian</h1>
 
         <!-- Formulir Edit Kegiatan -->
-        <form action="{{ route('admin.kegiatan.update', $kegiatan->id) }}" method="POST">
+        <form action="{{ route('admin.kegiatan.update', $kegiatans->id) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="mb-3">
                 <label for="user_id" class="form-label">Nama Siswa</label>
                 <select class="form-select" name="user_id" id="user_id" required>
                     <option value="">Pilih Siswa</option>
-                    @foreach($siswa as $user)
-                    <option value="{{ $user->id }}" {{ $kegiatan->user_id == $user->id ? 'selected' : '' }}>
+                    @foreach($students as $user)
+                    <option value="{{ $user->id }}" {{ $kegiatans->user_id == $user->id ? 'selected' : '' }}>
                         {{ $user->name }}
                     </option>
                     @endforeach
@@ -29,23 +29,23 @@
             </div>
             <div class="mb-3">
                 <label for="tanggal" class="form-label">Tanggal</label>
-                <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ $kegiatan->tanggal }}"
+                <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ $kegiatans->tanggal }}"
                     required>
             </div>
             <div class="mb-3">
                 <label for="waktu_mulai" class="form-label">Waktu Mulai</label>
                 <input type="time" class="form-control" id="waktu_mulai" name="waktu_mulai"
-                    value="{{ $kegiatan->waktu_mulai }}" required>
+                    value="{{ $kegiatans->waktu_mulai }}" required>
             </div>
             <div class="mb-3">
                 <label for="waktu_selesai" class="form-label">Waktu Selesai</label>
                 <input type="time" class="form-control" id="waktu_selesai" name="waktu_selesai"
-                    value="{{ $kegiatan->waktu_selesai }}" required>
+                    value="{{ $kegiatans->waktu_selesai }}" required>
             </div>
             <div class="mb-3">
                 <label for="kegiatan" class="form-label">Kegiatan</label>
                 <textarea class="form-control" id="kegiatan" name="kegiatan" rows="4"
-                    required>{{ $kegiatan->kegiatan }}</textarea>
+                    required>{{ $kegiatans->kegiatan }}</textarea>
             </div>
             <button type="submit" class="btn btn-success">Update</button>
             <a href="{{ route('admin.kegiatan.index') }}" class="btn btn-secondary">Batal</a>
