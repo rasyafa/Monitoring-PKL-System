@@ -84,8 +84,16 @@ Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function ()
 Route::middleware(['auth', CheckRole::class . ':mentor'])->group(function () {
     Route::get('/mentor/beranda', [MentorController::class, 'index'])->name('mentor.beranda');
 
-Route::get('/kegiatan', [MentorController::class, 'index']);
-Route::get('/kegiatansiswa', [MentorController::class, 'kegiatanSiswa'])->name('mentor.kegiatansiswa');
-Route::get('/kegiatan/{id}', [MentorController::class, 'detailKegiatan'])->name('mentor.detailKegiatan');
-Route::get('/mentor/absen', [MentorController::class, 'absenIndex'])->name('mentor.absenIndex');
-});
+    Route::get('/datasiswa', [MentorController::class, 'dataSiswa'])->name('mentor.datasiswa');
+    Route::get('/mentor/absen', [MentorController::class, 'absenIndex'])->name('mentor.absen');
+
+    Route::get('/kegiatan', [MentorController::class, 'kegiatanIndex'])->name('mentor.kegiatan'); // Menampilkan daftar kegiatan
+    Route::get('/kegiatan/show', [MentorController::class, 'kegiatanShow'])->name('mentor.detail');
+
+    Route::post('/kegiatan/{id}/validasi', [MentorController::class, 'validasiKegiatan'])->name('mentor.kegiatan.validasi');
+    Route::post('/kegiatan/{id}/revisi', [MentorController::class, 'revisiKegiatan'])->name('mentor.kegiatan.revisi');
+    Route::post('/kegiatan/{id}/update-catatan', [MentorController::class, 'updateCatatan'])->name('mentor.kegiatan.updateCatatan');
+
+    // Route::get('/kegiatan/{id}', [MentorController::class, 'detailKegiatan'])->name('mentor.detail');
+    // Route::get('/kegiatan/{id}/konfirmasi', function ($id) {return "Konfirmasi kegiatan dengan ID $id berhasil.";})->name('kegiatan.konfirmasi');
+    });
