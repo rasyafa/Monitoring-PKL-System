@@ -62,7 +62,7 @@ Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
 });
 
 
-//route pembimbing
+// Route untuk pembimbing dengan middleware
 Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function () {
     Route::get('/pembimbing/home', [PembimbingController::class, 'index'])->name('pembimbing.home');
 
@@ -72,7 +72,14 @@ Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function ()
     Route::get('/monitoring', [PembimbingController::class, 'indexkegiatan'])->name('monitoring');
     Route::get('/monitoring/create', [PembimbingController::class, 'create'])->name('pembimbing.create');
     Route::post('/monitoring/store', [PembimbingController::class, 'store'])->name('pembimbing.store');
+    Route::get('/monitoring/edit', [PembimbingController::class, 'edit'])->name('pembimbing.edit');
+    Route::put('/monitoring/update', [PembimbingController::class, 'update'])->name('pembimbing.update');
+
+    //Route dropdown siswa
     Route::get('/pembimbing/absen', [PembimbingController::class, 'absenIndex'])->name('pembimbing.absen');
+    Route::get('/pembimbing/datasiswa', [PembimbingController::class, 'dataSiswa'])->name('pembimbing.datasiswa');
+    Route::get('/kegiatan', [PembimbingController::class, 'kegiatanIndex'])->name('pembimbing.index'); // Menampilkan daftar kegiatan
+    Route::get('/kegiatan/show', [PembimbingController::class, 'kegiatanShow'])->name('pembimbing.show');
 });
 
 //route mentor
