@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\KegiatanHarian;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class SiswaController extends Controller
 {
@@ -66,16 +67,15 @@ class SiswaController extends Controller
     }
 
     // Fungsi untuk update data profil siswa
-    // Siswa2Controller.php
-
     public function update(Request $request, $id)
     {
         // Validasi data
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
+            'password' => 'nullable|min:8|confirmed',
             'city' => 'required|string|max:255',
-            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif', // Validasi foto
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         // Cari user berdasarkan ID
@@ -86,6 +86,10 @@ class SiswaController extends Controller
         $siswa->email = $request->input('email');
         $siswa->city = $request->input('city');
 
+        if ($request->filled('password')) {
+            $siswa->password = bcrypt($request->input('password'));
+        }
+        
         // Proses upload foto jika ada
         if ($request->hasFile('profile_photo')) {
             // Cek jika foto lama ada dan hapus
@@ -120,9 +124,16 @@ class SiswaController extends Controller
     {
         $request->validate([
             'status' => 'required',
-
         ]);
 
+        // / Batas waktu absen
+        $startTime = Carbon::createFromTime(7, 0, 0, 'Asia/Jakarta');
+        $endTime = Carbon::createFromTime(14, 0, 0, 'Asia/Jakarta');
+        $currentTime = Carbon::now('Asia/Jakarta');
+
+        if ($currentTime->lt($startTime) || $currentTime->gt($endTime)) {
+            return back()->withErrors(['error' => 'Absen hanya bisa dilakukan dari jam 07:00 hingga jam 14:00.']);
+        }
         // Cek apakah siswa sudah absen hari ini
         $existingAbsen = Absen::where('user_id', Auth::id())
             ->where('tanggal', today())
@@ -181,5 +192,6 @@ class SiswaController extends Controller
         return redirect()->route('siswa.riwayat-kegiatan')->with('success', 'Kegiatan berhasil disimpan.');
     }
 // AKHIR KEGIATAN HARIAN
+
 
 }
