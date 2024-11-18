@@ -78,12 +78,21 @@
 
         /* Tambahkan aturan ini untuk menyembunyikan konten saat sidebar terbuka */
         #page-content-wrapper {
-        transition: margin-left 0.25s ease-out; /* Pastikan transisi halus */
+            transition: margin-left 0.25s ease-out; /* Pastikan transisi halus */
         }
 
-        #menu-toggle {
-            cursor: pointer;
-            color: var(--toggle-color);
+        /* style untuk hamburer agar tetap di posisi */
+       #menu-toggle {
+            position: fixed; /* Tetap di layar meskipun konten di-scroll */
+            top: 20px; /* Jarak dari atas layar */
+            left: 15rem; /* Jarak dari tepi kiri layar (sejajar dengan sidebar) */
+            z-index: 1030; /* Pastikan tombol tetap di atas konten */
+            padding: 10px;
+    }
+
+
+        #wrapper.toggled #menu-toggle {
+            left: 0; /* Saat sidebar ditutup, tombol pindah ke tepi layar */
         }
 
         .list-group {
