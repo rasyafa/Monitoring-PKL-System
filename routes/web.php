@@ -6,6 +6,8 @@ use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\PembimbingController;
+use App\Http\Controllers\MentorController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,20 +32,12 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
 
     // Route untuk CRUD data Absen
-    Route::get('/absen', [AdminController::class, 'absenIndex'])->name('admin.absen.index'); // Menampilkan daftar absen
-    Route::get('/absen/create', [AdminController::class, 'absenCreate'])->name('admin.absen.create'); // Form untuk membuat absen baru
-    Route::post('/absen', [AdminController::class, 'absenStore'])->name('admin.absen.store'); // Menyimpan absen baru
-    Route::get('/absen/{id}/edit', [AdminController::class, 'absenEdit'])->name('admin.absen.edit'); // Form edit absen
-    Route::put('/absen/{id}', [AdminController::class, 'absenUpdate'])->name('admin.absen.update'); // Mengupdate absen
-    Route::delete('/absen/{id}', [AdminController::class, 'absenDelete'])->name('admin.absen.delete'); // Menghapus absen
+    Route::get('/admin/absen', [AdminController::class, 'absenIndex'])->name('admin.absen.index'); // Menampilkan daftar absen
 
     // Route untuk CRUD data Kegiatan Harian
-    Route::get('/kegiatan', [AdminController::class, 'kegiatanIndex'])->name('admin.kegiatan.index'); // Menampilkan daftar kegiatan
-    Route::get('/kegiatan/create', [AdminController::class, 'kegiatanCreate'])->name('admin.kegiatan.create'); // Form untuk membuat kegiatan baru
-    Route::post('/kegiatan', [AdminController::class, 'kegiatanStore'])->name('admin.kegiatan.store'); // Menyimpan kegiatan baru
-    Route::get('/kegiatan/{id}/edit', [AdminController::class, 'kegiatanEdit'])->name('admin.kegiatan.edit'); // Form edit kegiatan
-    Route::put('/kegiatan/{id}', [AdminController::class, 'kegiatanUpdate'])->name('admin.kegiatan.update'); // Mengupdate kegiatan
-    Route::delete('/kegiatan/{id}', [AdminController::class, 'kegiatanDelete'])->name('admin.kegiatan.delete'); // Menghapus kegiatan
+    Route::get('/kegiatan', [AdminController::class, 'kegiatanIndex'])->name('admin.kegiatan.index'); // Menampilkan daftar siswa
+    Route::get('/kegiatan/{id}', [AdminController::class, 'kegiatanShow'])->name('admin.kegiatan.show'); // Menampilkan kegiatan siswa yang dipilih
+    Route::post('/kegiatan/{id}/validasi', [AdminController::class, 'validasiKegiatan'])->name('admin.kegiatan.acc');
 });
 
 
@@ -62,9 +56,9 @@ Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
     Route::post('/absen', [SiswaController::class, 'absenStore'])->name('siswa.absen.store');
 
     // KEGIATAN HARIAN SISWA
-    Route::get('/siswa/riwayat-kegiatan', [SiswaController::class, 'kegiatan'])->name('siswa.riwayat-kegiatan');
-    Route::get('/siswa/kegiatan/create', [SiswaController::class, 'create'])->name('siswa.kegiatan.create');
-    Route::post('/siswa/kegiatan', [SiswaController::class, 'store'])->name('siswa.kegiatan.store');
+    Route::get('/riwayat-kegiatan', [SiswaController::class, 'kegiatan'])->name('siswa.riwayat-kegiatan');
+    Route::get('/kegiatan/create', [SiswaController::class, 'create'])->name('siswa.kegiatan.create');
+    Route::post('/kegiatan', [SiswaController::class, 'store'])->name('siswa.kegiatan.store');
 });
 
 
@@ -74,6 +68,7 @@ Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function ()
 
     // Route untuk monitoring
     Route::get('/pembimbing/kegiatan', [PembimbingController::class, 'indexkegiatan'])->name('pembimbing.monitoring');
+
     Route::get('/monitoring', [PembimbingController::class, 'indexkegiatan'])->name('monitoring');
     Route::get('/monitoring/create', [PembimbingController::class, 'create'])->name('pembimbing.create');
     Route::post('/monitoring/store', [PembimbingController::class, 'store'])->name('pembimbing.store');
@@ -87,4 +82,20 @@ Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function ()
     Route::get('/kegiatan/show', [PembimbingController::class, 'kegiatanShow'])->name('pembimbing.show');
 });
 
+Route::middleware(['auth', CheckRole::class . ':mentor'])->group(function () {
+    Route::get('/mentor/beranda', [MentorController::class, 'index'])->name('mentor.beranda');
+
+    Route::get('/datasiswa', [MentorController::class, 'dataSiswa'])->name('mentor.datasiswa');
+    Route::get('/mentor/absen', [MentorController::class, 'absenIndex'])->name('mentor.absen');
+
+    Route::get('/kegiatan', [MentorController::class, 'kegiatanIndex'])->name('mentor.kegiatan'); // Menampilkan daftar kegiatan
+    Route::get('/kegiatan/show', [MentorController::class, 'kegiatanShow'])->name('mentor.detail');
+
+    Route::post('/kegiatan/{id}/validasi', [MentorController::class, 'validasiKegiatan'])->name('mentor.kegiatan.validasi');
+    Route::post('/kegiatan/{id}/revisi', [MentorController::class, 'revisiKegiatan'])->name('mentor.kegiatan.revisi');
+    Route::post('/kegiatan/{id}/update-catatan', [MentorController::class, 'updateCatatan'])->name('mentor.kegiatan.updateCatatan');
+
+    // Route::get('/kegiatan/{id}', [MentorController::class, 'detailKegiatan'])->name('mentor.detail');
+    // Route::get('/kegiatan/{id}/konfirmasi', function ($id) {return "Konfirmasi kegiatan dengan ID $id berhasil.";})->name('kegiatan.konfirmasi');
+    });
 

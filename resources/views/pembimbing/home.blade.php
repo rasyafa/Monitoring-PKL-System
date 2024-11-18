@@ -252,6 +252,7 @@
         }
     </style>
 
+
     <div class="row">
         <div class="col-md-6">
             <div class="card income-card">
@@ -293,4 +294,117 @@
 
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Toggle sidebar on and off when the menu icon is clicked
+        var el = document.getElementById("wrapper");
+        var toggleButton = document.getElementById("menu-toggle");
+
+        toggleButton.onclick = function () {
+            el.classList.toggle("toggled");
+        };
+        // Chart.js - Diagram Batang untuk Data Siswa per Bulan
+        const ctxBar = document.getElementById('myBarChart').getContext('2d');
+        const myBarChart = new Chart(ctxBar, {
+            type: 'line',
+            data: {
+                labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+                datasets: [{
+                    label: 'Data Siswa',
+                    data: [39, 45, 40, 30, 60, 60, 50, 65, 70, 80, 55, 59, 100],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return tooltipItem.raw + ' Siswa';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                    x: {
+                        ticks: {
+                            maxRotation: window.innerWidth < 768 ? 45 : 0, // Rotasi teks bulan di mobile
+                            minRotation: window.innerWidth < 768 ? 45 : 0, // Rotasi teks bulan di mobile
+                            font: {
+                                size: window.innerWidth < 768 ? 10 : 12 // Mengatur ukuran font lebih kecil di mobile
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+
+
+        // FullCalendar
+        document.addEventListener('DOMContentLoaded', function () {
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    headerToolbar: {
+                        left: 'prev,next',
+                        center: 'title',
+                        right: ''
+                    },
+                    height: 'auto',
+                    events: [],
+                    datesSet: function (info) {
+                        // Update title with current month and year
+                        var monthNames = [
+                            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                        ];
+                        var currentMonth = monthNames[info.view.currentStart.getMonth()];
+                        var currentYear = info.view.currentStart.getFullYear();
+                        document.getElementById('calendar-title').textContent = 'Kalender ' + currentMonth + ' ' + currentYear;
+                    }
+                });
+                calendar.render();
+            });
+
+    </script>
+
 @endsection
