@@ -55,10 +55,15 @@ Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
     Route::get('/absen', [SiswaController::class, 'absenIndex'])->name('siswa.absen');
     Route::post('/absen', [SiswaController::class, 'absenStore'])->name('siswa.absen.store');
 
-    // KEGIATAN HARIAN SISWA
+    // LAPORAN HARIAN SISWA
     Route::get('/riwayat-kegiatan', [SiswaController::class, 'kegiatan'])->name('siswa.riwayat-kegiatan');
     Route::get('/kegiatan/create', [SiswaController::class, 'create'])->name('siswa.kegiatan.create');
     Route::post('/kegiatan', [SiswaController::class, 'store'])->name('siswa.kegiatan.store');
+
+    // LAPORAN AKHIR SISWA
+    Route::get('/laporan', [SiswaController::class, 'showRiwayatLaporan'])->name('laporan.riwayat');
+    Route::post('/laporan', [SiswaController::class, 'simpanLaporan'])->name('laporan.simpan');
+    Route::delete('/laporan/{id}', [SiswaController::class, 'hapusLaporan'])->name('laporan.hapus');
 });
 
 
