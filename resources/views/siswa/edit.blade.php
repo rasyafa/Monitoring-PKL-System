@@ -131,9 +131,9 @@
         </div>
 
         <!-- Form Edit Profil -->
-        <form action="{{ route('pembimbing.update', $kegiatan->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT') 
+        <form method="POST" action="{{ route('siswa.update', $siswa->id) }}" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
 
             <!-- Input Nama (full_name) -->
             <div class="form-group">

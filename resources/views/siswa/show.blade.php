@@ -29,7 +29,7 @@
             padding: 15px;
             background-color: white;
             border-radius: 8px;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         .menu-section h5 {
@@ -68,20 +68,29 @@
             justify-content: center;
             color: white;
             font-size: 50px;
-            border-radius:  50%;
+            border-radius: 50%;
             margin-bottom: 20px;
         }
 
         .d-flex {
             display: flex;
             justify-content: space-between;
-            gap: 20px;
+            gap: 40px;
         }
 
-        .menu-section,
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-header h3 {
+            margin-top: 10px;
+        }
+
         .profile-info {
             margin-top: 20px;
-            margin-bottom: 20px;
         }
 
         .btn-custom {
@@ -146,18 +155,22 @@
     <div class="container">
         <div class="card shadow-lg">
             <div class="card-body">
-                <div class="d-flex">
+                <div class="d-flex justify-content-center">
                     <!-- Bagian Kiri: Informasi Pribadi -->
                     <div class="col-md-6 profile-info">
-                        <div class="text-center">
-                            @if($siswa->profile_photo)
-                                <img src="{{ Storage::url($siswa->profile_photo) }}" alt="Foto Profil" class="profile-photo">
-                            @else
-                                <div class="profile-placeholder">{{ strtoupper(substr($siswa->username, 0, 1)) }}</div>
-                            @endif
+                        <div class="profile-header">
+                            <div class="text-center">
+                                @if($siswa->profile_photo)
+                                    <img src="{{ Storage::url($siswa->profile_photo) }}" alt="Foto Profil" class="profile-photo">
+                                @else
+                                    <div class="profile-placeholder d-flex align-items-center justify-content-center">
+                                        {{ strtoupper(substr($siswa->username, 0, 1)) }}
+                                    </div>
+                                @endif
+                            </div>
+                            <h3>{{ $siswa->name }}</h3>
                         </div>
 
-                        <h3 class="text-center">{{ $siswa->name }}</h3>
                         <p><b>Informasi pribadi</b></p>
                         <div class="mb-2">
                             <strong>Nama pengguna:</strong> <span>{{ $siswa->username }}</span>
@@ -175,7 +188,7 @@
                     </div>
 
                     <!-- Bagian Kanan: Menu -->
-                    <div class="col-md-5 mt-4">
+                    <div class="col-md-5 mt-5">
                         <div class="menu-section">
                             <h5>Detail Absen</h5>
                             <ul>
@@ -184,16 +197,16 @@
                         </div>
 
                         <div class="menu-section">
-                            <h5>Detail Kegiatan Harian</h5>
+                            <h5>Detail Laporan Harian</h5>
                             <ul>
-                                <li><a href="{{ route('siswa.riwayat-kegiatan') }}">Lihat Kegiatan Harian</a></li>
+                                <li><a href="{{ route('siswa.riwayat-kegiatan') }}">Lihat Laporan Harian</a></li>
                             </ul>
                         </div>
 
                         <div class="menu-section">
-                            <h5>Detail Nilai Akhir</h5>
+                            <h5>Detail Laporan Akhir</h5>
                             <ul>
-                                <li><a href="#">Lihat Nilai</a></li>
+                                <li><a href="#">Lihat Laporan Akhir</a></li>
                             </ul>
                         </div>
                     </div>
