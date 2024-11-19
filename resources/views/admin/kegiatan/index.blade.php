@@ -41,53 +41,75 @@
 
 @push('styles')
 <style>
-    body {
-        background-color: #f4f7f6;
-        /* Latar belakang abu-abu terang */
+    .content-container {
+        margin-left: 30px;
+    }
+
+    .card {
+        margin-bottom: 30px;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Tema hijau untuk tabel */
+    .table {
+        background-color: #f9f9f9;
+        /* Warna latar belakang tabel */
+    }
+
+    /* Mengatur lebar tabel agar lebih panjang */
+    .table th,
+    .table td {
+        text-align: center;
+        padding: 10px;
+    }
+
+    /* Mengatur lebar kolom Nama */
+    .table td:nth-child(2),
+    .table th:nth-child(2) {
+        width: 40%;
+        /* Mengatur kolom Nama lebih lebar */
+    }
+
+    /* Mengatur lebar kolom Aksi */
+    .table td:nth-child(3),
+    .table th:nth-child(3) {
+        width: 30%;
+        /* Mengatur kolom Aksi lebih lebar */
+    }
+
+    /* Membuat lebar kolom pertama tetap (No) */
+    .table td:nth-child(1),
+    .table th:nth-child(1) {
+        width: 10%;
+        /* Lebar kolom No lebih sempit */
+    }
+
+    .table th {
+        background-color: #32CD32;
+        /* Warna latar belakang header tabel */
+        color: white;
+        /* Warna teks header tabel */
+    }
+
+    .table td {
         color: #333;
-    }
-
-    h2 {
-        color: #2e7d32;
-        /* Hijau */
-    }
-
-    .table-striped>tbody>tr:nth-of-type(odd) {
-        background-color: #e8f5e9;
-        /* Baris hijau sangat terang */
-    }
-
-    .table-bordered thead {
-        background-color: #ffffff;
-        /* Header tabel putih */
-        color: #2e7d32;
-        /* Hijau tua untuk teks */
-        border-bottom: 2px solid #2e7d32;
-        /* Garis bawah header */
+        /* Warna teks sel tabel */
     }
 
     .btn-light-green {
-        background-color: #66bb6a;
-        /* Hijau cerah */
+        background-color: #3daf58ce;
+        /* Warna tombol hijau */
         color: white;
-        border: none;
+        /* Warna teks tombol */
     }
 
     .btn-light-green:hover {
-        background-color: #4caf50;
-        /* Hijau lebih gelap saat hover */
-    }
-
-    .btn-danger {
-        background-color: #ef5350;
-        /* Merah */
+        background-color: #218838;
+        /* Warna tombol saat hover */
         color: white;
-        border: none;
-    }
-
-    .btn-danger:hover {
-        background-color: #d32f2f;
-        /* Merah lebih gelap saat hover */
+        /* Warna teks tombol saat hover */
     }
 </style>
 @endpush
