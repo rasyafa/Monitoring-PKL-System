@@ -235,5 +235,35 @@ class SiswaController extends Controller
 
         return redirect()->route('laporan.riwayat')->with('success', 'Laporan berhasil dihapus.');
     }
-// AKHIR LAPORAN
+    // AKHIR LAPORAN
+
+// NOTIFIKASI
+    public function notifikasi()
+    {
+        // Ambil pengguna yang sedang login
+        $user = Auth::user();
+
+        // Pastikan hanya siswa yang dapat mengakses notifikasi
+        if ($user->role !== 'siswa') {
+            return redirect()->route('home')->with('error', 'Akses ditolak! Hanya siswa yang dapat mengakses notifikasi.');
+        }
+
+        // Tanggal hari ini
+        $tanggalHariIni = Carbon::today();
+
+        // Cek apakah siswa sudah absen hari ini
+        $absen = Absen::where('user_id',
+            $user->id
+        )
+        ->where('tanggal', $tanggalHariIni)
+        ->first();
+
+        // Cek apakah siswa sudah mengisi laporan harian hari ini
+        $laporanHarian = KegiatanHarian::where('user_id', $user->id)
+        ->where('tanggal', $tanggalHariIni)
+        ->get();
+
+        // Return ke view notifikasi
+        return view('siswa.notifikasi', compact('user', 'absen', 'laporanHarian', 'tanggalHariIni'));
+    }
 }

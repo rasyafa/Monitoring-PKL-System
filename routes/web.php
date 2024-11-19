@@ -64,6 +64,9 @@ Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
     Route::get('/laporan', [SiswaController::class, 'showRiwayatLaporan'])->name('laporan.riwayat');
     Route::post('/laporan', [SiswaController::class, 'simpanLaporan'])->name('laporan.simpan');
     Route::delete('/laporan/{id}', [SiswaController::class, 'hapusLaporan'])->name('laporan.hapus');
+
+    // NOTIFIKASI
+    Route::get('/notifikasi', [SiswaController::class, 'notifikasi'])->name('siswa.notifikasi');
 });
 
 
