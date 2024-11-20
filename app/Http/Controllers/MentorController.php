@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Absen;
 use App\Models\KegiatanHarian;
 use App\Models\User;
+use App\Models\LaporanAkhir;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
