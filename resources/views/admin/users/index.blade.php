@@ -2,7 +2,7 @@
 
 @section('title', 'Manage Users')
 
-@section('page-title', 'Manage Users')
+@section('page-title', 'Manajemen Pengguna')
 
 @push('styles')
 <style>
@@ -82,10 +82,10 @@
 <div class="content-container">
     <div class="card">
         <div class="card-header">
-            Manage Users
+            Manajemen Pengguna
         </div>
         <div class="card-body">
-            <a href="{{ route('admin.users.create') }}" class="btn btn-success mb-4">Add New User</a>
+            <a href="{{ route('admin.users.create') }}" class="btn btn-success mb-4">Tambah Pengguna</a>
             <div class="table-container">
                 <table class="table table-bordered">
                     <thead>
@@ -114,7 +114,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Are you sure?')">Delete</button>
+                                        onclick="return confirm('Are you sure?')">Hapus</button>
                                 </form>
                             </td>
                         </tr>

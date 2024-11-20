@@ -78,12 +78,21 @@
 
         /* Tambahkan aturan ini untuk menyembunyikan konten saat sidebar terbuka */
         #page-content-wrapper {
-        transition: margin-left 0.25s ease-out; /* Pastikan transisi halus */
+            transition: margin-left 0.25s ease-out; /* Pastikan transisi halus */
         }
 
-        #menu-toggle {
-            cursor: pointer;
-            color: var(--toggle-color);
+        /* style untuk hamburer agar tetap di posisi */
+       #menu-toggle {
+            position: fixed; /* Tetap di layar meskipun konten di-scroll */
+            top: 20px; /* Jarak dari atas layar */
+            left: 15rem; /* Jarak dari tepi kiri layar (sejajar dengan sidebar) */
+            z-index: 1030; /* Pastikan tombol tetap di atas konten */
+            padding: 10px;
+    }
+
+
+        #wrapper.toggled #menu-toggle {
+            left: 0; /* Saat sidebar ditutup, tombol pindah ke tepi layar */
         }
 
         .list-group {
@@ -139,7 +148,7 @@
                 </a>
                 <a href="{{ route('admin.users.index') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-users me-2"></i>Manage Users
+                    <i class="fas fa-users me-2"></i>Manajemen Pengguna
                 </a>
                 <a href="{{ route('admin.absen.index') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
@@ -149,7 +158,7 @@
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-file-alt me-2"></i>Data Laporan Harian
                 </a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                <a href="{{ route('admin.laporan-akhir') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-file-alt me-2"></i>Data Laporan Akhir
                 </a>
                 <form action="{{ route('logout') }}" method="POST">
@@ -157,7 +166,7 @@
                     <button type="submit"
                         class="list-group-item list-group-item-action bg-transparent text-danger fw-bold mt-2"
                         style="border: none; background: none;">
-                        <i class="fas fa-power-off me-2"></i>Log out
+                        <i class="fas fa-power-off me-2"></i>Keluar
                     </button>
                 </form>
             </div>
