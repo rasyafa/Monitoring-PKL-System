@@ -133,7 +133,7 @@
         <!-- Form Edit Profil -->
         <form action="{{ route('pembimbing.update', $kegiatan->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
-        @method('PUT') 
+        @method('PUT')
 
             <!-- Input Nama (full_name) -->
             <div class="form-group">
@@ -150,22 +150,6 @@
                 <label for="username">Nama pengguna</label>
                 <input type="text" class="form-control" id="username" name="username" value="{{ $siswa->username }}"
                     disabled>
-            </div>
-
-            <!-- Input Password -->
-            <div class="form-group">
-                <label for="password">Kata Sandi Baru</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password baru">
-                @error('password')
-                <div class="error-message">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <!-- Input Konfirmasi Password -->
-            <div class="form-group">
-                <label for="password_confirmation">Konfirmasi Kata Sandi</label>
-                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
-                    placeholder="Konfirmasi password baru">
             </div>
 
             <!-- Input Email -->

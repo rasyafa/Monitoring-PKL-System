@@ -1,5 +1,5 @@
 <!-- resources/views/pembimbing/dashboard.blade.php -->
-@extends('layouts.app')
+@extends('layouts.pembimbing')
 
 @section('title', 'Dashboard Pembimbing') <!-- Set judul halaman -->
 
