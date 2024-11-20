@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+<@extends('layouts.mentor')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Absen Siswa</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+@section('title', 'Data Siswa')
+
+@section('header', 'Data Siswa')
+
+@section('content')
     <style>
         .btn-secondary-custom {
             background-color: #6c757d;
@@ -49,6 +48,4 @@
                 <a href="{{ route('mentor.beranda') }}" class="btn btn-secondary-custom">Kembali</a>
             </div> --}}
     </div>
-</body>
-
-</html>
+@endsection
