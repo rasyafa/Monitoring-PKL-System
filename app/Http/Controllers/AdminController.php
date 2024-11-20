@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Absen;
 use App\Models\KegiatanHarian;
+use App\Models\LaporanAkhir;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -204,6 +205,26 @@ class AdminController extends Controller
 
         return redirect()->route('admin.kegiatan.show', $kegiatan->user_id)
         ->with('success', 'Kegiatan telah diterima (ACC).');
+    }
+
+    // LAPORAN AKHIR
+    public function laporanAkhirIndex()
+    {
+        $students = User::where('role', 'siswa')->get();
+        $laporans = LaporanAkhir::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
+        return view('admin.laporan-akhir', compact('students', 'laporans'));
+    }
+
+    public function laporanAkhirShow($id)
+    {
+        // Cari siswa berdasarkan ID
+        $students = User::findOrFail($id);
+
+        // Ambil data laporan akhir berdasarkan ID siswa
+        $laporans = LaporanAkhir::where('user_id', $id)->get();
+
+        // Kirim data ke view
+        return view('admin.laporan', compact('students', 'laporans'));
     }
 
 }

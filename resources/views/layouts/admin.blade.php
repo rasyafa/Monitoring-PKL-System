@@ -148,7 +148,7 @@
                 </a>
                 <a href="{{ route('admin.users.index') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-users me-2"></i>Manage Users
+                    <i class="fas fa-users me-2"></i>Manajemen Pengguna
                 </a>
                 <a href="{{ route('admin.absen.index') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
@@ -158,7 +158,7 @@
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-file-alt me-2"></i>Data Laporan Harian
                 </a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                <a href="{{ route('admin.laporan-akhir') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-file-alt me-2"></i>Data Laporan Akhir
                 </a>
                 <form action="{{ route('logout') }}" method="POST">
@@ -166,7 +166,7 @@
                     <button type="submit"
                         class="list-group-item list-group-item-action bg-transparent text-danger fw-bold mt-2"
                         style="border: none; background: none;">
-                        <i class="fas fa-power-off me-2"></i>Log out
+                        <i class="fas fa-power-off me-2"></i>Keluar
                     </button>
                 </form>
             </div>

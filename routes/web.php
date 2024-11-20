@@ -19,11 +19,11 @@ Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// routes admin
+// routes ADMIN
 Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-    //Route untuk manajemen user
+    //Route untuk  MANAJEMEN PENGGUNA
     Route::get('/users', [AdminController::class, 'manageUsers'])->name('admin.users.index');
     Route::get('/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
     Route::post('/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
@@ -31,13 +31,17 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
 
-    // Route untuk CRUD data Absen
+    // Route untuk ABSENSI
     Route::get('/admin/absen', [AdminController::class, 'absenIndex'])->name('admin.absen.index'); // Menampilkan daftar absen
 
-    // Route untuk CRUD data Kegiatan Harian
+    // Route untuk KEGIATAN HARIAN
     Route::get('/kegiatan', [AdminController::class, 'kegiatanIndex'])->name('admin.kegiatan.index'); // Menampilkan daftar siswa
     Route::get('/kegiatan/{id}', [AdminController::class, 'kegiatanShow'])->name('admin.kegiatan.show'); // Menampilkan kegiatan siswa yang dipilih
     Route::post('/kegiatan/{id}/validasi', [AdminController::class, 'validasiKegiatan'])->name('admin.kegiatan.acc');
+
+    // Route untuk LAPORAN AKHIR
+    Route::get('/laporan-akhir', [AdminController::class, 'laporanAkhirIndex'])->name('admin.laporan-akhir');
+    Route::get('/laporan-akhir/{id}', [AdminController::class, 'laporanAkhirShow'])->name('admin.laporan');
 });
 
 
