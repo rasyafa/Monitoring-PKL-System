@@ -1,8 +1,8 @@
 @extends('layouts.mentor')
 
-@section('title', 'Data Logbook Siswa')
+@section('title', 'Data Kegiatan Harian')
 
-@section('page-title', 'Data Logbook Siswa')
+@section('page-title', 'Kegiatan Harian Siswa')
 
 @section('content')
 <div class="container mt-5">
@@ -26,7 +26,7 @@
                         <td class="text-center">{{ $index + 1 }}</td>
                         <td>{{ $siswa->name }}</td>
                         <td class="text-center">
-                            <a href="{{ route('admin.kegiatan.show', $siswa->id) }}" class="btn btn-light-green btn-sm">
+                            <a href="{{ route('mentor.detail', $siswa->id) }}" class="btn btn-light-green btn-sm">
                                 Lihat laporan {{ $siswa->name }}
                             </a>
                         </td>

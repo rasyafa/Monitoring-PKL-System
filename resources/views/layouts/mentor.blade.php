@@ -94,7 +94,7 @@
             <div class="list-group list-group-flush my-3">
                 <a href="{{ route('mentor.beranda') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-home me-2"></i>Beranda</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                <a href="{{ route('mentor.profil', Auth::user()->id) }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-user me-2"></i>Profil</a>
                 <a class="list-group-item list-group-item-action bg-transparent second-text fw-bold dropdown-toggle"
                     data-bs-toggle="collapse" href="#manageUsersDropdown" role="button" aria-expanded="false"
@@ -108,9 +108,9 @@
                         <li><a href="{{ route('mentor.absen') }}" class="list-group-item list-group-item-action bg-transparent second-text">
                                 <i class="fas fa-chalkboard-teacher me-2"></i>Absen</a></li>
                         <li><a href="{{ route('mentor.kegiatan') }}" class="list-group-item list-group-item-action bg-transparent second-text">
-                                <i class="fas fa-handshake me-2"></i>Kegiatan Harian</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action bg-transparent second-text">
-                                <i class="fas fa-user-tie me-2"></i>Nilai</a></li>
+                                <i class="fas fa-file-alt me-2"></i>Kegiatan Harian</a></li>
+                        <li><a href="{{ route('mentor.laporan') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                                <i class="fas fa-file-alt me-2"></i>Data Laporan Akhir</a></li>
                     </ul>
                 </div>
                 <form action="{{ route('logout') }}" method="POST">
@@ -129,7 +129,6 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
                 <div class="d-flex align-items-center">
                     <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
-                    <h2>@yield('header', 'Dashboard')</h2>
                 </div>
             </nav>
             @yield('content')
