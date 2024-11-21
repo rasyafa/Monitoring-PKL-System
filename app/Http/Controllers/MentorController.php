@@ -13,12 +13,6 @@ use Illuminate\Support\Facades\Auth;
 class MentorController extends Controller
 {
 
-     public function da()
-    {
-        $siswa = Siswa::all(); // Ambil semua data siswa
-        return view('mentor.dashboard', compact('siswa'));
-    }
-
     public function index()
     {
         // Data retrieval (if needed)

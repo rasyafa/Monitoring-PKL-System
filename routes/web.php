@@ -123,12 +123,11 @@ Route::middleware(['auth', CheckRole::class . ':mentor'])->group(function () {
 
     // Route::get('/kegiatan/{id}', [MentorController::class, 'detailKegiatan'])->name('mentor.detail');
     // Route::get('/kegiatan/{id}/konfirmasi', function ($id) {return "Konfirmasi kegiatan dengan ID $id berhasil.";})->name('kegiatan.konfirmasi');
-    });
 
     // PROFILE MENTOR
-    Route::get('profil/{id}', [MentorController::class, 'profil'])->name('mentor.profil');
-    Route::get('profil/{id}/edit', [MentorController::class, 'edit'])->name('mentor.edit');
-    Route::put('profil/{id}', [MentorController::class, 'update'])->name('mentor.update');
+    Route::get('mentor/{id}', [MentorController::class, 'profil'])->name('mentor.profil');
+    Route::get('mentor/{id}/edit', [MentorController::class, 'edit'])->name('mentor.edit');
+    Route::put('mentor/{id}', [MentorController::class, 'update'])->name('mentor.update');
 
     // Route untuk LAPORAN AKHIR
     Route::get('/laporan-akhir', [MentorController::class, 'laporanAkhirIndex'])->name('mentor.laporan');
