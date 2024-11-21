@@ -4,7 +4,7 @@
   <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
 
-  <!-- Container for Cards -->
+ <!-- Container for Cards -->
   <div class="container">
       <!-- Combined Card for Absen Notification and Activity Report -->
       <div class="card mb-4" style="max-width: 900px; margin: 0 auto;">
@@ -12,18 +12,31 @@
               <h4>Notifikasi Absen dan Laporan Kegiatan</h4>
           </div>
           <div class="card-body">
-              <!-- Absen Notification Section inside a box -->
-              <div class="box-container mb-3">
-                  <p><strong>Perhatian:</strong> Jangan lupa untuk melakukan absen sebelum jam 14:00!</p>
-              </div>
-
-              <!-- Divider between Absen and Laporan Kegiatan -->
-              <hr>
-
-              <!-- Laporan Kegiatan Section inside a box -->
-              <div class="box-container">
-                  <p><strong>Segera isi laporan kegiatan Anda.</strong>harap mengisi laporan harian setelah belajar hari ini.</p>
-              </div>
+              @if(!$Absen && !$IsiLaporan)
+                  <!-- Jika belum absen dan belum isi laporan -->
+                  <div class="box-container mb-3">
+                      <p><strong>Perhatian:</strong> Jangan lupa untuk melakukan absen sebelum jam 14:00!</p>
+                  </div>
+                  <hr>
+                  <div class="box-container">
+                      <p><strong>Segera isi laporan kegiatan Anda.</strong> Harap mengisi laporan harian setelah belajar hari ini.</p>
+                  </div>
+              @elseif(!$Absen)
+                  <!-- Jika belum absen -->
+                  <div class="box-container mb-3">
+                      <p><strong>Perhatian:</strong> Jangan lupa untuk melakukan absen sebelum jam 14:00!</p>
+                  </div>
+              @elseif(!$IsiLaporan)
+                  <!-- Jika belum isi laporan -->
+                  <div class="box-container">
+                      <p><strong>Segera isi laporan kegiatan Anda.</strong> Harap mengisi laporan harian setelah belajar hari ini.</p>
+                  </div>
+              @else
+                  <!-- Jika sudah absen dan isi laporan -->
+                  <div class="box-container">
+                      <p><strong>Semua tugas telah selesai.</strong> Terima kasih atas kedisiplinan Anda!</p>
+                  </div>
+              @endif
           </div>
       </div>
   </div>

@@ -1,6 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.pembimbing')
 
-@section('title', 'Dashboard Pembimbing') <!-- Set judul halaman -->
+@section('title', 'Data Logbook Siswa')
+
+@section('page-title', 'Data Logbook Siswa')
 
 @section('content')
 
@@ -111,7 +113,7 @@
         </table>
 
         <div class="d-flex justify-content-between mt-3">
-            <a href="{{ route('pembimbing.index') }}" class="btn btn-secondary">Kembali ke Daftar Kegiatan</a>
+            <a href="{{ route('pembimbing.laporanharian') }}" class="btn btn-secondary">Kembali ke Daftar Kegiatan</a>
         </div>
     </div>
     @endsection
