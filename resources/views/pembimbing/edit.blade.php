@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.pembimbing')
 
-@section('title', 'Data Siswa')
+@section('title', 'Edit Kegiatan')
 
-@section('header', 'Data Siswa')
+@section('header', 'Edit Kegiatan')
 
 @section('content')
     <style>
@@ -18,91 +18,66 @@
             background-color: #ffffff;
         }
 
-         .btn-custom {
+        .btn-primary {
             background-color: #03d703;
             border-color: #03d703;
-            color: white;
         }
 
-        .btn-custom:hover {
-            background-color: #028d02;
-            border-color: #028d02;
-        }
-
-        .btn-secondary-custom {
-            background-color: #6c757d;
-            border-color: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary-custom:hover {
-            background-color: #5a6268;
-            border-color: #5a6268;
-        }
-
-        body,
-        label,
-        h2 {
-            color: black;
-        }
-
-        /* Styling untuk textarea */
-        textarea {
-            resize: vertical;
-            min-height: 100px;
+        .btn-primary:hover {
+            background-color: #02be02;
+            border-color: #02be02;
         }
     </style>
 
+    <div>
+        <form action="{{ route('pembimbing.update', $kegiatan->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
 
+            <!-- Input Tanggal -->
+            <div class="mb-3">
+                <label for="tanggal" class="form-label">Tanggal</label>
+                <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ $kegiatan->tanggal }}" required>
+            </div>
 
-        <!-- Form untuk mengedit kegiatan -->
-        <form action="{{ route('pembimbing.update') }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    @method('PUT') <!-- Menandakan bahwa ini adalah request PUT -->
+            <!-- Input Kegiatan -->
+            <div class="mb-3">
+                <label for="kegiatan" class="form-label">Kegiatan</label>
+                <textarea class="form-control" id="kegiatan" name="kegiatan" rows="4" required>{{ $kegiatan->kegiatan }}</textarea>
+            </div>
 
-    <!-- Input Tanggal -->
-    <div class="form-group">
-        <label for="tanggal">Tanggal</label>
-        <input type="date" name="tanggal" class="form-control @error('tanggal') is-invalid @enderror" value="{{ $kegiatan->tanggal }}" required>
-        @error('tanggal')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
+            <!-- Input Gambar -->
+            <div class="mb-3">
+                <label for="image" class="form-label">Gambar</label>
+                <input type="file" class="form-control" id="image" name="image" onchange="previewImage(event)">
+                <small>Gambar saat ini:</small><br>
+                <img id="currentImage" src="{{ asset('storage/gambar/' . $kegiatan->image) }}" alt="Current Image" width="100">
+                <div id="preview-container" style="display: none;">
+                    <small>Preview:</small><br>
+                    <img id="preview-image" src="#" alt="Preview Image" width="100">
+                </div>
+            </div>
+
+            <!-- Tombol Submit -->
+            <button type="submit" class="btn btn-primary">Perbarui</button>
+        </form>
     </div>
 
-    <!-- Input Kegiatan (Textarea) -->
-    <div class="form-group">
-        <label for="kegiatan">Kegiatan</label>
-        <textarea name="kegiatan" class="form-control @error('kegiatan') is-invalid @enderror" rows="4" required>{{ $kegiatan->kegiatan }}</textarea>
-        @error('kegiatan')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const currentImage = document.getElementById('currentImage');
+            const previewContainer = document.getElementById('preview-container');
+            const previewImage = document.getElementById('preview-image');
 
-    <!-- Input Image -->
-    <div class="mb-3">
-       <label for="image" class="form-label">Gambar</label>
-                <input type="file" class="form-control" id="image" name="image">
-        @error('image')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-
-        @if($kegiatan->image)
-           <small>Gambar saat ini:</small><br>
-                <img src="{{ asset('storage/gambar/' . $kegiatan->image) }}" width="100">
-        @endif
-
-    </div>
-
-    <!-- Tombol Edit dan Kembali -->
-    <div class="btn-container">
-        <button type="submit" class="btn btn-primary">Perbarui Kegiatan</button>
-        <a href="{{ route('pembimbing.monitoring') }}" class="btn btn-secondary-custom">Kembali</a>
-    </div>
-    {{-- <div class="btn-container">
-                <button type="submit" class="btn btn-primary">Tambah Kegiatan</button>
-                <a href="{{ route('pembimbing.home') }}" class="btn btn-secondary-custom">Kembali</a>
-            </div> --}}
-</form>
-    </div>
-
-    @endsection
+            if (file) {
+                previewImage.src = URL.createObjectURL(file);
+                previewContainer.style.display = 'block';
+                currentImage.style.display = 'none';
+            } else {
+                previewContainer.style.display = 'none';
+                currentImage.style.display = 'block';
+            }
+        }
+    </script>
+@endsection

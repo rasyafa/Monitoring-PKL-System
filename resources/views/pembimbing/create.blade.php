@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.pembimbing')
 
 @section('title', 'Data Siswa')
 
@@ -26,17 +26,6 @@
         .btn-primary:hover {
             background-color: #02be02;
             border-color: #02be02;
-        }
-
-        .btn-secondary-custom {
-            background-color: #6c757d;
-            border-color: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary-custom:hover {
-            background-color: #5a6268;
-            border-color: #5a6268;
         }
 
         body,
@@ -80,9 +69,7 @@
     <!-- Tombol Tambah dan kembali -->
             <div class="btn-container">
                 <button type="submit" class="btn btn-primary">Tambah Kegiatan</button>
-                <a href="{{ route('pembimbing.home') }}" class="btn btn-secondary-custom">Kembali</a>
             </div>
 </form>
     </div>
     @endsection
-

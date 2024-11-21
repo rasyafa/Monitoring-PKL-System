@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.pembimbing')
 
 @section('title', 'Data Logbook Siswa')
 
@@ -78,7 +78,7 @@
                         <td class="text-center">{{ $index + 1 }}</td>
                         <td>{{ $siswa->name }}</td>
                         <td class="text-center">
-                            <a href="{{ route('admin.kegiatan.show', $siswa->id) }}" class="btn btn-light-green btn-sm">
+                            <a href="{{ route('pembimbing.show', $siswa->id) }}" class="btn btn-light-green btn-sm">
                                 Lihat laporan {{ $siswa->name }}
                             </a>
                         </td>
