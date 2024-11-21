@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Auth;
 class MentorController extends Controller
 {
 
-     public function da()
-    {
-        $siswa = Siswa::all(); // Ambil semua data siswa
-        return view('mentor.dashboard', compact('siswa'));
-    }
+    //  public function da()
+    // {
+    //     $siswa = Siswa::all(); // Ambil semua data siswa
+    //     return view('mentor.dashboard', compact('siswa'));
+    // }
 
     public function index()
     {
@@ -53,35 +53,23 @@ class MentorController extends Controller
         return view('mentor.detail', compact('students', 'kegiatans'));
     }
 
-    public function validasiKegiatan($id)
+    public function updateStatus(Request $request, $id)
     {
         $kegiatan = KegiatanHarian::findOrFail($id);
-        $kegiatan->status = 'acc';
-        $kegiatan->save();
-
-        return redirect()->route('mentor.detail', $kegiatan->user_id)->with('success', 'Kegiatan telah di ACC');
-    }
-
-    public function revisiKegiatan($id)
-    {
-        $kegiatan = KegiatanHarian::findOrFail($id);
-        $kegiatan->status = 'revisi';
-        $kegiatan->save();
-
-        return redirect()->route('mentor.detail', $kegiatan->user_id)->with('success', 'Kegiatan memerlukan revisi');
-    }
-
-    public function updateCatatan(Request $request, $id)
-    {
         $request->validate([
-            'catatan' => 'nullable|string|max:255',
+            'status' => 'required|in:acc,revisi',
         ]);
 
-        $kegiatan = KegiatanHarian::findOrFail($id);
-        $kegiatan->catatan = $request->catatan;
-        $kegiatan->save();
+        $kegiatan->update(['status' => $request->status]);
+        return redirect()->back()->with('success', 'Status berhasil diperbarui.');
+    }
 
-        return redirect()->route('mentor.detail', $kegiatan->user_id)->with('success', 'Catatan berhasil disimpan');
+    // Update catatan
+    public function updateCatatan(Request $request, $id)
+    {
+        $kegiatan = KegiatanHarian::findOrFail($id);
+        $kegiatan->update(['catatan' => $request->catatan]);
+        return redirect()->back()->with('success', 'Catatan berhasil diperbarui.');
     }
 
     // PROFILE
