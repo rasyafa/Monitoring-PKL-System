@@ -6,99 +6,37 @@
 
 @section('content')
 <style>
-    body {
-        background-color: #f9fafb;
-        font-family: Arial, sans-serif;
-    }
 
-    .container {
-        max-width: 100%;
-        padding: 20px;
-        margin: auto;
-    }
-
-    .card {
-        background-color: #ffffff;
-        border-radius: 10px;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-    }
-
-    h2 {
+        h2{
+        background-color: transparent;
         font-size: 1.5rem;
         font-weight: bold;
-        color: #16bb40;
-        text-align: center;
-        margin-bottom: 20px;
-    }
+        color: #333;
+        padding: 5px;
+        border-bottom: none;
+        }
 
-    .table-responsive {
-        overflow-x: auto;
-        /* Untuk layar kecil, memungkinkan scroll horizontal */
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
+        /* Memberikan padding pada card */
+        .card {
         margin-top: 20px;
-    }
+        padding: 20px;
+        border: 1px solid #ffffff;
+        border-radius: px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Bayangan sangat ringan */
+        }
 
-    thead {
-        background-color: #007bff;
-        color: white;
-    }
-
-    th,
-    td {
+        /* style untuk th */
+        th {
+        background-color: #3dd83d !important; /* Pastikan aturan ini prioritas */
+        color: white !important;
         text-align: center;
-        padding: 12px;
-        border: 1px solid #dee2e6;
-        word-wrap: break-word;
-    }
+        }
 
-    tbody tr:nth-child(odd) {
-        background-color: #f8f9fa;
-    }
+        /* Tambahan untuk tampilan tabel */
+        .table-responsive {
+        overflow-x: auto;
+        }
 
-    tbody tr:nth-child(even) {
-        background-color: #ffffff;
-    }
-
-    tbody tr:hover {
-        background-color: #e9ecef;
-        cursor: pointer;
-    }
-
-    /* Highlight status attendance */
-    td {
-        font-size: 14px;
-        vertical-align: middle;
-    }
-
-    td:contains('Hadir') {
-        color: #1bc84e;
-        font-weight: bold;
-    }
-
-    td:contains('Sakit') {
-        color: #ffc107;
-        font-weight: bold;
-    }
-
-    td:contains('Izin') {
-        color: #17a2b8;
-        font-weight: bold;
-    }
-
-    td:contains('Absen') {
-        color: #dc3545;
-        font-weight: bold;
-    }
-
-    td:contains('?') {
-        color: #6c757d;
-        font-style: italic;
-    }
 </style>
 
 <div class="container">

@@ -78,21 +78,32 @@ Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
 Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function () {
     Route::get('/pembimbing/home', [PembimbingController::class, 'index'])->name('pembimbing.home');
 
+    //Route Profile
+    Route::get('/profilepembimbing/{id}', [PembimbingController::class, 'profil'])->name('pembimbing.profil');
+    Route::get('/profilepembimbing/edit/{id}', [PembimbingController::class, 'editprofil'])->name('pembimbing.editprofil');
+    Route::put('/profilepembimbing/{id}', [PembimbingController::class, 'update1'])->name('pembimbing.update1');
+
     // Route untuk monitoring
     Route::get('/pembimbing/kegiatan', [PembimbingController::class, 'indexkegiatan'])->name('pembimbing.monitoring');
-
     Route::get('/monitoring', [PembimbingController::class, 'indexkegiatan'])->name('monitoring');
     Route::get('/monitoring/create', [PembimbingController::class, 'create'])->name('pembimbing.create');
     Route::post('/monitoring/store', [PembimbingController::class, 'store'])->name('pembimbing.store');
-    Route::get('/monitoring/edit', [PembimbingController::class, 'edit'])->name('pembimbing.edit');
-    Route::put('/monitoring/update', [PembimbingController::class, 'update'])->name('pembimbing.update');
+    Route::get('pembimbing/edit/{id}', [PembimbingController::class, 'edit'])->name('pembimbing.edit');
+    Route::put('pembimbing/update/{id}', [PembimbingController::class, 'update'])->name('pembimbing.update');
+
 
     //Route dropdown siswa
+        //route absen
     Route::get('/pembimbing/absen', [PembimbingController::class, 'absenIndex'])->name('pembimbing.absen');
     Route::get('/pembimbing/datasiswa', [PembimbingController::class, 'dataSiswa'])->name('pembimbing.datasiswa');
-    Route::get('/kegiatan', [PembimbingController::class, 'kegiatanIndex'])->name('pembimbing.index'); // Menampilkan daftar kegiatan
-    Route::get('/kegiatan/show', [PembimbingController::class, 'kegiatanShow'])->name('pembimbing.show');
+        //route laporan harian siswa
+    Route::get('/laporanharian', [PembimbingController::class, 'kegiatanIndex'])->name('pembimbing.laporanharian'); // Menampilkan daftar kegiatan
+    Route::get('/laporanharian/show/{id}', [PembimbingController::class, 'kegiatanShow'])->name('pembimbing.show');
+    // //route untuk laporan akhir
+    Route::get('laporansiswa', [PembimbingController::class, 'laporanAkhirIndex'])->name('pembimbing.laporan');
+    Route::get('laporanakhir/{id}', [PembimbingController::class, 'laporanAkhirShow'])->name('pembimbing.laporanakhir');
 });
+
 
 //route mentor
 Route::middleware(['auth', CheckRole::class . ':mentor'])->group(function () {
@@ -107,10 +118,13 @@ Route::middleware(['auth', CheckRole::class . ':mentor'])->group(function () {
     Route::post('mentor/kegiatan/{id}/status', [MentorController::class, 'updateStatus'])->name('mentor.kegiatan.updateStatus');
 Route::post('mentor/kegiatan/{id}/catatan', [MentorController::class, 'updateCatatan'])->name('mentor.kegiatan.updateCatatan');
 
+    // Route::get('/kegiatan/{id}', [MentorController::class, 'detailKegiatan'])->name('mentor.detail');
+    // Route::get('/kegiatan/{id}/konfirmasi', function ($id) {return "Konfirmasi kegiatan dengan ID $id berhasil.";})->name('kegiatan.konfirmasi');
+
     // PROFILE MENTOR
-    Route::get('profil/{id}', [MentorController::class, 'profil'])->name('mentor.profil');
-    Route::get('profil/{id}/edit', [MentorController::class, 'edit'])->name('mentor.edit');
-    Route::put('profil/{id}', [MentorController::class, 'update'])->name('mentor.update');
+    Route::get('mentor/{id}', [MentorController::class, 'profil'])->name('mentor.profil');
+    Route::get('mentor/{id}/edit', [MentorController::class, 'edit'])->name('mentor.edit');
+    Route::put('mentor/{id}', [MentorController::class, 'update'])->name('mentor.update');
 
     // Route untuk LAPORAN AKHIR
     Route::get('/laporan-akhir', [MentorController::class, 'laporanAkhirIndex'])->name('mentor.laporan');

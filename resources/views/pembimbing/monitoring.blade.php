@@ -1,14 +1,18 @@
-@extends('layouts.app')
+@extends('layouts.pembimbing')
 
-@section('title', 'Data Siswa')
+@section('title', 'Data Kegiatan')
 
-@section('header', 'Data Siswa')
+@section('header', 'Data Kegiatan')
 
 @section('content')
     <style>
-        body {
-            background-color: #f1f1f1;
-            font-family: sans-serif;
+       :root {
+            --main-bg-color: #03d703;
+            --main-text-color: #03d703;
+            --second-text-color: #686868;
+            --second-bg-color: #fff;
+            --toggle-color: #03d703;
+            --heading-color: #03d703;
         }
 
         .container {
@@ -27,17 +31,6 @@
         .btn-custom:hover {
             background-color: #028d02;
             border-color: #028d02;
-        }
-
-        .btn-secondary-custom {
-            background-color: #6c757d;
-            border-color: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary-custom:hover {
-            background-color: #5a6268;
-            border-color: #5a6268;
         }
 
         h2,
@@ -99,45 +92,39 @@
         }
     </style>
 
-        <!-- Tombol Tambah dan kembali -->
-            <div class="btn-container">
-                <a href="{{ route('pembimbing.create') }}" class="btn btn-custom me-2">Tambah Kegiatan</a>
-                <a href="{{ route('pembimbing.home') }}" class="btn btn-secondary-custom">Kembali</a>
-            </div>
 
-        <!-- Tabel Responsif -->
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Tanggal</th>
-                        <th>Kegiatan</th>
-                        <th>Gambar</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($kegiatan as $data)
-                    <tr>
-                        <td>{{ \Carbon\Carbon::parse($data->tanggal)->format('d M Y') }}</td>
-                        <td>
-                            <!-- Menggunakan textarea untuk kegiatan, agar bisa diedit -->
-                            <textarea class="form-control" rows="4" disabled>{{ $data->kegiatan }}</textarea>
-                        </td>
-                        <td><img src="{{ asset('storage/gambar/' . $data->image) }}" width="200"></td>
-                        <td>
-                            <!-- Tombol Edit untuk mengarahkan ke halaman edit -->
-                            <a href="{{ route('pembimbing.edit', ['tanggal' => $data->tanggal]) }}" class="btn btn-warning">Edit</a>
+        <div class="btn-container">
+    <a href="{{ route('pembimbing.create') }}" class="btn btn-custom me-2">Tambah Kegiatan</a>
+</div>
 
-                        </td>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Tanggal</th>
+                <th>Kegiatan</th>
+                <th>Gambar</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($kegiatan as $data)
+            <tr>
+                <td>{{ \Carbon\Carbon::parse($data->tanggal)->format('d M Y') }}</td>
+                <td>
+                    <textarea class="form-control" rows="4" disabled>{{ $data->kegiatan }}</textarea>
+                </td>
+                <td>
+                    <img src="{{ asset('storage/gambar/' . $data->image) }}" width="200" alt="Image">
+                </td>
+                <td>
+                    <a href="{{ route('pembimbing.edit', $data->id) }}" class="btn btn-warning">Edit</a>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    {{ $kegiatan->links() }}
+</div>
 
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            {{ $kegiatan->links() }}
-            <!-- pagination -->
-
-        </div> <!-- End of .table-responsive -->
-    </div>
 @endsection

@@ -13,7 +13,8 @@
         }
 
         h2 {
-            color: #3a3d3a;
+           font-weight: bold;
+            color: #505050;
         }
 
         /* .table-primary {
@@ -22,8 +23,9 @@
         } */
 
         .table-head {
-            background-color: #f8f9fa;
-            color: #495057;
+            background-color: #0ccf4d;
+            color: #fbfdff;
+
         }
 
         .table-tbody {

@@ -1,14 +1,21 @@
-@extends('layouts.app')
+@extends('layouts.pembimbing')
 
-@section('title', 'Dashboard Pembimbing') <!-- Set judul halaman -->
+@section('title', 'Data Logbook Siswa')
+
+@section('page-title', 'Data Logbook Siswa')
 
 @section('content')
 
     <style>
-        body {
-            background-color: #ffffff;
-            color: #333;
+        :root {
+            --main-bg-color: #03d703;
+            --main-text-color: #03d703;
+            --second-text-color: #686868;
+            --second-bg-color: #fff;
+            --toggle-color: #03d703;
+            --heading-color: #03d703;
         }
+
 
         h2 {
             color: #3a3d3a;
@@ -111,7 +118,7 @@
         </table>
 
         <div class="d-flex justify-content-between mt-3">
-            <a href="{{ route('pembimbing.index') }}" class="btn btn-secondary">Kembali ke Daftar Kegiatan</a>
+            <a href="{{ route('pembimbing.laporanharian') }}" class="btn btn-secondary">Kembali ke Daftar Kegiatan</a>
         </div>
     </div>
     @endsection

@@ -270,7 +270,7 @@
             <div class="list-group list-group-flush my-3">
                 <a href="{{ route('pembimbing.home') }}" class="list-group-item list-group-item-action bg-transparent second-text active">
                     <i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                <a href="{{ route('pembimbing.profil', Auth::user()->id) }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-user me-2"></i>Profil</a>
                 <a class="list-group-item list-group-item-action bg-transparent second-text fw-bold dropdown-toggle"
                     data-bs-toggle="collapse" href="#manageUsersDropdown" role="button" aria-expanded="false"
@@ -279,13 +279,17 @@
                 </a>
 
                 <div class="collapse" id="manageUsersDropdown">
-                    <ul class="list-group list-group-flush ms-3">
+                    <ul class="list-group list-group-flush ms-4">
                         <a href="{{ route('pembimbing.datasiswa') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                             <i class="fas fa-users me-2"></i>Data Siswa</a>
-                        <a href="{{ route('pembimbing.absen') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                            <i class="fas fa-bell me-2"></i>Absen</a>
-                        <a href="{{ route('pembimbing.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <a href="{{ route('pembimbing.absen') }}"
+                            class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                            <i class="fas fa-calendar-check me-2"></i>Absen
+                        </a>
+                        <a href="{{ route('pembimbing.laporanharian') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                             <i class="fas fa-file-alt me-2"></i>Laporan Harian</a>
+                        <a href="{{ route('pembimbing.laporan') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                                <i class="fas fa-file-alt me-2"></i>Data Laporan Akhir</a>
                     </ul>
                 </div>
                 <a href="{{ route('pembimbing.monitoring') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
