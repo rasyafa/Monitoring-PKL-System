@@ -16,8 +16,8 @@ class PembimbingController extends Controller
     // Menampilkan halaman utama (home) pembimbing
     public function index()
     {
+        $pembimbings = [];
         
-        //  $absen = Absen::whereDate('created_at', today())->count(); // Contoh mengambil jumlah data absen hari in
         return view('pembimbing.home');
     }
 
