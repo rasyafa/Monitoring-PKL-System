@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Absen;
+use App\Models\LaporanAkhir;
 use Illuminate\Http\Request;
 use App\Models\KegiatanHarian;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
 
 class SiswaController extends Controller
 {
@@ -89,7 +90,7 @@ class SiswaController extends Controller
         if ($request->filled('password')) {
             $siswa->password = bcrypt($request->input('password'));
         }
-        
+
         // Proses upload foto jika ada
         if ($request->hasFile('profile_photo')) {
             // Cek jika foto lama ada dan hapus
@@ -191,7 +192,78 @@ class SiswaController extends Controller
 
         return redirect()->route('siswa.riwayat-kegiatan')->with('success', 'Kegiatan berhasil disimpan.');
     }
-// AKHIR KEGIATAN HARIAN
+    // AKHIR KEGIATAN HARIAN
 
+// AWAL LAPORAN AKHIR
+    // Menampilkan halaman riwayat laporan
+    public function showRiwayatLaporan()
+    {
+        $laporans = LaporanAkhir::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
+        return view('siswa.laporan_akhir', compact('laporans'));
+    }
 
+    // Menyimpan laporan baru
+    public function simpanLaporan(Request $request)
+    {
+        $validated = $request->validate([
+            'file' => 'required|file|mimes:pdf,doc,docx',
+            'judul' => 'required|string|max:255',
+        ]);
+
+        // Get the original file name
+        $originalFileName = $request->file('file')->getClientOriginalName();
+
+        // Store the file with the original name
+        $filePath = $request->file('file')->storeAs('laporan', $originalFileName, 'public');
+
+        LaporanAkhir::create([
+            'user_id' => Auth::id(),
+            'judul' => $request->judul,
+            'file_path' => $filePath,
+            'tanggal' => today(),
+        ]);
+
+        return redirect()->route('laporan.riwayat')->with('success', 'Laporan berhasil dikirim.');
+    }
+
+    // Menghapus laporan
+    public function hapusLaporan($id)
+    {
+        $laporan = LaporanAkhir::findOrFail($id);
+        Storage::delete($laporan->file_path);
+        $laporan->delete();
+
+        return redirect()->route('laporan.riwayat')->with('success', 'Laporan berhasil dihapus.');
+    }
+    // AKHIR LAPORAN
+
+// NOTIFIKASI
+    public function notifikasi()
+    {
+        // Ambil pengguna yang sedang login
+        $user = Auth::user();
+
+        // Pastikan hanya siswa yang dapat mengakses notifikasi
+        if ($user->role !== 'siswa') {
+            return redirect()->route('home')->with('error', 'Akses ditolak! Hanya siswa yang dapat mengakses notifikasi.');
+        }
+
+        // Tanggal hari ini
+        $tanggalHariIni = Carbon::today();
+
+        // Cek apakah siswa sudah absen hari ini
+        $absen = Absen::where('user_id',
+            $user->id
+        )
+        ->where('tanggal', $tanggalHariIni)
+        ->first();
+
+        // Cek apakah siswa sudah mengisi laporan harian hari ini
+        $laporanHarian = KegiatanHarian::where('user_id', $user->id)
+        ->where('tanggal', $tanggalHariIni)
+        ->get();
+
+        // Return ke view notifikasi
+        return view('siswa.notifikasi', compact('user', 'absen', 'laporanHarian', 'tanggalHariIni'));
+    }
 }

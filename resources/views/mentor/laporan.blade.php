@@ -1,14 +1,14 @@
-@extends('layouts.admin')
+@extends('layouts.mentor')
 
-@section('title', 'Data Logbook Siswa')
+@section('title', 'Laporan Akhir')
 
-@section('page-title', 'Data Logbook Siswa')
+@section('page-title', 'Data Laporan Akhir')
 
 @section('content')
 <div class="container mt-5">
     <div class="card">
         <div class="card-header text-center">
-            <h2 class="mb-0">Data Logbook Siswa</h2>
+            <h2 class="mb-0">Laporan Akhir</h2>
         </div>
         <div class="card-body">
             <!-- Tabel Kegiatan Siswa -->
@@ -21,13 +21,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($students as $index => $siswa)
+                    @foreach ($students as $index => $student)
                     <tr>
                         <td class="text-center">{{ $index + 1 }}</td>
-                        <td>{{ $siswa->name }}</td>
+                        <td>{{ $student->name }}</td>
                         <td class="text-center">
-                            <a href="{{ route('admin.kegiatan.show', $siswa->id) }}" class="btn btn-light-green btn-sm">
-                                Lihat laporan {{ $siswa->name }}
+                            <a href="{{ route('mentor.laporan_akhir', $student->id) }}" class="btn btn-light-green btn-sm">
+                                Lihat laporan akhir {{ $student->name }}
                             </a>
                         </td>
                     </tr>

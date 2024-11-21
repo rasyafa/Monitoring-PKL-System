@@ -2,77 +2,76 @@
 
 @section('title', 'Manage Users')
 
-@section('page-title', 'Manage Users')
+@section('page-title', 'Manajemen Pengguna')
 
 @push('styles')
 <style>
+     /* Margin kiri untuk konten */
     .content-container {
         margin-left: 30px;
-        /* Jarak dari sidebar */
     }
 
+    /* style untuk card */
     .card {
         margin-bottom: 30px;
-        /* Jarak antar card */
         border: none;
-        /* Hilangkan border card */
         border-radius: 10px;
-        /* Radius lebih besar */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        /* Shadow lebih besar */
     }
 
+    /* style untuk header card */
     .card-header {
         background-color: transparent;
-        /* Hilangkan latar abu-abu */
         font-size: 1.5rem;
-        /* Perbesar font */
         font-weight: bold;
         color: #333;
-        /* Warna teks */
         padding: 20px;
-        /* Tambah padding */
         border-bottom: none;
-        /* Hilangkan garis bawah */
     }
 
+    /* style untuk header tabel */
+    .table thead th {
+        padding: 15px 20px;
+        background-color: #32CD32; /* Hijau */
+        color: #fff;
+        text-align: center;
+    }
+
+    /* style untuk body card */
     .card-body {
         padding: 30px;
-        /* Tambah padding body */
         font-size: 1.1rem;
-        /* Ukuran teks lebih besar */
     }
 
+    /* style untuk container tabel */
     .table-container {
         overflow-x: auto;
-        /* Scroll horizontal jika tabel terlalu lebar */
     }
 
+    /* style untuk tabel */
     .table {
+        width: 100%;
         font-size: 1rem;
-        /* Ukuran font tabel */
     }
 
+    /* style untuk tombol */
     .btn {
         font-size: 1rem;
-        /* Ukuran font tombol */
     }
 
+    /* style untuk tombol hijau */
     .btn-success {
         background-color: #28a745;
         border-color: #28a745;
         padding: 10px 20px;
     }
 
-    .btn-success:hover {
-        background-color: #218838;
-        border-color: #1e7e34;
-    }
-
+    /* style untuk tombol kuning edit */
     .btn-warning {
         padding: 8px 18px;
     }
 
+    /* style untuk tombol merah delet*/
     .btn-danger {
         padding: 8px 18px;
     }
@@ -83,10 +82,10 @@
 <div class="content-container">
     <div class="card">
         <div class="card-header">
-            Manage Users
+            Manajemen Pengguna
         </div>
         <div class="card-body">
-            <a href="{{ route('admin.users.create') }}" class="btn btn-success mb-4">Add New User</a>
+            <a href="{{ route('admin.users.create') }}" class="btn btn-success mb-4">Tambah Pengguna</a>
             <div class="table-container">
                 <table class="table table-bordered">
                     <thead>
@@ -115,7 +114,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Are you sure?')">Delete</button>
+                                        onclick="return confirm('Are you sure?')">Hapus</button>
                                 </form>
                             </td>
                         </tr>
