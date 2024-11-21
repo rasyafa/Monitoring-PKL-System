@@ -4,12 +4,15 @@
 <title>Profil Mentor</title>
 <style>
     /* Menyusun layout dengan flexbox agar card berada di tengah */
-    body {
-        background-color: #f4f4f4;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin: 0; /* Menghilangkan margin default pada body */
-        height: 100vh; /* Menjamin body mengambil seluruh tinggi viewport */
-    }
+    :root {
+            --main-bg-color: #03d703;
+            --main-text-color: #03d703;
+            --second-text-color: #686868;
+            --second-bg-color: #fff;
+            --toggle-color: #03d703;
+            --heading-color: #03d703;
+        }
+
 
     .container {
         display: flex;

@@ -41,6 +41,15 @@
 
 @push('styles')
 <style>
+    :root {
+            --main-bg-color: #03d703;
+            --main-text-color: #03d703;
+            --second-text-color: #686868;
+            --second-bg-color: #fff;
+            --toggle-color: #03d703;
+            --heading-color: #03d703;
+        }
+        
     .content-container {
         margin-left: 30px;
     }
