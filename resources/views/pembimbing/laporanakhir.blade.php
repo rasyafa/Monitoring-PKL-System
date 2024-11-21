@@ -56,6 +56,15 @@
 
 <!-- Tambahkan gaya khusus -->
 <style>
+    :root {
+            --main-bg-color: #03d703;
+            --main-text-color: #03d703;
+            --second-text-color: #686868;
+            --second-bg-color: #fff;
+            --toggle-color: #03d703;
+            --heading-color: #03d703;
+        }
+        
     /* Ubah warna tombol menjadi #03d703 */
     button.btn-primary {
         background-color: #03d703 !important;
