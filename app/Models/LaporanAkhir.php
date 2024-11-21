@@ -5,21 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class KegiatanHarian extends Model
+class LaporanAkhir extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
+        'judul',
+        'file_path',
         'tanggal',
-        'waktu_mulai',
-        'waktu_selesai',
-        'kegiatan',
-        'status',
-        'catatan',
     ];
 
-    // Relasi dengan model User
+    protected $dates = ['tanggal'];
+
+    // Relasi dengan User
     public function user()
     {
         return $this->belongsTo(User::class);

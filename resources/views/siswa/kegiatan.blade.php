@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+@extends('layouts.siswa')
+
+@section('content')
+
     <title>Riwayat Kegiatan Harian</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
 
@@ -45,8 +42,7 @@
             background-color: #e9ecef;
         }
     </style>
-</head>
-<body>
+
     <div class="container mt-5">
         <h1 class="text-center mb-4">Riwayat Kegiatan Harian</h1>
 
@@ -90,11 +86,9 @@
         <div class="row mt-4">
             <div class="col-12 d-flex justify-content-start">
                 <a href="{{ route('siswa.kegiatan.create') }}" class="btn btn-custom me-2">Tambah Kegiatan</a>
-                <a href="{{ route('siswa.beranda') }}" class="btn btn-secondary-custom">Kembali</a>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@endsection

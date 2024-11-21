@@ -104,23 +104,28 @@
             </div>
 
             <!-- Role Field -->
-            <div class="mb-3">
-                <label for="role" class="form-label">Role</label>
-                <select class="form-select" id="role" name="role">
-                    <option value="siswa" {{ old('role', $user->role) == 'siswa' ? 'selected' : '' }}>Siswa</option>
-                    <option value="pembimbing" {{ old('role', $user->role) == 'pembimbing' ? 'selected' : ''}}>Pembimbing</option>
-                    <option value="mitra" {{ old('role', $user->role) == 'mitra' ? 'selected' : '' }}>Mitra</option>
-                    <option value="mentor" {{ old('role', $user->role) == 'mentor' ? 'selected' : '' }}>Mentor</option>
-                </select>
-            </div>
-
-            <!-- Gender Field -->
-            <div class="mb-3">
-                <label for="gender" class="form-label">Gender</label>
-                <select class="form-select" id="gender" name="gender">
-                    <option value="male" {{ old('gender', $user->gender) == 'male' ? 'selected' : ''}}>Laki-Laki</option>
-                    <option value="female" {{ old('gender', $user->gender) == 'female' ? 'selected' : ''}}>Perempuan</option>
-                </select>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="role" class="form-label">Role</label>
+                    <select class="form-select" id="role" name="role">
+                        <option value="siswa" {{ old('role', $user->role) == 'siswa' ? 'selected' : '' }}>Siswa</option>
+                        <option value="pembimbing" {{ old('role', $user->role) == 'pembimbing' ? 'selected' :
+                            ''}}>Pembimbing</option>
+                        <option value="mitra" {{ old('role', $user->role) == 'mitra' ? 'selected' : '' }}>Mitra</option>
+                        <option value="mentor" {{ old('role', $user->role) == 'mentor' ? 'selected' : '' }}>Mentor
+                        </option>
+                    </select>
+                </div>
+                <!-- Gender Field -->
+                <div class="col-md-6">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select class="form-select" id="gender" name="gender">
+                        <option value="male" {{ old('gender', $user->gender) == 'male' ? 'selected' : ''}}>Laki-Laki
+                        </option>
+                        <option value="female" {{ old('gender', $user->gender) == 'female' ? 'selected' : ''}}>Perempuan
+                        </option>
+                    </select>
+                </div>
             </div>
 
             <!-- Email Field -->

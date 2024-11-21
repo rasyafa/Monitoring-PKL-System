@@ -84,7 +84,7 @@ class AuthController extends Controller
         } elseif ($user->role == 'mitra') {
             return redirect()->route('mitra.dashboard');
         } elseif ($user->role == 'mentor') {
-            return redirect()->route('mentor.dashboard');
+            return redirect()->route('mentor.beranda');
         }
 
         // Default redirect jika role tidak cocok

@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.pembimbing')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Kegiatan Harian</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+@section('title', 'Data Logbook Siswa')
+
+@section('page-title', 'Data Logbook Siswa')
+
+@section('content')
+
     <style>
         body {
             background-color: #ffffff;
@@ -62,9 +62,7 @@
             background-color: #791616;
         }
     </style>
-</head>
 
-<body>
     <div class="container mt-5">
         <h2 class="text-center mb-4">Data Logbook untuk {{ $students->name }}</h2>
 
@@ -115,9 +113,7 @@
         </table>
 
         <div class="d-flex justify-content-between mt-3">
-            <a href="{{ route('admin.kegiatan.index') }}" class="btn btn-secondary">Kembali ke Daftar Kegiatan</a>
+            <a href="{{ route('pembimbing.laporanharian') }}" class="btn btn-secondary">Kembali ke Daftar Kegiatan</a>
         </div>
     </div>
-</body>
-
-</html>
+    @endsection

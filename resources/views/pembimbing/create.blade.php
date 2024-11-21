@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.pembimbing')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Kegiatan</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+@section('title', 'Data Siswa')
+
+@section('header', 'Data Siswa')
+
+@section('content')
     <style>
         body {
             background-color: #f1f1f1;
@@ -29,17 +28,6 @@
             border-color: #02be02;
         }
 
-        .btn-secondary-custom {
-            background-color: #6c757d;
-            border-color: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary-custom:hover {
-            background-color: #5a6268;
-            border-color: #5a6268;
-        }
-
         body,
         label,
         h2 {
@@ -52,20 +40,6 @@
             min-height: 100px;
         }
     </style>
-</head>
-
-<body>
-    @extends('layouts.app')
-
-    @section('content')
-    <div class="container mt-5">
-        <h1>Tambah Kegiatan</h1>
-
-        @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-        @endif
 
         <!-- Form untuk menambahkan kegiatan -->
        <form action="{{ route('pembimbing.store') }}" method="POST" enctype="multipart/form-data">
@@ -95,14 +69,7 @@
     <!-- Tombol Tambah dan kembali -->
             <div class="btn-container">
                 <button type="submit" class="btn btn-primary">Tambah Kegiatan</button>
-                <a href="{{ route('pembimbing.home') }}" class="btn btn-secondary-custom">Kembali</a>
             </div>
 </form>
     </div>
     @endsection
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
- 

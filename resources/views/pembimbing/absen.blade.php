@@ -1,26 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.pembimbing')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Absen Siswa</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-    <style>
-        .btn-secondary-custom {
-            background-color: #6c757d;
-            border-color: #6c757d;
-            color: white;
-        }
+@section('title', 'Data Siswa')
 
-        .btn-secondary-custom:hover {
-            background-color: #5a6268;
-            border-color: #5a6268;
-        }
-    </style>
-</head>
+@section('header', 'Data Siswa')
 
-<body>
+@section('content')
+
+<style>
+    body {
+        background-color: #f4f7f6;
+        /* Latar belakang abu-abu terang */
+        color: #333;
+    }
+
+    h2 {
+        color: #2e7d32;
+        /* Hijau */
+    }
+
+    .table-striped>tbody>tr:nth-of-type(odd) {
+        background-color: #e8f5e9;
+        /* Baris hijau sangat terang */
+    }
+
+    .table-bordered thead {
+        background-color: #ffffff;
+        /* Header tabel putih */
+        color: #2e7d32;
+        /* Hijau tua untuk teks */
+        border-bottom: 2px solid #2e7d32;
+        /* Garis bawah header */
+    }
+
+    .btn-light-green {
+        background-color: #66bb6a;
+        /* Hijau cerah */
+        color: white;
+        border: none;
+    }
+
+    .btn-light-green:hover {
+        background-color: #4caf50;
+        /* Hijau lebih gelap saat hover */
+    }
+
+    .btn-danger {
+        background-color: #ef5350;
+        /* Merah */
+        color: white;
+        border: none;
+    }
+
+    .btn-danger:hover {
+        background-color: #d32f2f;
+        /* Merah lebih gelap saat hover */
+    }
+</style>
+
     <div class="container mt-4">
         <h2 class="mb-4">Daftar Absen Siswa</h2>
 
@@ -41,14 +77,7 @@
                     <td>{{ $absen->status }}</td>
                 </tr>
                 @endforeach
-
             </tbody>
         </table>
-        <!-- Tombol Tambah dan kembali -->
-            <div class="btn-container">
-                <a href="{{ route('pembimbing.home') }}" class="btn btn-secondary-custom">Kembali</a>
-            </div>
     </div>
-</body>
-
-</html>
+@endsection

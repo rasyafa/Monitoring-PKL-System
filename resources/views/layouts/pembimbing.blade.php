@@ -1,12 +1,18 @@
-<!-- resources/views/pembimbing/dashboard.blade.php -->
-@extends('layouts.pembimbing')
+<!-- resources/views/layouts/app.blade.php -->
+<!DOCTYPE html>
+<html lang="en">
 
-@section('title', 'Dashboard Pembimbing') <!-- Set judul halaman -->
-
-@section('content')
-
-
-<style>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
+    <title>@yield('title', 'Beranda Siswa')</title>
+    <style>
+        <style>
         :root {
             --main-bg-color: #03d703;
             --main-text-color: #03d703;
@@ -251,160 +257,85 @@
             }
         }
     </style>
+    </style>
+</head>
 
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-white" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
+                <i class="fas fa-user-graduate me-2"></i>Pembimbing
+            </div>
+            <div class="list-group list-group-flush my-3">
+                <a href="{{ route('pembimbing.home') }}" class="list-group-item list-group-item-action bg-transparent second-text active">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+                <a href="{{ route('pembimbing.profil', Auth::user()->id) }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-user me-2"></i>Profil</a>
+                <a class="list-group-item list-group-item-action bg-transparent second-text fw-bold dropdown-toggle"
+                    data-bs-toggle="collapse" href="#manageUsersDropdown" role="button" aria-expanded="false"
+                    aria-controls="manageSiswaDropdown">
+                    <i class="fas fa-users me-2"></i>Siswa
+                </a>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card income-card">
-                <div class="card-body">
-                    <div class="card-title">Kegiatan Harian</div>
-                    <div class="card-subtext">25%</div>
+                <div class="collapse" id="manageUsersDropdown">
+                    <ul class="list-group list-group-flush ms-3">
+                        <a href="{{ route('pembimbing.datasiswa') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                            <i class="fas fa-users me-2"></i>Data Siswa</a>
+                        <a href="{{ route('pembimbing.absen') }}"
+                            class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                            <i class="fas fa-calendar-check me-2"></i>Absen
+                        </a>
+                        <a href="{{ route('pembimbing.laporanharian') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                            <i class="fas fa-file-alt me-2"></i>Laporan Harian</a>
+                        <a href="{{ route('pembimbing.laporanharian') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                            <i class="fas fa-file-alt me-2"></i>Laporan Harian</a>
+                    </ul>
                 </div>
+                <a href="{{ route('pembimbing.monitoring') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-file-alt me-2"></i>Monitoring</a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-power-off me-2"></i>Logout
+                </a>
+
+                <!-- Form Logout -->
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </div>
         </div>
+        <!-- /#sidebar-wrapper -->
 
-        <div class="col-md-6">
-            <div class="card expenses-card">
-                <div class="card-body">
-                    <div class="card-title">Data Absen</div>
-                    <div class="card-subtext">25%</div>
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
                 </div>
+            </nav>
+
+            <!-- Konten Utama -->
+            <div class="container mt-5">
+                @yield('content') <!-- Tempat konten halaman spesifik -->
             </div>
         </div>
     </div>
 
-    <!-- Add the doughnut chart inside a new column in the existing row -->
-    <div class="container-fluid px-4">
-        <div class="row my-5">
-            <!-- Diagram Kolom -->
-            <div class="col-lg-6 chart-container">
-                <div class="card">
-                    <h3 class="card-title text-center" style="color: #000;">Data Siswa per Bulan</h3>
-                    <canvas id="myBarChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Kalender -->
-            <div class="col-lg-6 calendar-container">
-                <div class="card">
-                    <h3 class="card-title text-center" style="color: #000;" id="calendar-title">Kalender</h3>
-                    <div id="calendar"></div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
+    <!-- JavaScript includes -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // Toggle sidebar on and off when the menu icon is clicked
+        // JavaScript for sidebar toggle and charts (can be moved to a dedicated JS file)
         var el = document.getElementById("wrapper");
         var toggleButton = document.getElementById("menu-toggle");
 
         toggleButton.onclick = function () {
             el.classList.toggle("toggled");
         };
-        // Chart.js - Diagram Batang untuk Data Siswa per Bulan
-        const ctxBar = document.getElementById('myBarChart').getContext('2d');
-        const myBarChart = new Chart(ctxBar, {
-            type: 'line',
-            data: {
-                labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
-                datasets: [{
-                    label: 'Data Siswa',
-                    data: [39, 45, 40, 30, 60, 60, 50, 65, 70, 80, 55, 59, 100],
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (tooltipItem) {
-                                return tooltipItem.raw + ' Siswa';
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                    },
-                    x: {
-                        ticks: {
-                            maxRotation: window.innerWidth < 768 ? 45 : 0, // Rotasi teks bulan di mobile
-                            minRotation: window.innerWidth < 768 ? 45 : 0, // Rotasi teks bulan di mobile
-                            font: {
-                                size: window.innerWidth < 768 ? 10 : 12 // Mengatur ukuran font lebih kecil di mobile
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-
-
-        // FullCalendar
-        document.addEventListener('DOMContentLoaded', function () {
-                var calendarEl = document.getElementById('calendar');
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    headerToolbar: {
-                        left: 'prev,next',
-                        center: 'title',
-                        right: ''
-                    },
-                    height: 'auto',
-                    events: [],
-                    datesSet: function (info) {
-                        // Update title with current month and year
-                        var monthNames = [
-                            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-                        ];
-                        var currentMonth = monthNames[info.view.currentStart.getMonth()];
-                        var currentYear = info.view.currentStart.getFullYear();
-                        document.getElementById('calendar-title').textContent = 'Kalender ' + currentMonth + ' ' + currentYear;
-                    }
-                });
-                calendar.render();
-            });
-
+        // Add the remaining JavaScript code here
     </script>
+</body>
 
-@endsection
+</html>

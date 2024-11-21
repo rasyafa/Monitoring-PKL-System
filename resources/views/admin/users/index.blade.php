@@ -1,115 +1,131 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.admin')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Users</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f1f1f1;
-            font-family: sans-serif;
-        }
+@section('title', 'Manage Users')
 
-        .container {
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-             background-color: #ffffff;
-        }
+@section('page-title', 'Manajemen Pengguna')
 
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
-        }
+@push('styles')
+<style>
+     /* Margin kiri untuk konten */
+    .content-container {
+        margin-left: 30px;
+    }
 
-        .table {
-            background-color: #fff;
-        }
+    /* style untuk card */
+    .card {
+        margin-bottom: 30px;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
 
-        .table th,
-        .table td {
-            vertical-align: middle;
-        }
+    /* style untuk header card */
+    .card-header {
+        background-color: transparent;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+        padding: 20px;
+        border-bottom: none;
+    }
 
-        .btn-success {
-            background-color: #17d033;
-            border-color: #14b92d;
-            color: #fff;
-        }
+    /* style untuk header tabel */
+    .table thead th {
+        padding: 15px 20px;
+        background-color: #32CD32; /* Hijau */
+        color: #fff;
+        text-align: center;
+    }
 
-        .btn-warning {
-            background-color: #ffc107;
-            border-color: #ffc107;
-            color: #212529;
-        }
+    /* style untuk body card */
+    .card-body {
+        padding: 30px;
+        font-size: 1.1rem;
+    }
 
-        .btn-danger {
-            background-color: #dc3545;
-            border-color: #dc3545;
-            color: #fff;
-        }
+    /* style untuk container tabel */
+    .table-container {
+        overflow-x: auto;
+    }
 
-        .pagination {
-            justify-content: center;
-        }
+    /* style untuk tabel */
+    .table {
+        width: 100%;
+        font-size: 1rem;
+    }
 
-        .btn-success {
-             background-color: #17d033;
-             border-color: #48d75d;
-        }
+    /* style untuk tombol */
+    .btn {
+        font-size: 1rem;
+    }
 
-        .btn-success:hover {
-            background-color: #169e28;
-            border-color: #3bb14b;
-        }
+    /* style untuk tombol hijau */
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+        padding: 10px 20px;
+    }
 
+    /* style untuk tombol kuning edit */
+    .btn-warning {
+        padding: 8px 18px;
+    }
 
-    </style>
-</head>
+    /* style untuk tombol merah delet*/
+    .btn-danger {
+        padding: 8px 18px;
+    }
+</style>
+@endpush
 
-<body>
-    <div class="container mt-5">
-        <h2>Manage Users</h2>
-        <a href="{{ route('admin.users.create') }}" class="btn btn-success mb-3">Add New User</a>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($users as $user)
-                <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->username }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->role }}</td>
-                    <td>
-                        <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                        <form action="{{ route('admin.users.delete', $user->id) }}" method="POST"
-                            style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger"
-                                onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <div>
-            {{ $users->links() }}
+@section('content')
+<div class="content-container">
+    <div class="card">
+        <div class="card-header">
+            Manajemen Pengguna
+        </div>
+        <div class="card-body">
+            <a href="{{ route('admin.users.create') }}" class="btn btn-success mb-4">Tambah Pengguna</a>
+            <div class="table-container">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $user)
+                        <tr>
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->username }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->role }}</td>
+                            <td>
+                                <a href="{{ route('admin.users.edit', $user->id) }}"
+                                    class="btn btn-sm btn-warning">Edit</a>
+                                <form action="{{ route('admin.users.delete', $user->id) }}" method="POST"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Are you sure?')">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                {{ $users->links() }}
+            </div>
         </div>
     </div>
-</body>
-
-</html>
+</div>
+@endsection

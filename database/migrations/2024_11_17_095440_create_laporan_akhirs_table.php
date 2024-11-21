@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kegiatan_harians', function (Blueprint $table) {
+        Schema::create('laporan_akhirs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('judul');
+            $table->string('file_path');
             $table->date('tanggal');
-            $table->time('waktu_mulai');
-            $table->time('waktu_selesai');
-            $table->text('kegiatan');
-            $table->enum('status', ['acc', 'revisi'])->default('acc'); // Kolom status
-            $table->text('catatan')->nullable(); // Kolom catatan yang nullable
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kegiatan_harians');
+        Schema::dropIfExists('laporan_akhirs');
     }
 };

@@ -1,86 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.pembimbing')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Siswa</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Custom styles for color */
-        .thead-custom {
-            background-color: #03d703;
-            color: white;
-        }
+@section('title', 'Data Siswa')
 
-        /* Custom pagination styles */
-        .pagination .page-link {
-            color: #03d703; /* Green text for pagination */
-        }
+@section('header', 'Data Siswa')
 
-        .pagination .page-item.active .page-link {
-            background-color: #03d703;
-            border-color: #03d703;
-            color: white; /* White text for active page */
-        }
+@section('content')
 
-        .pagination .page-link:hover {
-            background-color: #e0ffe0; /* Light green on hover */
-            color: #03d703;
-        }
+<style>
+    body {
+        background-color: #f4f7f6;
+        /* Latar belakang abu-abu terang */
+        color: #333;
+    }
 
-        .pagination .page-item.disabled .page-link {
-            color: #6c757d; /* Default disabled color */
-        }
-    </style>
-</head>
+    h2 {
+        color: #2e7d32;
+        /* Hijau */
+    }
 
-<body>
+    .table-striped>tbody>tr:nth-of-type(odd) {
+        background-color: #e8f5e9;
+        /* Baris hijau sangat terang */
+    }
 
-    <div class="container mt-4">
-        <h3 class="text-center">Data Siswa</h3>
-        <!-- Tabel Data Siswa dengan jarak lebih banyak -->
-        <div class="table-responsive mt-5">
-            <table class="table table-bordered table-striped text-center">
-                <thead class="thead-custom">
-                    <tr>
-                        <th>Id</th>
-                        <th>Nama Siswa</th>
-                        <th>User Name</th>
-                        <th>Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Agus Rahman</td>
-                        <td>agus_rahman</td>
-                        <td>agus.rahman@example.com</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    .table-bordered thead {
+        background-color: #ffffff;
+        /* Header tabel putih */
+        color: #2e7d32;
+        /* Hijau tua untuk teks */
+        border-bottom: 2px solid #2e7d32;
+        /* Garis bawah header */
+    }
+
+    .btn-light-green {
+        background-color: #66bb6a;
+        /* Hijau cerah */
+        color: white;
+        border: none;
+    }
+
+    .btn-light-green:hover {
+        background-color: #4caf50;
+        /* Hijau lebih gelap saat hover */
+    }
+
+    .btn-danger {
+        background-color: #ef5350;
+        /* Merah */
+        color: white;
+        border: none;
+    }
+
+    .btn-danger:hover {
+        background-color: #d32f2f;
+        /* Merah lebih gelap saat hover */
+    }
+</style>
+
+<div class="container mt-5">
+    <h2>Data Siswa</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($users as $user)
+            <tr>
+                <td>{{ $user->id }}</td>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->username }}</td>
+                <td>{{ $user->email }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    <div>
+        {{ $users->links() }}
     </div>
-
-    <!-- Pagination Section -->
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><</a>
-            </li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">></a>
-            </li>
-        </ul>
-    </nav>
-
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-</body>
-
-</html>
+    </div>
+</div>
+@endsection
