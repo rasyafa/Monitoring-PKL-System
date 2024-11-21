@@ -206,7 +206,7 @@
                         <div class="menu-section">
                             <h5>Detail Laporan Akhir</h5>
                             <ul>
-                                <li><a href="#">Lihat Laporan Akhir</a></li>
+                                <li><a href="{{ route('laporan.riwayat') }}">Lihat Laporan Akhir</a></li>
                             </ul>
                         </div>
                     </div>
