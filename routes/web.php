@@ -109,9 +109,9 @@ Route::middleware(['auth', CheckRole::class . ':mentor'])->group(function () {
     Route::post('/kegiatan/{id}/update-catatan', [MentorController::class, 'updateCatatan'])->name('mentor.kegiatan.updateCatatan');
 
     // PROFILE MENTOR
-    Route::get('profil/{id}', [MentorController::class, 'profil'])->name('mentor.profil');
-    Route::get('profil/{id}/edit', [MentorController::class, 'edit'])->name('mentor.edit');
-    Route::put('profil/{id}', [MentorController::class, 'update'])->name('mentor.update');
+    Route::get('mentor/{id}', [MentorController::class, 'profil'])->name('mentor.profil');
+    Route::get('mentor/{id}/edit', [MentorController::class, 'edit'])->name('mentor.edit');
+    Route::put('mentor/{id}', [MentorController::class, 'update'])->name('mentor.update');
 
     // Route untuk LAPORAN AKHIR
     Route::get('/laporan-akhir', [MentorController::class, 'laporanAkhirIndex'])->name('mentor.laporan');
