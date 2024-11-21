@@ -3,17 +3,20 @@
 @section('content')
     <style>
         /* Style untuk mengatur tampilan container dan card */
-        body {
-            background-color: #f4f4f4;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
+        :root {
+            --main-bg-color: #03d703;
+            --main-text-color: #03d703;
+            --second-text-color: #686868;
+            --second-bg-color: #fff;
+            --toggle-color: #03d703;
+            --heading-color: #03d703;
         }
+
 
         label {
             color: #333; /* Warna teks yang jelas */
             font-size: 1rem;
-            
+
         }
 
         .form-container {
@@ -38,7 +41,7 @@
             height: 120px;
             object-fit: cover;
             border: 5px solid #03d703;
-            
+
         }
 
         .error-message {
@@ -106,9 +109,9 @@
         .btn-secondary:hover {
             background-color: #5a6268;
         }
-        
 
-        
+
+
     </style>
 
     <div class="form-container">
@@ -182,13 +185,13 @@
                             <div class="error-message">{{ $message }}</div>
                         @enderror
                     </div>
-                    
+
                     <!-- Button Save and Cancel -->
                     <div class="button-container">
                         <button type="submit" class="btn btn-green btn-sm">Simpan Perubahan</button>
                         <a href="{{ route('pembimbing.profil', $pembimbing->id) }}" class="btn btn-secondary btn-sm">Batal</a>
                     </div>
-                    
+
                 </form>
                 </div>
             </div>

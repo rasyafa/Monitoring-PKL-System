@@ -7,11 +7,15 @@
 @section('content')
 
 <style>
-    body {
-        background-color: #f4f7f6;
-        /* Latar belakang abu-abu terang */
-        color: #333;
-    }
+    :root {
+            --main-bg-color: #03d703;
+            --main-text-color: #03d703;
+            --second-text-color: #686868;
+            --second-bg-color: #fff;
+            --toggle-color: #03d703;
+            --heading-color: #03d703;
+        }
+
 
     h2 {
         color: #2e7d32;
