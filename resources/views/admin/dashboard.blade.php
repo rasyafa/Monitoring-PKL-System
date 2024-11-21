@@ -6,7 +6,8 @@
 
 @section('content')
 
-{{-- Card Kalender --}}
+
+{{-- Card untuk Kalender --}}
 <div class="row mb-4">
     <div class="col-md-12">
         <div class="card">
@@ -19,6 +20,7 @@
         </div>
     </div>
 </div>
+
 
 {{-- Card untuk Data Siswa --}}
 <div class="row mb-5">
@@ -227,6 +229,7 @@
         calendar.render(); // Render the calendar
     });
 </script>
+
 @endpush
 
 @push('styles')
