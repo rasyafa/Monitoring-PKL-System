@@ -3,6 +3,7 @@
 @section('content')
 
     <title>Riwayat Kegiatan Harian</title>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
 
@@ -40,6 +41,20 @@
 
         .table-hover tbody tr:hover {
             background-color: #e9ecef;
+        }
+
+         .pagination {
+            justify-content: center;
+            display: flex;
+            margin: 20px 0;
+        }
+        .pagination .page-link {
+            background-color: #ffffff;
+            color: #000;
+        }
+        .pagination .active .page-link {
+            background-color: #03d703;
+            color: #000;
         }
     </style>
 
@@ -89,6 +104,8 @@
             </div>
         </div>
     </div>
-
+            <div class="pagination">
+                {{ $kegiatans->links() }}
+            </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 @endsection

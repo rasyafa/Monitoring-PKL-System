@@ -98,6 +98,13 @@
 
     <div class="container mt-4">
 
+        <!-- Success Message -->
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <!-- Success or Error Message -->
         @if(session('message'))
         <div class="alert alert-success">
