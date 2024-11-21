@@ -78,22 +78,27 @@
             left: calc(27% - 90px);
         }
 
+        /* Semua item menu menggunakan font bold */
         .list-group-item {
             border: none;
             padding: 20px 30px;
             color: var(--second-text-color);
             transition: background-color 0.3s;
+            font-family: inherit;
+            font-weight: bold;  /* Semua item menggunakan font bold */
+            font-size: 1rem;
+        }
+
+        /* Menu item yang aktif */
+        .list-group-item.active {
+            background-color: #f0f0f0;
+            color: var(--main-text-color); /* Warna teks aktif diubah menjadi hijau */
+            font-weight: bold;
+            border: none;
         }
 
         .list-group-item:hover {
             background-color: rgba(11, 11, 11, 0.1);
-        }
-
-        .list-group-item.active {
-            background-color: transparent;
-            color: var(--second-text-color);
-            font-weight: bold;
-            border: none;
         }
     </style>
 </head>
@@ -107,20 +112,37 @@
                 <i class="fas fa-user-graduate me-2"></i>Siswa
             </div>
             <div class="list-group list-group-flush my-3">
-                <a href="{{ route('siswa.beranda') }}" class="list-group-item list-group-item-action bg-transparent second-text active">
-                    <i class="fas fa-home me-2"></i>Beranda</a>
-                <a href="{{ route('siswa.show', Auth::user()->id) }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-user me-2"></i>Profile</a>
-                <a href="{{ route('siswa.absen') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-clipboard-list me-2"></i>Absen</a>
-                <a href="{{ route('siswa.riwayat-kegiatan') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-calendar-day me-2"></i>Laporan Harian</a>
-                <a href="{{ route('laporan.riwayat') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-file-alt me-2"></i>Laporan Akhir</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-chart-bar me-2"></i>Nilai</a>
-                <a href="{{ route('siswa.notifikasi') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-bell me-2"></i>Notifikasi</a>
+                <!-- Menu Item Beranda -->
+                <a href="{{ route('siswa.beranda') }}" class="list-group-item list-group-item-action bg-transparent second-text {{ Request::routeIs('siswa.beranda') ? 'active' : '' }}">
+                    <i class="fas fa-home me-2"></i>Beranda
+                </a>
+
+                <!-- Menu Item Profile -->
+                <a href="{{ route('siswa.show', Auth::user()->id) }}" class="list-group-item list-group-item-action bg-transparent second-text {{ Request::routeIs('siswa.show') ? 'active' : '' }}">
+                    <i class="fas fa-user me-2"></i>Profile
+                </a>
+
+                <!-- Menu Item Absen -->
+                <a href="{{ route('siswa.absen') }}" class="list-group-item list-group-item-action bg-transparent second-text {{ Request::routeIs('siswa.absen') ? 'active' : '' }}">
+                    <i class="fas fa-clipboard-list me-2"></i>Absen
+                </a>
+
+                <!-- Menu Item Laporan Harian -->
+                <a href="{{ route('siswa.riwayat-kegiatan') }}" class="list-group-item list-group-item-action bg-transparent second-text {{ Request::routeIs('siswa.riwayat-kegiatan') ? 'active' : '' }}">
+                    <i class="fas fa-calendar-day me-2"></i>Laporan Harian
+                </a>
+
+                <!-- Menu Item Laporan Akhir -->
+                <a href="{{ route('laporan.riwayat') }}" class="list-group-item list-group-item-action bg-transparent second-text {{ Request::routeIs('laporan.riwayat') ? 'active' : '' }}">
+                    <i class="fas fa-file-alt me-2"></i>Laporan Akhir
+                </a>
+
+                <!-- Menu Item Notifikasi -->
+                <a href="{{ route('siswa.notifikasi') }}" class="list-group-item list-group-item-action bg-transparent second-text {{ Request::routeIs('siswa.notifikasi') ? 'active' : '' }}">
+                    <i class="fas fa-bell me-2"></i>Notifikasi
+                </a>
+
+                <!-- Menu Item Logout -->
                 <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fas fa-power-off me-2"></i>Keluar
                 </a>
