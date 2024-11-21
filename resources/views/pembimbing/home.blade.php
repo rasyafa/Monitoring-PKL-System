@@ -24,25 +24,42 @@
         #wrapper.toggled #page-content-wrapper {
             margin-left: 15rem;
         }
+
         .card {
             border-radius: 10px;
             color: white;
             padding: 20px;
             margin: 10px;
         }
+
         .income-card {
             background-color: #03d703;
+            width: 90%;
+            /* Mengatur lebar menjadi 80% dari elemen induknya */
+            max-width: 400px;
+            /* Menetapkan lebar maksimum agar tetap responsif */
+            padding: 10px;
+            /* Mengurangi padding untuk mengecilkan ukuran */
+            margin: 0 auto;
+            /* Memastikan kolom berada di tengah */
         }
+
         .expenses-card {
             background-color: #60a5fa;
+            width: 90%;
+            /* Mengatur lebar menjadi 80% dari elemen induknya */
+            max-width: 400px;
+            /* Menetapkan lebar maksimum agar tetap responsif */
+            padding: 10px;
+            /* Mengurangi padding untuk mengecilkan ukuran */
+            margin: 0 auto;
+            /* Memastikan kolom berada di tengah */
         }
+
         .card-title {
             font-size: 1.2rem;
         }
-        .card-value {
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
+
         .card-subtext {
             font-size: 1rem;
         }
@@ -237,8 +254,6 @@
                 margin: 20px auto;
             }
         }
-
-
     </style>
 </head>
 
@@ -254,34 +269,28 @@
                     <i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-user me-2"></i>Profil</a>
-                    <a class="list-group-item list-group-item-action bg-transparent second-text fw-bold dropdown-toggle"
-                        data-bs-toggle="collapse" href="#manageUsersDropdown" role="button" aria-expanded="false"
-                        aria-controls="manageSiswaDropdown">
-                        <i class="fas fa-users me-2"></i>Siswa
-                    </a>
-
-                    <div class="collapse" id="manageUsersDropdown">
-                        <ul class="list-group list-group-flush ms-3">
-                            <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                                <i class="fas fa-users me-2"></i>Data Siswa</a>
-                            </li>
-                            <a href="{{ route('pembimbing.absen') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                                <i class="fas fa-bell me-2"></i>Absen</a>
-                            </li>
-                            <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                                <i class="fas fa-file-alt me-2"></i>Laporan Harian</a>
-                        </ul>
-                    </div>
-                    <a href="{{ route('pembimbing.monitoring') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                        <i class="fas fa-file-alt me-2"></i>Monitoring</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="fas fa-power-off me-2"></i>Logout
+                <a class="list-group-item list-group-item-action bg-transparent second-text fw-bold dropdown-toggle"
+                    data-bs-toggle="collapse" href="#manageUsersDropdown" role="button" aria-expanded="false"
+                    aria-controls="manageSiswaDropdown">
+                    <i class="fas fa-users me-2"></i>Siswa
                 </a>
 
-                <!-- Form Logout -->
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
+                <div class="collapse" id="manageUsersDropdown">
+                    <ul class="list-group list-group-flush ms-3">
+                        <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                            <i class="fas fa-users me-2"></i>Data Siswa</a>
+                        </li>
+                        <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                            <i class="fas fa-bell me-2"></i>Absen</a>
+                        </li>
+                        <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                            <i class="fas fa-file-alt me-2"></i>Laporan Harian</a>
+                    </ul>
+                </div>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-file-alt me-2"></i>Monotoring</a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold">
+                    <i class="fas fa-sign-out-alt me-2"></i>Log Out</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -295,34 +304,34 @@
                     <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
                 </div>
             </nav>
-                        <div class="container mt-5">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="card income-card">
-                                        <div class="card-body">
-                                            <div class="card-title">Data Absen</div>
-                                            <div class="card-value">25%</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card expenses-card">
-                                        <div class="card-body">
-                                            <div class="card-title">Total Expences</div>
-                                            <div class="card-value">$ 79,000</div>
-                                            <div class="card-subtext">Saved 25%</div>
-                                        </div>
-                                    </div>
-                                </div>
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card income-card">
+                            <div class="card-body">
+                                <div class="card-title">Kegiatan Harian</div>
+                                <div class="card-subtext">25%</div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card expenses-card">
+                            <div class="card-body">
+                                <div class="card-title">Data Absen</div>
+                                <div class="card-subtext">25%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Add the doughnut chart inside a new column in the existing row -->
             <div class="container-fluid px-4">
                 <div class="row my-5">
                     <!-- Diagram Kolom -->
                     <div class="col-lg-6 chart-container">
                         <div class="card">
-                            <h3 class="card-title text-center">Data Siswa per Bulan</h3>
+                            <h3 class="card-title text-center" style="color: #000;">Data Siswa per Bulan</h3>
                             <canvas id="myBarChart"></canvas>
                         </div>
                     </div>
@@ -330,9 +339,11 @@
                     <!-- Kalender -->
                     <div class="col-lg-6 calendar-container">
                         <div class="card">
+                            <h3 class="card-title text-center" style="color: #000;" id="calendar-title">Kalender</h3>
                             <div id="calendar"></div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -426,19 +437,29 @@
 
         // FullCalendar
         document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                headerToolbar: {
-                    left: 'prev,next',
-                    center: 'title',
-                    right: ''
-                },
-                height: 'auto',
-                events: []
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    headerToolbar: {
+                        left: 'prev,next',
+                        center: 'title',
+                        right: ''
+                    },
+                    height: 'auto',
+                    events: [],
+                    datesSet: function (info) {
+                        // Update title with current month and year
+                        var monthNames = [
+                            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                        ];
+                        var currentMonth = monthNames[info.view.currentStart.getMonth()];
+                        var currentYear = info.view.currentStart.getFullYear();
+                        document.getElementById('calendar-title').textContent = 'Kalender ' + currentMonth + ' ' + currentYear;
+                    }
+                });
+                calendar.render();
             });
-            calendar.render();
-        });
+
     </script>
 </body>
 
