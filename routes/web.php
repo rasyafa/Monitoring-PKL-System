@@ -78,19 +78,13 @@ Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
 Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function () {
     Route::get('/pembimbing/home', [PembimbingController::class, 'index'])->name('pembimbing.home');
 
-    // //Route Dashboard
-    // Route::get('/pembimbing', [PembimbingController::class, 'dashboard']);
-
-
     //Route Profile
-    Route::get('/profil/{id}', [PembimbingController::class, 'profil'])->name('pembimbing.profil');
-    Route::get('/profil/edit/{id}', [PembimbingController::class, 'editprofil'])->name('pembimbing.editprofil');
-    Route::put('/profil/{id}', [PembimbingController::class, 'update1'])->name('pembimbing.update1');
-
+    Route::get('/profilepembimbing/{id}', [PembimbingController::class, 'profil'])->name('pembimbing.profil');
+    Route::get('/profilepembimbing/edit/{id}', [PembimbingController::class, 'editprofil'])->name('pembimbing.editprofil');
+    Route::put('/profilepembimbing/{id}', [PembimbingController::class, 'update1'])->name('pembimbing.update1');
 
     // Route untuk monitoring
     Route::get('/pembimbing/kegiatan', [PembimbingController::class, 'indexkegiatan'])->name('pembimbing.monitoring');
-
     Route::get('/monitoring', [PembimbingController::class, 'indexkegiatan'])->name('monitoring');
     Route::get('/monitoring/create', [PembimbingController::class, 'create'])->name('pembimbing.create');
     Route::post('/monitoring/store', [PembimbingController::class, 'store'])->name('pembimbing.store');
@@ -99,11 +93,15 @@ Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function ()
 
 
     //Route dropdown siswa
+        //route absen
     Route::get('/pembimbing/absen', [PembimbingController::class, 'absenIndex'])->name('pembimbing.absen');
     Route::get('/pembimbing/datasiswa', [PembimbingController::class, 'dataSiswa'])->name('pembimbing.datasiswa');
-    Route::get('/pembimbing/laporanharian', [PembimbingController::class, 'kegiatanIndex'])->name('pembimbing.laporanharian'); // Menampilkan daftar kegiatan
-    Route::get('/kegiatan/{id}', [PembimbingController::class, 'kegiatanShow'])->name('pembimbing.show');
-
+        //route laporan harian siswa
+    Route::get('/laporanharian', [PembimbingController::class, 'kegiatanIndex'])->name('pembimbing.laporanharian'); // Menampilkan daftar kegiatan
+    Route::get('/laporanharian/show/{id}', [PembimbingController::class, 'kegiatanShow'])->name('pembimbing.show');
+    // //route untuk laporan akhir
+    Route::get('laporansiswa', [PembimbingController::class, 'laporanAkhirIndex'])->name('pembimbing.laporan');
+    Route::get('laporanakhir/{id}', [PembimbingController::class, 'laporanAkhirShow'])->name('pembimbing.laporanakhir');
 });
 
 

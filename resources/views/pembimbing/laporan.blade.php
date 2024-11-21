@@ -26,7 +26,7 @@
                         <td class="text-center">{{ $index + 1 }}</td>
                         <td>{{ $student->name }}</td>
                         <td class="text-center">
-                            <a href="{{ route('admin.laporan', $student->id) }}" class="btn btn-light-green btn-sm">
+                            <a href="{{ route('pembimbing.laporanakhir', $student->id) }}" class="btn btn-light-green btn-sm">
                                 Lihat laporan akhir {{ $student->name }}
                             </a>
                         </td>
