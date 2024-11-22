@@ -6,13 +6,14 @@
 
 @section('content')
 <div class="container mt-4">
+
     <div class="row">
         <!-- Card untuk semua laporan -->
-        <div class="col-md-12">
+        <div class="col-md-12 mb-4">
             <div class="card" style="border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                 <div class="card-body">
-                    <!-- Judul -->
-                    <h3 class="text-center mb-4" style="color: #03d703;">Laporan Akhir</h3>
+                    <!-- Judul Laporan Akhir -->
+                    <h3 class="text-center mb-4">Laporan Akhir {{ $students->name }}</h3>
 
                     <!-- Cek jika ada laporan -->
                     @forelse($laporans as $laporan)
@@ -55,84 +56,32 @@
 <!-- Tambahkan gaya khusus -->
 <style>
     :root {
-        --main-bg-color: #03d703; /* Warna utama untuk background */
-        --main-text-color: #03d703; /* Warna utama untuk teks */
-        --second-text-color: #686868; /* Warna teks sekunder */
-        --second-bg-color: #ffffff; /* Warna background sekunder */
-        --toggle-color: #03d703; /* Warna untuk elemen yang bisa diaktifkan */
-        --heading-color: #03d703; /* Warna judul */
-        --border-color: rgba(0, 0, 0, 0.1); /* Warna border */
+            --main-bg-color: #03d703;
+            --main-text-color: #03d703;
+            --second-text-color: #686868;
+            --second-bg-color: #fff;
+            --toggle-color: #03d703;
+            --heading-color: #03d703;
+        }
+
+    /* Ubah warna tombol menjadi #03d703 */
+    button.btn-primary {
+        background-color: #03d703 !important;
+        border-color: #03d703 !important;
     }
 
-    body {
-        background-color: var(--second-bg-color);
-        color: var(--second-text-color);
-        font-family: Arial, sans-serif;
-    }
-
-    h3 {
-        font-weight: bold;
-        color: var(--heading-color);
-    }
-
-    .table th {
-        background-color: var(--main-bg-color);
-        color: white;
-        text-align: left;
-    }
-
+    /* Ubah warna teks laporan terkirim menjadi abu-abu */
+    .table th,
     .table td {
-        color: var(--second-text-color);
-        text-align: left;
+        color: #6c757d !important;
+        /* Abu-abu */
     }
 
-    .btn-outline-success {
-        color: var(--main-text-color);
-        border-color: var(--main-text-color);
-    }
-
-    .btn-outline-success:hover {
-        background-color: var(--main-text-color);
-        color: white;
-    }
-
-    .card {
-        margin-bottom: 20px;
-        background-color: var(--second-bg-color);
-        border: 1px solid var(--border-color);
-        border-radius: 10px;
-        box-shadow: 0 2px 4px var(--border-color);
-    }
-
-    .card-body {
-        padding: 20px;
-    }
-
-    .text-center {
-        color: var(--main-text-color);
-    }
-
-    .text-muted {
-        color: var(--second-text-color);
-    }
-
-    .container {
-        padding: 20px;
-    }
-
-    /* Tambahkan gaya untuk tabel */
-    .table {
-        border-radius: 10px;
-        overflow: hidden;
-    }
-
-    .table-bordered {
-        border: 1px solid var(--border-color);
-    }
-
-    .table-bordered th,
-    .table-bordered td {
-        border: 1px solid var(--border-color);
+    /* Tambahkan jarak antar elemen */
+    .table th,
+    .table td {
+        padding: 15px !important;
+        /* Tambah jarak */
     }
 
     /* Mengatasi masalah border di tabel */
@@ -145,5 +94,4 @@
         border: 1px solid #ddd !important;
     }
 </style>
-
 @endsection
