@@ -42,7 +42,6 @@
                                     </a>
                                 </th>
                             </tr>
-
                         </thead>
                     </table>
                     @empty
@@ -83,6 +82,16 @@
     .table td {
         padding: 15px !important;
         /* Tambah jarak */
+    }
+
+    /* Mengatasi masalah border di tabel */
+    .table-bordered {
+        border: 1px solid #ddd !important;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #ddd !important;
     }
 </style>
 @endsection
