@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class MentorController extends Controller
 {
-
     public function index()
     {
         // Data retrieval (if needed)
@@ -47,36 +46,27 @@ class MentorController extends Controller
         return view('mentor.detail', compact('students', 'kegiatans'));
     }
 
-    public function validasiKegiatan($id)
-    {
-        $kegiatan = KegiatanHarian::findOrFail($id);
-        $kegiatan->status = 'acc';
-        $kegiatan->save();
-
-        return redirect()->route('mentor.detail', $kegiatan->user_id)->with('success', 'Kegiatan telah di ACC');
-    }
-
-    public function revisiKegiatan($id)
-    {
-        $kegiatan = KegiatanHarian::findOrFail($id);
-        $kegiatan->status = 'revisi';
-        $kegiatan->save();
-
-        return redirect()->route('mentor.detail', $kegiatan->user_id)->with('success', 'Kegiatan memerlukan revisi');
-    }
-
     public function updateCatatan(Request $request, $id)
     {
-        $request->validate([
-            'catatan' => 'nullable|string|max:255',
-        ]);
+        $kegiatans = KegiatanHarian::findOrFail($id);
 
-        $kegiatan = KegiatanHarian::findOrFail($id);
-        $kegiatan->catatan = $request->catatan;
-        $kegiatan->save();
+        $kegiatans->catatan = $request->catatan;
+        $kegiatans->status = 'revisi'; // Tetapkan status sebagai revisi
+        $kegiatans->save();
 
-        return redirect()->route('mentor.detail', $kegiatan->user_id)->with('success', 'Catatan berhasil disimpan');
+        return redirect()->back()->with('success', 'Catatan berhasil diperbarui!');
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $kegiatans = KegiatanHarian::findOrFail($id);
+
+        $kegiatans->status = $request->status;
+        $kegiatans->save();
+
+        return redirect()->back()->with('success', 'Status kegiatan berhasil diperbarui!');
+    }
+
 
     // PROFILE
 // Fungsi untuk melihat profil mentor

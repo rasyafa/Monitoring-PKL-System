@@ -160,7 +160,7 @@ class SiswaController extends Controller
     public function kegiatan()
     {
         // Ambil semua kegiatan yang terkait dengan siswa yang sedang login
-        $kegiatans = KegiatanHarian::where('user_id', Auth::id())->get();
+        $kegiatans = KegiatanHarian::where('user_id', Auth::id())->paginate(5);
 
         // Kirimkan data ke view
         return view('siswa.kegiatan', compact('kegiatans'));
