@@ -15,38 +15,37 @@
                     <h3 class="text-center mb-4" style="color: #03d703;">Laporan Akhir</h3>
 
                     <!-- Cek jika ada laporan -->
-                    @if($laporans->isEmpty())
-                        <p class="text-center text-muted">Belum ada laporan yang tersedia.</p>
-                    @else
-                        @foreach($laporans as $laporan)
-                        <table class="table table-bordered mb-4" style="border-radius: 10px; overflow: hidden;">
-                            <tbody>
-                                <tr>
-                                    <th style="width: 30%;">Nama</th>
-                                    <td>{{ $students->name }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Tanggal</th>
-                                    <td>{{ \Carbon\Carbon::parse($laporan->tanggal)->format('d-m-Y') }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Judul Laporan</th>
-                                    <td>{{ $laporan->judul }}</td>
-                                </tr>
-                                <tr>
-                                    <th>File</th>
-                                    <td>
-                                        <a href="{{ Storage::url($laporan->file_path) }}"
-                                           target="_blank"
-                                           class="btn btn-outline-success btn-sm">
-                                           Lihat File
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        @endforeach
-                    @endif
+                    @forelse($laporans as $laporan)
+                    <table class="table table-bordered" style="border-radius: 10px;">
+                        <thead>
+                            <tr style="background-color: #f7f7f7;">
+                                <th><strong>Nama</strong></th>
+                                <th>{{ Auth::user()->name }}</th>
+                            </tr>
+                            <tr style="background-color: #fafafa;">
+                                <th><strong>Tanggal</strong></th>
+                                <th>{{ \Carbon\Carbon::parse($laporan->tanggal)->format('d-m-Y') }}</th>
+                            </tr>
+                            <tr style="background-color: #f7f7f7;">
+                                <th><strong>Judul Laporan</strong></th>
+                                <th>{{ $laporan->judul }}</th>
+                            </tr>
+                            <tr style="background-color: #fafafa;">
+                                <th><strong>File</strong></th>
+                                <th>
+                                    <!-- Link to the file with the original file name -->
+                                    <a href="{{ Storage::url($laporan->file_path) }}" class="btn btn-link"
+                                        target="_blank">
+                                        {{ basename($laporan->file_path) }}
+                                        <!-- Display the original file name -->
+                                    </a>
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                    @empty
+                    <p class="text-center">Belum ada laporan.</p>
+                    @endforelse
                 </div>
             </div>
         </div>
@@ -134,6 +133,16 @@
     .table-bordered th,
     .table-bordered td {
         border: 1px solid var(--border-color);
+    }
+
+    /* Mengatasi masalah border di tabel */
+    .table-bordered {
+        border: 1px solid #ddd !important;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #ddd !important;
     }
 </style>
 

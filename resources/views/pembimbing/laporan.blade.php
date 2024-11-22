@@ -5,41 +5,7 @@
 @section('page-title', 'Data Laporan Akhir')
 
 @section('content')
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-header text-center">
-            <h2 class="mb-0">Laporan Akhir</h2>
-        </div>
-        <div class="card-body">
-            <!-- Tabel Kegiatan Siswa -->
-            <table class="table table-striped table-hover table-bordered">
-                <thead class="text-center">
-                    <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($students as $index => $student)
-                    <tr>
-                        <td class="text-center">{{ $index + 1 }}</td>
-                        <td>{{ $student->name }}</td>
-                        <td class="text-center">
-                            <a href="{{ route('pembimbing.laporanakhir', $student->id) }}" class="btn btn-light-green btn-sm">
-                                Lihat laporan akhir {{ $student->name }}
-                            </a>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-@endsection
 
-@push('styles')
 <style>
     :root {
             --main-bg-color: #03d703;
@@ -52,6 +18,7 @@
 
     .content-container {
         margin-left: 30px;
+        
     }
 
     .card {
@@ -59,6 +26,7 @@
         border: none;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        color: #32CD32;
     }
 
     /* Tema hijau untuk tabel */
@@ -121,4 +89,38 @@
         /* Warna teks tombol saat hover */
     }
 </style>
-@endpush
+
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header text-center">
+            <h2 class="mb-0">Laporan Akhir</h2>
+        </div>
+        <div class="card-body">
+            <!-- Tabel Kegiatan Siswa -->
+            <table class="table table-striped table-hover table-bordered">
+                <thead class="text-center">
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($students as $index => $student)
+                    <tr>
+                        <td class="text-center">{{ $index + 1 }}</td>
+                        <td>{{ $student->name }}</td>
+                        <td class="text-center">
+                            <a href="{{ route('pembimbing.laporanakhir', $student->id) }}" class="btn btn-light-green btn-sm">
+                                Lihat laporan akhir {{ $student->name }}
+                            </a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@endsection
