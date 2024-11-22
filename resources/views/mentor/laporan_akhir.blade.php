@@ -21,7 +21,7 @@
                         <thead>
                             <tr style="background-color: #f7f7f7;">
                                 <th><strong>Nama</strong></th>
-                                <th>{{ Auth::user()->name }}</th>
+                                <th>{{ $students->name }}</th>
                             </tr>
                             <tr style="background-color: #fafafa;">
                                 <th><strong>Tanggal</strong></th>

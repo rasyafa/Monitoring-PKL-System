@@ -17,7 +17,7 @@ class PembimbingController extends Controller
     public function index()
     {
         $pembimbings = [];
-        
+
         return view('pembimbing.home');
     }
 
@@ -235,22 +235,24 @@ class PembimbingController extends Controller
         return view('pembimbing.laporanakhir', compact('students', 'laporans'));
     }
 
-    public function updateStatus(Request $request, $id)
-    {
-        $laporans = LaporanAkhir::findOrFail($id);
-        $request->validate([
-            'status' => 'required|in:acc,revisi',
-        ]);
-
-        $laporans->update(['status' => $request->status]);
-        return redirect()->back()->with('success', 'Status berhasil diperbarui.');
-    }
-
-    // Update catatan
     public function updateCatatan(Request $request, $id)
     {
         $laporans = LaporanAkhir::findOrFail($id);
-        $laporans->update(['catatan' => $request->catatan]);
-        return redirect()->back()->with('success', 'Catatan berhasil diperbarui.');
+
+        $laporans->catatan = $request->catatan;
+        $laporans->status = 'revisi'; // Tetapkan status sebagai revisi
+        $laporans->save();
+
+        return redirect()->back()->with('success', 'Catatan berhasil diperbarui!');
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $laporans = LaporanAkhir::findOrFail($id);
+
+        $laporans->status = $request->status;
+        $laporans->save();
+
+        return redirect()->back()->with('success', 'Status kegiatan berhasil diperbarui!');
     }
 }

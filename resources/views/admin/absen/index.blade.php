@@ -16,6 +16,12 @@
         border-bottom: none;
         }
 
+        .table {
+        background-color: #f9f9f9;/* Warna latar belakang tabel */
+        table-layout: fixed; Kolom memiliki ukuran tetap sesuai lebar
+
+        }
+
         /* Memberikan padding pada card */
         .card {
         margin-top: 20px;
