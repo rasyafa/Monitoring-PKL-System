@@ -95,5 +95,3 @@
     }
 </style>
 @endsection
-
-
