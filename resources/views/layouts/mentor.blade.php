@@ -108,8 +108,8 @@
                         <li><a href="{{ route('mentor.absen') }}" class="list-group-item list-group-item-action bg-transparent second-text">
                                 <i class="fas fa-chalkboard-teacher me-2"></i>Absen</a></li>
                         <li><a href="{{ route('mentor.kegiatan') }}" class="list-group-item list-group-item-action bg-transparent second-text">
-                                <i class="fas fa-file-alt me-2"></i>Kegiatan Harian</a></li>
-                        <li><a href="{{ route('mentor.laporan') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                                <i class="fas fa-file-alt me-2"></i>Laporan Harian</a></li>
+                        <li><a href="{{ route('mentor.laporan') }}" class="list-group-item list-group-item-action bg-transparent second-text">
                                 <i class="fas fa-file-alt me-2"></i>Data Laporan Akhir</a></li>
                     </ul>
                 </div>
