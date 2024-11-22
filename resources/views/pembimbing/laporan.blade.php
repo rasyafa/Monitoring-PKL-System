@@ -49,7 +49,7 @@
             --toggle-color: #03d703;
             --heading-color: #03d703;
         }
-        
+
     .content-container {
         margin-left: 30px;
     }

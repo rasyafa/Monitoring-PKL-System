@@ -279,7 +279,7 @@
             <!-- Diagram Kolom -->
             <div class="col-lg-6 chart-container">
                 <div class="card">
-                    <h3 class="card-title text-center" style="color: #000;">Data Siswa per Bulan</h3>
+                    <h3 class="card-title text-center" style="color: #000;">Data Siswa Per-Bulan</h3>
                     <canvas id="myBarChart"></canvas>
                 </div>
             </div>
