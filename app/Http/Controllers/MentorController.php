@@ -46,24 +46,27 @@ class MentorController extends Controller
         return view('mentor.detail', compact('students', 'kegiatans'));
     }
 
-    public function updateStatus(Request $request, $id)
-    {
-        $kegiatan = KegiatanHarian::findOrFail($id);
-        $request->validate([
-            'status' => 'required|in:acc,revisi',
-        ]);
-
-        $kegiatan->update(['status' => $request->status]);
-        return redirect()->back()->with('success', 'Status berhasil diperbarui.');
-    }
-
-    // Update catatan
     public function updateCatatan(Request $request, $id)
     {
-        $kegiatan = KegiatanHarian::findOrFail($id);
-        $kegiatan->update(['catatan' => $request->catatan]);
-        return redirect()->back()->with('success', 'Catatan berhasil diperbarui.');
+        $kegiatans = KegiatanHarian::findOrFail($id);
+
+        $kegiatans->catatan = $request->catatan;
+        $kegiatans->status = 'revisi'; // Tetapkan status sebagai revisi
+        $kegiatans->save();
+
+        return redirect()->back()->with('success', 'Catatan berhasil diperbarui!');
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $kegiatans = KegiatanHarian::findOrFail($id);
+
+        $kegiatans->status = $request->status;
+        $kegiatans->save();
+
+        return redirect()->back()->with('success', 'Status kegiatan berhasil diperbarui!');
+    }
+
 
     // PROFILE
 // Fungsi untuk melihat profil mentor
