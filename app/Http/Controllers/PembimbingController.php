@@ -128,15 +128,19 @@ class PembimbingController extends Controller
 
         // Jika ada gambar, simpan gambar
         if ($request->hasFile('image')) {
+            // Menyimpan gambar ke folder 'gambar' di storage
             $imagePath = $request->file('image')->store('gambar', 'public');
+            // Menyimpan hanya nama file (basename) untuk disimpan di database
             $kegiatan->image = basename($imagePath);
         }
 
+        // Simpan data kegiatan
         $kegiatan->save();
 
         // Redirect ke halaman monitoring setelah berhasil
         return redirect()->route('monitoring')->with('success', 'Kegiatan berhasil ditambahkan!');
     }
+
 
     // Method Edit untuk menampilkan form edit berdasarkan ID kegiatan
     public function edit($id)
@@ -165,15 +169,16 @@ class PembimbingController extends Controller
 
         // Update gambar jika ada
         if ($request->hasFile('image')) {
-            // Hapus gambar lama
+            // Hapus gambar lama jika ada
             if ($kegiatan->image) {
+                // Menghapus file gambar lama dari storage
                 Storage::delete('public/gambar/' . $kegiatan->image);
             }
 
             // Simpan gambar baru
             $imageName = time() . '.' . $request->image->extension();
             $request->image->storeAs('public/gambar', $imageName);
-            $kegiatan->image = $imageName;
+            $kegiatan->image = $imageName; // Simpan nama file gambar baru
         }
 
         // Simpan perubahan
@@ -182,6 +187,7 @@ class PembimbingController extends Controller
         // Redirect dengan pesan sukses
         return redirect()->route('monitoring')->with('success', 'Kegiatan berhasil diperbarui!');
     }
+
 
     public function absenIndex()
     {
@@ -237,6 +243,8 @@ class PembimbingController extends Controller
 
     public function updateCatatan(Request $request, $id)
     {
+
+
         $laporans = LaporanAkhir::findOrFail($id);
 
         $laporans->catatan = $request->catatan;
@@ -248,6 +256,8 @@ class PembimbingController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
+
+
         $laporans = LaporanAkhir::findOrFail($id);
 
         $laporans->status = $request->status;

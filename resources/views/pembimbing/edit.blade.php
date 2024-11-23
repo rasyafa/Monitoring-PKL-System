@@ -56,7 +56,7 @@
                 <label for="image" class="form-label">Gambar</label>
                 <input type="file" class="form-control" id="image" name="image" onchange="previewImage(event)">
                 <small>Gambar saat ini:</small><br>
-                <img id="currentImage" src="{{ asset('storage/gambar/' . $kegiatan->image) }}" alt="Current Image" width="100">
+                <img id="currentImage" src="{{ Storage::url('gambar/' . $kegiatan->image) }}" alt="Current Image" width="100">
                 <div id="preview-container" style="display: none;">
                     <small>Preview:</small><br>
                     <img id="preview-image" src="#" alt="Preview Image" width="100">

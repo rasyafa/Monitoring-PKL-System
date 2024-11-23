@@ -42,6 +42,10 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     // Route untuk LAPORAN AKHIR
     Route::get('/laporan-akhir', [AdminController::class, 'laporanAkhirIndex'])->name('admin.laporan-akhir');
     Route::get('/laporan-akhir/{id}', [AdminController::class, 'laporanAkhirShow'])->name('admin.laporan');
+
+    Route::get('/absen/attendance', [AdminController::class, 'downloadAttendancePDF'])->name('admin.absen.attendance');
+    Route::get('/admin/kegiatan/activity/{id}', [AdminController::class, 'downloadLogbookPdf'])->name('admin.kegiatan.activity');
+
 });
 
 
@@ -103,8 +107,8 @@ Route::middleware(['auth', CheckRole::class . ':pembimbing'])->group(function ()
     Route::get('laporansiswa', [PembimbingController::class, 'laporanAkhirIndex'])->name('pembimbing.laporan');
     Route::get('laporanakhir/{id}', [PembimbingController::class, 'laporanAkhirShow'])->name('pembimbing.laporanakhir');
 
-    Route::post('/pembimbing/kegiatan/{id}/updateCatatan', [PembimbingController::class, 'updateCatatan'])->name('pembimbing.laporan.updateCatatan');
-    Route::post('/pembimbing/kegiatan/{id}/updateStatus', [PembimbingController::class, 'updateStatus'])->name('pembimbing.laporan.updateStatus');
+    Route::post('/pembimbing/laporan/{id}/updateCatatan', [PembimbingController::class, 'updateCatatan'])->name('pembimbing.laporan.updateCatatan');
+    Route::post('/pembimbing/laporan/{id}/updateStatus', [PembimbingController::class, 'updateStatus'])->name('pembimbing.laporan.updateStatus');
 });
 
 

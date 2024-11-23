@@ -14,6 +14,8 @@ class LaporanAkhir extends Model
         'judul',
         'file_path',
         'tanggal',
+        'status',
+        'catatan',
     ];
 
     protected $dates = ['tanggal'];

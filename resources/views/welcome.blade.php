@@ -106,8 +106,8 @@
             <div class="container">
                 <a class="navbar-brand" href="#">Sistem PKL</a>
                 <div class="d-flex">
-                    <a href="{{ route('login') }}" class="btn btn-link text-decoration-none text-success me-3">Login</a>
-                    <a href="{{ route('register') }}" class="btn btn-success">Register</a>
+                    <a href="{{ route('login') }}" class="btn btn-link text-decoration-none text-success me-3">Masuk</a>
+                    <a href="{{ route('register') }}" class="btn btn-success">Daftar</a>
                 </div>
             </div>
         </nav>

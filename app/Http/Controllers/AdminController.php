@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class AdminController extends Controller
@@ -226,5 +227,34 @@ class AdminController extends Controller
         // Kirim data ke view
         return view('admin.laporan', compact('students', 'laporans'));
     }
+
+    public function downloadAttendancePDF()
+    {
+        $students = User::where('role', 'siswa')->get(); // Ambil data siswa
+        $attendances = Absen::all(); // Ambil data absensi
+
+        // Render tampilan ke PDF
+        $pdf = Pdf::loadView('admin.absen.attendance', compact('students', 'attendances'))
+            ->setPaper('a4', 'landscape');
+
+        // Unduh file PDF
+        return $pdf->download('rekap-kehadiran.pdf');
+    }
+
+    public function downloadLogbookPdf($id)
+    {
+        // Ambil data mahasiswa berdasarkan ID
+        $students = User::where('role', 'siswa')->findOrFail($id);
+
+        // Ambil kegiatan yang terkait dengan mahasiswa ini
+        $kegiatans = KegiatanHarian::where('user_id', $id)->get();
+
+        // Generate PDF dari tampilan HTML
+        $pdf = Pdf::loadView('admin.kegiatan.activity', compact('students', 'kegiatans'));
+
+        // Download PDF
+        return $pdf->download('laporan_harian_' . $students->name . '.pdf');
+    }
+
 
 }

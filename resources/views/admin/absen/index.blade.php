@@ -48,6 +48,7 @@
 <div class="container">
     <div class="card">
         <h2 class="mb-4">Rekap Kehadiran Siswa</h2>
+        <a href="{{ route('admin.absen.attendance') }}" class="btn btn-success mb-3" style="width: 20%;">Download PDF</a>
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
                 <thead class="table-light">

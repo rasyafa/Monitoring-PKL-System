@@ -69,49 +69,54 @@ class MentorController extends Controller
 
 
     // PROFILE
-// Fungsi untuk melihat profil mentor
-public function profil($id)
-{
-    $user = Auth::user();
+    // Fungsi menampilkan profil mentor
+    public function profil($id)
+    {
+        $user = Auth::user();
 
-    // Cek akses, hanya bisa lihat profil sendiri
-    if ($user->role !== 'mentor' || $user->id != $id) {
-        return redirect()->route('home')->with('error', 'Akses ditolak! Anda hanya bisa melihat profil Anda sendiri.');
+        // Cek akses, hanya mentor login dan ID sesuai
+        if ($user->role !== 'mentor' || $user->id !== (int)$id) {
+            return redirect()->route('home')->with('error', 'Akses ditolak! Anda hanya dapat melihat profil Anda sendiri.');
+        }
+
+        // Ambil data mentor berdasarkan ID
+        $mentor = User::where('role', 'mentor')->findOrFail($id);
+
+        return view('mentor.profil', compact('mentor'));
     }
 
-    // Ambil data mentor berdasarkan id
-    $mentor = User::findOrFail($id);  // Ganti User dengan Mentor
+    // Fungsi menampilkan halaman edit profil mentor
+    public function edit($id)
+    {
+        $mentor = User::where('role', 'mentor')->findOrFail($id);
 
-    return view('mentor.profil', compact('mentor'));
-}
+        // Pastikan hanya mentor yang login bisa mengedit profilnya
+        if (Auth::id() !== $mentor->id) {
+            return redirect()->route('home')->with('error', 'Akses ditolak! Anda hanya dapat mengedit profil Anda sendiri.');
+        }
 
-// Fungsi untuk edit profil mentor
-public function edit($id)
-{
-    $mentor = User::findOrFail($id);  // Ganti User dengan Mentor
-
-    // Pastikan hanya mentor yang sedang login yang bisa mengedit profilnya
-    if (Auth::id() !== $mentor->id) {
-        return redirect()->route('home')->with('error', 'Akses ditolak! Anda hanya bisa mengedit profil Anda sendiri.');
+        return view('mentor.edit', compact('mentor'));
     }
 
-    return view('mentor.edit', compact('mentor'));
-}
-
-// Fungsi untuk update data profil mentor
+    // Fungsi untuk update profil mentor
     public function update(Request $request, $id)
     {
-        // Validasi data
+        // Validasi input
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'password' => 'nullable|min:8|confirmed',
             'city' => 'required|string|max:255',
-            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Cari mentor berdasarkan ID
-        $mentor = User::findOrFail($id);  // Ganti User dengan Mentor
+        $mentor = User::where('role', 'mentor')->findOrFail($id);
+
+        // Pastikan hanya mentor login yang bisa mengedit data
+        if (Auth::id() !== $mentor->id) {
+            return redirect()->route('home')->with('error', 'Akses ditolak! Anda hanya dapat mengedit profil Anda sendiri.');
+        }
 
         // Update data mentor
         $mentor->name = $request->input('name');
@@ -124,20 +129,19 @@ public function edit($id)
 
         // Proses upload foto jika ada
         if ($request->hasFile('profile_photo')) {
-            // Cek jika foto lama ada dan hapus
+            // Hapus foto lama jika ada
             if ($mentor->profile_photo) {
-                Storage::delete($mentor->profile_photo); // Hapus foto lama
+                Storage::delete($mentor->profile_photo);
             }
 
             // Simpan foto baru
             $photoPath = $request->file('profile_photo')->store('profile_photos', 'public');
-            $mentor->profile_photo = $photoPath; // Simpan path foto
+            $mentor->profile_photo = $photoPath;
         }
 
         // Simpan perubahan ke database
         $mentor->save();
 
-        // Redirect ke halaman profil dengan pesan sukses
         return redirect()->route('mentor.profil', $mentor->id)->with('success', 'Profil berhasil diperbarui.');
     }
 

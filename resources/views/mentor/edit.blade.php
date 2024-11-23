@@ -35,7 +35,7 @@
             width: 120px;
             height: 120px;
             object-fit: cover;
-            border: 5px solid #03d703;
+            border: 5px solid #fff;
         }
 
         .error-message {
@@ -149,7 +149,7 @@
 
                     <!-- Input Email -->
                     <div class="form-group">
-                        <label for="email">Email</label>
+                        <label for="email">Alamat Surel</label>
                         <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $mentor->email) }}" required>
                     </div>
 

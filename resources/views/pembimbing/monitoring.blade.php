@@ -115,7 +115,7 @@
                     <textarea class="form-control" rows="4" disabled>{{ $data->kegiatan }}</textarea>
                 </td>
                 <td>
-                    <img src="{{ asset('storage/gambar/' . $data->image) }}" width="200" alt="Image">
+                    <img src="{{ Storage::url('gambar/' . $data->image) }}" width="200" alt="Image">
                 </td>
                 <td>
                     <a href="{{ route('pembimbing.edit', $data->id) }}" class="btn btn-warning">Edit</a>

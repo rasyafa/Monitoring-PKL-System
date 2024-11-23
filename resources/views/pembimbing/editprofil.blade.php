@@ -37,10 +37,10 @@
          /* Foto profil di bawah form */
         .profile-photo-preview {
             border-radius: 50%;
-            width: 120px; /* Menyesuaikan ukuran foto profil agar lebih besar */
-            height: 120px;
+            width: 150px; /* Menyesuaikan ukuran foto profil agar lebih besar */
+            height: 150px;
             object-fit: cover;
-            border: 5px solid #03d703;
+            border: 5px solid #fff;
 
         }
 
