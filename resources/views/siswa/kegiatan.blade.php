@@ -95,11 +95,11 @@
                             <td>{{ $kegiatan->kegiatan }}</td>
                              <td>
                                 @if($kegiatan->status === 'acc')
-                                    <span class="badge bg-success">Disetujui</span>
+                                    <span class="badge bg-success">ACC</span>
                                 @elseif($kegiatan->status === 'revisi')
-                                    <span class="badge bg-warning text-dark">Perlu Revisi</span>
+                                    <span class="badge bg-warning text-dark"> Revisi</span>
                                 @else
-                                    <span class="badge bg-secondary">Menunggu</span>
+                                    <span class="badge bg-secondary">Menunggu Validasi</span>
                                 @endif
                             </td>
                         </tr>

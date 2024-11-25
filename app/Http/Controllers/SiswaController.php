@@ -187,7 +187,7 @@ class SiswaController extends Controller
             'tanggal' => $request->tanggal,
             'waktu_mulai' => $request->waktu_mulai,
             'waktu_selesai' => $request->waktu_selesai,
-
+            'kegiatan' => $request->kegiatan,
         ]);
 
         return redirect()->route('siswa.riwayat-kegiatan')->with('success', 'Kegiatan berhasil disimpan.');
@@ -207,8 +207,7 @@ class SiswaController extends Controller
     {
         $validated = $request->validate([
             'file' => 'required|file|mimes:pdf,doc,docx',
-            'judul' => 'required|string|max:255','status' => 'nullable|string|in:menunggu,acc,revisi', // Status optional dengan nilai default
-            'catatan' => 'nullable|string', // Catatan optional
+            'judul' => 'required|string|max:255',
         ]);
 
         // Get the original file name
@@ -221,8 +220,7 @@ class SiswaController extends Controller
             'user_id' => Auth::id(),
             'judul' => $request->judul,
             'file_path' => $filePath,
-            'tanggal' => today(),'status' => $request->status ?? 'menunggu',  // Set status default 'menunggu'
-            'catatan' => $request->catatan ?? null, // Catatan bisa null jika tidak ada
+            'tanggal' => today(),
         ]);
 
         return redirect()->route('laporan.riwayat')->with('success', 'Laporan berhasil dikirim.');

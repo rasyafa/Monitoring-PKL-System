@@ -48,21 +48,22 @@
                             <tr style="background-color: #f7f7f7;">
                                 <th><strong>Status</strong></th>
                                 <th>
-
-                                        <span class="badge bg-success">Disetujui</span>
-
-                                        <span class="badge bg-warning text-dark">Perlu Revisi</span>
-
-                                        <span class="badge bg-secondary">Menunggu</span>
-
+                                    @if($laporan->status === 'acc')
+                                        <span class="badge bg-success">ACC</span>
+                                    @elseif($laporan->status === 'revisi')
+                                        <span class="badge bg-warning text-dark">Revisi</span>
+                                    @else
+                                        <span class="badge bg-secondary">Menunggu Validasi</span>
+                                    @endif
                                 </th>
                             </tr>
                             <!-- Catatan Pembimbing -->
-
+                            @if($laporan->catatan)
                             <tr style="background-color: #fafafa;">
                                 <th><strong>Catatan Pembimbing</strong></th>
+                                <th>{{ $laporan->catatan }}</th>
                             </tr>
-
+                            @endif
                             <tr style="background-color: #fafafa;">
                                 <th><strong>File</strong></th>
                                 <th>
