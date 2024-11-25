@@ -99,7 +99,6 @@
                     <select id="role" class="form-select" name="role" required>
                         <option value="siswa">Siswa</option>
                         <option value="pembimbing">Pembimbing</option>
-                        <option value="mitra">Mitra</option>
                         <option value="mentor">Mentor</option>
                     </select>
                 </div>

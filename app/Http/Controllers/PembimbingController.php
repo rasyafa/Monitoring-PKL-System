@@ -16,9 +16,13 @@ class PembimbingController extends Controller
     // Menampilkan halaman utama (home) pembimbing
     public function index()
     {
-        $pembimbings = [];
+       // Menghitung jumlah kegiatan harian
+    $studentsCount = Kegiatan::Count(); // Mengambil data siswa dengan peran 'siswa'
 
-        return view('pembimbing.home');
+    // Menghitung jumlah data absensi
+    $absensCount = Absen::Count();
+
+        return view('pembimbing.home', compact('$studentsCount', '$absensCount'));;
     }
 
     // PROFILE

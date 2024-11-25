@@ -62,6 +62,11 @@
             margin-right: 10px;
         }
 
+        .list-group-flush {
+        list-style-type: none; /* Menghilangkan bullet */
+        padding-left: 0; /* Menghilangkan padding kiri */
+        }
+
         .list-group-item {
             border: none;
             padding: 20px 30px;
@@ -101,15 +106,20 @@
                     aria-controls="manageUsersDropdown">
                     <i class="fas fa-users me-2"></i>Siswa
                 </a>
+
                 <div class="collapse" id="manageUsersDropdown">
                     <ul class="list-group list-group-flush ms-3">
-                        <li><a href="{{ route('mentor.datasiswa') }}" class="list-group-item list-group-item-action bg-transparent second-text">
+                        <li><a href="{{ route('mentor.datasiswa') }}"
+                                class="list-group-item list-group-item-action bg-transparent second-text">
                                 <i class="fas fa-user-graduate me-2"></i>Data</a></li>
-                        <li><a href="{{ route('mentor.absen') }}" class="list-group-item list-group-item-action bg-transparent second-text">
+                        <li><a href="{{ route('mentor.absen') }}"
+                                class="list-group-item list-group-item-action bg-transparent second-text">
                                 <i class="fas fa-chalkboard-teacher me-2"></i>Absen</a></li>
-                        <li><a href="{{ route('mentor.kegiatan') }}" class="list-group-item list-group-item-action bg-transparent second-text">
+                        <li><a href="{{ route('mentor.kegiatan') }}"
+                                class="list-group-item list-group-item-action bg-transparent second-text">
                                 <i class="fas fa-file-alt me-2"></i>Laporan Harian</a></li>
-                        <li><a href="{{ route('mentor.laporan') }}" class="list-group-item list-group-item-action bg-transparent second-text">
+                        <li><a href="{{ route('mentor.laporan') }}"
+                                class="list-group-item list-group-item-action bg-transparent second-text">
                                 <i class="fas fa-file-alt me-2"></i>Data Laporan Akhir</a></li>
                     </ul>
                 </div>
@@ -142,6 +152,21 @@
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
         });
+
+            // Menangani toggle secara manual jika diperlukan
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            const dropdownMenu = document.querySelector('#manageUsersDropdown');
+
+            dropdownToggle.addEventListener('click', function () {
+                const isOpen = dropdownMenu.classList.contains('show');
+                if (isOpen) {
+                    // Jika sudah terbuka, tutup dropdown
+                    dropdownMenu.classList.remove('show');
+                } else {
+                    // Jika tertutup, buka dropdown
+                    dropdownMenu.classList.add('show');
+                }
+            });
     </script>
     @stack('scripts')
 </body>
