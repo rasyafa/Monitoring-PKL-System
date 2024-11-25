@@ -83,6 +83,7 @@
                         <th>Waktu Mulai</th>
                         <th>Waktu Selesai</th>
                         <th>Kegiatan</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,6 +93,7 @@
                             <td>{{ $kegiatan->waktu_mulai }}</td>
                             <td>{{ $kegiatan->waktu_selesai }}</td>
                             <td>{{ $kegiatan->kegiatan }}</td>
+                            <td class="text-center">
                         </tr>
                     @endforeach
                 </tbody>

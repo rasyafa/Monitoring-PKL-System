@@ -43,7 +43,7 @@ class SiswaController extends Controller
 
         // Cek akses, hanya bisa lihat profil sendiri
         if ($user->role !== 'siswa' || $user->id != $id) {
-            return redirect()->route('home')->with('error', 'Akses ditolak! Anda hanya bisa melihat profil Anda sendiri.');
+            return redirect()->route('welcome');
         }
 
         // Ambil data siswa berdasarkan id
@@ -187,7 +187,7 @@ class SiswaController extends Controller
             'tanggal' => $request->tanggal,
             'waktu_mulai' => $request->waktu_mulai,
             'waktu_selesai' => $request->waktu_selesai,
-            'kegiatan' => $request->kegiatan,
+
         ]);
 
         return redirect()->route('siswa.riwayat-kegiatan')->with('success', 'Kegiatan berhasil disimpan.');
@@ -207,7 +207,8 @@ class SiswaController extends Controller
     {
         $validated = $request->validate([
             'file' => 'required|file|mimes:pdf,doc,docx',
-            'judul' => 'required|string|max:255',
+            'judul' => 'required|string|max:255','status' => 'nullable|string|in:menunggu,acc,revisi', // Status optional dengan nilai default
+            'catatan' => 'nullable|string', // Catatan optional
         ]);
 
         // Get the original file name
@@ -220,7 +221,8 @@ class SiswaController extends Controller
             'user_id' => Auth::id(),
             'judul' => $request->judul,
             'file_path' => $filePath,
-            'tanggal' => today(),
+            'tanggal' => today(),'status' => $request->status ?? 'menunggu',  // Set status default 'menunggu'
+            'catatan' => $request->catatan ?? null, // Catatan bisa null jika tidak ada
         ]);
 
         return redirect()->route('laporan.riwayat')->with('success', 'Laporan berhasil dikirim.');
