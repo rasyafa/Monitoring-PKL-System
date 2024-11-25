@@ -44,6 +44,25 @@
                                 <th><strong>Judul Laporan</strong></th>
                                 <th>{{ $laporan->judul }}</th>
                             </tr>
+                            <!-- Status Laporan -->
+                            <tr style="background-color: #f7f7f7;">
+                                <th><strong>Status</strong></th>
+                                <th>
+
+                                        <span class="badge bg-success">Disetujui</span>
+
+                                        <span class="badge bg-warning text-dark">Perlu Revisi</span>
+
+                                        <span class="badge bg-secondary">Menunggu</span>
+
+                                </th>
+                            </tr>
+                            <!-- Catatan Pembimbing -->
+
+                            <tr style="background-color: #fafafa;">
+                                <th><strong>Catatan Pembimbing</strong></th>
+                            </tr>
+
                             <tr style="background-color: #fafafa;">
                                 <th><strong>File</strong></th>
                                 <th>
@@ -103,8 +122,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                     <button type="submit" class="btn btn-primary">Kirim</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </form>
         </div>
