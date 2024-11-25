@@ -5,38 +5,59 @@
 @section('page-title', 'Dashboard')
 
 @section('content')
-
-
-<div class="row">
-    <!-- Card: Jumlah Siswa -->
+<div class="row justify-content-center">
+    <!-- Stat Card: Jumlah Siswa -->
     <div class="col-md-4">
-        <div class="card text-center" style="background-color: #32cd32; color: white;">
-            <div class="card-body">
-                <i class="fas fa-user-graduate fa-3x mb-3"></i>
-                <h5 class="card-title">Jumlah Siswa</h5>
-                <p class="card-text" style="font-size: 24px; font-weight: bold;">{{ $data['students_count'] }}</p>
+        <div class="card stat-card">
+            <div class="card-body d-flex align-items-center">
+                <div class="icon-container">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="ms-4">
+                    <h6 class="card-title mb-1">Jumlah Siswa</h6>
+                    <p class="stat-value mb-0">{{ $data['students_count'] }}</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!--  Card: Jumlah Pembimbing -->
+    <!-- Stat Card: Jumlah Pembimbing -->
     <div class="col-md-4">
-        <div class="card text-center" style="background-color: #32cd32; color: white;">
-            <div class="card-body">
-                <i class="fas fa-chalkboard-teacher fa-3x mb-3"></i>
-                <h5 class="card-title">Jumlah Pembimbing</h5>
-                <p class="card-text" style="font-size: 24px; font-weight: bold;">{{ $data['pembimbing_count'] }}</p>
+        <div class="card stat-card">
+            <div class="card-body d-flex align-items-center">
+                <div class="icon-container">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <div class="ms-4">
+                    <h6 class="card-title mb-1">Jumlah Pembimbing</h6>
+                    <p class="stat-value mb-0">{{ $data['pembimbing_count'] }}</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!--  Card: Jumlah Mentor -->
+    <!-- Stat Card: Jumlah Mentor -->
     <div class="col-md-4">
-        <div class="card text-center" style="background-color: #32cd32; color: white;">
+        <div class="card stat-card">
+            <div class="card-body d-flex align-items-center">
+                <div class="icon-container">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="ms-4">
+                    <h6 class="card-title mb-1">Jumlah Mentor</h6>
+                    <p class="stat-value mb-0">{{ $data['mentors_count'] }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Card untuk Kalender --}}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
             <div class="card-body">
-                <i class="fas fa-user-tie fa-3x mb-3"></i>
-                <h5 class="card-title">Jumlah Mentor</h5>
-                <p class="card-text" style="font-size: 24px; font-weight: bold;">{{ $data['mentors_count'] }}</p>
+                <div id="calendar"></div>
             </div>
         </div>
     </div>
@@ -44,91 +65,85 @@
 
 @endsection
 
-@push('scripts')
-<script>
-    // FullCalendar Initialization
-    document.addEventListener('DOMContentLoaded', function () {
-        var calendarEl = document.getElementById('calendar');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth', // Display calendar in monthly view
-            headerToolbar: {
-                left: 'prev,next today', // Buttons for navigation
-                center: 'title', // Display title
-                right: 'dayGridMonth,dayGridWeek,dayGridDay' // View options
-            },
-            events: [
-
-            ]
-        });
-
-        calendar.render();
-    });
-</script>
-
-@endpush
-
 @push('styles')
 <style>
-    /* style untuk Card diagram */
-    .card {
-        margin-left: 1rem; /* Memberikan jarak kiri */
-        margin-right: 1rem; /* Memberikan jarak kanan */
+    /* style untuk stat card*/
+    .stat-card {
+        border-radius: 20px;
         border: none;
-        border-radius: 15px;
-        box-shadow: 0 2px 10px rgba(27, 25, 25, 0.1);
-        transition: transform 0.2s;
-        }
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #f8f9fa;
+        transition: transform 0.3s ease-in-out;
+        height: 130px;
+        margin-left: 60px;
+    }
 
-    .card:hover {
+    .stat-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 4px 15px rgba(35, 33, 33, 0.091);
-    }
-
-    .card-header {
-        background-color: transparent;
-        border-bottom: none;
-    }
-
-    .card-header h5 {
-        margin: 0;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
     }
 
     .card-body {
-        padding: 10px;
+        display: flex;
+        align-items: center;
     }
 
-    .card-title {
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    .chart-container {
+    /* Icon Styles  stat */
+    .icon-container {
+        width: 70px;
+        height: 70px;
+        background-color: #03d703;
+        border-radius: 15px;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 300px;
+        color: white;
+        font-size: 32px;
     }
 
-    .chart-container canvas {
-        max-width: 100%;
-        /* Memastikan canvas responsif */
-        max-height: 100%;
-        /* Memastikan canvas tidak melebihi tinggi container */
+    /* Text Styles */
+    .card-title {
+        font-size: 18px;
+        color: #1a3221;
+        font-weight: 700;
+        margin-bottom: 5px;
     }
 
-    @media (max-width: 768px) {
-        .card {
-            margin-left: 10px;
-            margin-right: 10px;
-        }
+    .stat-value {
+        font-size: 26px;
+        font-weight: bold;
+        color: #343a40;
     }
 
+    /* Calendar Card */
+    /* .card-header {
+        font-weight: bold;
+        font-size: 18px;
+    } */
+
+    /* Calendar */
     #calendar {
-        height: 500px;
-        /* Atur tinggi kalender sesuai kebutuhan */
-        max-width: 100%;
-        margin: 0 auto;
+    height: 600px; /* Perbesar tinggi kalender */
+    width: 100%; /* Pastikan menggunakan seluruh lebar */
+    margin: auto; /* Pusatkan kalender */
+    font-size: 18px; /* Tingkatkan ukuran font */
+    }
+
+    /* Responsiveness */
+    @media (max-width: 768px) {
+        .stat-card {
+            height: auto;
+        }
+
+        .icon-container {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+        }
+
+        .stat-value {
+            font-size: 22px;
+        }
     }
 </style>
 @endpush
@@ -139,4 +154,23 @@
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+<script>
+    // FullCalendar Initialization
+    document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+    locale: 'id', // Mengatur bahasa menjadi Bahasa Indonesia
+    initialView: 'dayGridMonth',
+    headerToolbar: {
+    left: 'prev', // Tombol panah kiri
+    center: 'title', // Judul kalender di tengah
+    right: 'next' // Tombol panah kanan
+    },
+    events: [] // Tambahkan event di sini jika ada
+    });
+
+    calendar.render();
+    });
+</script>
 @endpush
