@@ -72,13 +72,13 @@
 <style>
     /* style untuk Card diagram */
     .card {
-        margin-left: 1rem;  /* Memberikan jarak kiri */
+        margin-left: 1rem; /* Memberikan jarak kiri */
         margin-right: 1rem; /* Memberikan jarak kanan */
         border: none;
         border-radius: 15px;
         box-shadow: 0 2px 10px rgba(27, 25, 25, 0.1);
         transition: transform 0.2s;
-    }
+        }
 
     .card:hover {
         transform: translateY(-5px);
@@ -111,8 +111,10 @@
     }
 
     .chart-container canvas {
-        max-width: 100%;    /* Memastikan canvas responsif */
-        max-height: 100%;   /* Memastikan canvas tidak melebihi tinggi container */
+        max-width: 100%;
+        /* Memastikan canvas responsif */
+        max-height: 100%;
+        /* Memastikan canvas tidak melebihi tinggi container */
     }
 
     @media (max-width: 768px) {
@@ -123,7 +125,8 @@
     }
 
     #calendar {
-        height: 500px;  /* Atur tinggi kalender sesuai kebutuhan */
+        height: 500px;
+        /* Atur tinggi kalender sesuai kebutuhan */
         max-width: 100%;
         margin: 0 auto;
     }
