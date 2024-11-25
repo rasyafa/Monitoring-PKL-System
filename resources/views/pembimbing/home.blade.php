@@ -258,7 +258,7 @@
             <div class="card income-card">
                 <div class="card-body">
                     <div class="card-title">Kegiatan Harian</div>
-                    <div class="card-subtext">{{ $studentsCount }}%</div>
+                    <div class="card-subtext">{{ $kegiatan }}</div>
                 </div>
             </div>
         </div>
@@ -267,7 +267,7 @@
             <div class="card expenses-card">
                 <div class="card-body">
                     <div class="card-title">Data Absen</div>
-                    <div class="card-subtext">{{ $absensCount }}%</div>
+                    <div class="card-subtext">{{ $absens }}</div>
                 </div>
             </div>
         </div>

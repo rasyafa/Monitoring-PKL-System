@@ -259,5 +259,31 @@ class AdminController extends Controller
         return $pdf->download('laporan_harian_' . $students->name . '.pdf');
     }
 
+     // Menampilkan form untuk memilih mentor untuk siswa
+    public function assignMentorForm()
+    {
+        $students = User::where('role', 'siswa')->get(); // Mengambil semua siswa
+        $mentors = User::where('role', 'mentor')->get(); // Mengambil semua mentor
+        return view('admin.assign-mentor', compact('students', 'mentors'));
+    }
+
+    // Menangani penugasan mentor ke siswa
+    public function assignMentor(Request $request, $id)
+    {
+        // Validasi input
+        $request->validate([
+            'mentor_id' => 'required|exists:users,id', // Pastikan mentor_id ada di users
+        ]);
+
+        // Cari siswa berdasarkan ID
+        $students = User::findOrFail($id);
+
+        // Assign mentor_id ke siswa
+        $students->mentor_id = $request->mentor_id;
+        $students->save(); // Simpan perubahan ke database
+
+        // Kembali ke form dengan pesan sukses
+        return redirect()->route('admin.assignMentorForm')->with('success', 'Mentor berhasil ditugaskan.');
+    }
 
 }
