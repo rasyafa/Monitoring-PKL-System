@@ -83,6 +83,7 @@
                         <th>Waktu Mulai</th>
                         <th>Waktu Selesai</th>
                         <th>Kegiatan</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,6 +93,15 @@
                             <td>{{ $kegiatan->waktu_mulai }}</td>
                             <td>{{ $kegiatan->waktu_selesai }}</td>
                             <td>{{ $kegiatan->kegiatan }}</td>
+                             <td>
+
+                                    <span class="badge bg-success">Disetujui</span>
+
+                                    <span class="badge bg-warning text-dark">Perlu Revisi</span>
+
+                                    <span class="badge bg-secondary">Menunggu</span>
+
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
