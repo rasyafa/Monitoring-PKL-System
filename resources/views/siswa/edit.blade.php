@@ -13,32 +13,41 @@
     <style>
         /* Mengatur latar belakang dan penataan body */
         body {
-            background-color: #f8f9fa; /* Warna latar belakang */
-            display: flex;
-            justify-content: center; /* Menyusun konten di tengah halaman */
-            align-items: flex-start; /* Menyusun elemen di bagian atas */
-            height: 100vh; /* Menggunakan tinggi penuh halaman */
-            margin: 0; /* Menghilangkan margin default */
+
+
+        background-color: #f8f9fa; /* Warna latar belakang */
+        display: flex;
+        justify-content: center; /* Menyelaraskan form di tengah horizontal */
+        align-items: flex-start; /* Menyelaraskan form di atas */
+        height: 100vh; /* Tinggi penuh layar */
+        margin: 0;
+
         }
 
         /* Gaya untuk form container */
         .form-container {
-            background-color: white;
-            padding: 40px; /* Memberikan padding di dalam form */
-            border-radius: 10px; /* Membuat sudut form menjadi melengkung */
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Menambahkan bayangan */
-            width: 100%;
-            max-width: 1000px; /* Lebar maksimal form */
-            max-height: 90vh; /* Menentukan tinggi maksimal */
-            overflow-y: auto; /* Menambahkan scroll jika isi form melebihi tinggi */
+
+
+        background-color: white; /* Warna dasar form */
+        padding: 40px; /* Jarak isi dengan tepi */
+        border-radius: 10px; /* Membulatkan sudut */
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+        width: 100%; /* Lebar penuh */
+        max-width: 1000px; /* Lebar maksimum */
+        max-height: 90vh; /* Tinggi maksimum */
+        overflow-y: auto; /* Gulir jika konten terlalu panjang */
+
         }
 
         /* Gaya untuk judul form */
         .form-header {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 30px;
-            text-align: center; /* Menyusun judul di tengah */
+
+
+        font-size: 24px; /* Ukuran teks judul */
+        font-weight: bold; /* Teks tebal */
+        margin-bottom: 30px; /* Jarak bawah */
+        text-align: center; /* Rata tengah */
+
         }
 
         /* Gaya untuk grup input form */
@@ -64,11 +73,12 @@
             text-align: center; /* Menyusun teks di tengah */
         }
 
-        /* Mengatur ukuran tombol agar lebih kecil */
         .btn-sm {
-            padding: 8px 16px;
-            font-size: 14px; /* Ukuran font tombol lebih kecil */
-            border-radius: 5px;
+<
+        padding: 8px 16px; /* Ukuran tombol kecil */
+        font-size: 14px; /* Ukuran font kecil */
+        border-radius: 5px; /* Membulatkan tombol */
+
         }
 
         /* Gaya untuk menampilkan pesan error */
@@ -79,17 +89,19 @@
 
         /* Menata gambar preview foto profil */
         .profile-photo-preview {
-            max-width: 150px; /* Menentukan lebar maksimal gambar */
-            margin-top: 10px;
-            max-height: 150px; /* Menentukan tinggi maksimal gambar */
-            object-fit: cover; /* Memastikan gambar terpotong dan proporsional */
+
+
+        max-width: 150px; /* Lebar maksimal gambar profil */
+        margin-top: 10px; /* Jarak atas gambar */
+        max-height: 150px; /* Tinggi maksimal gambar profil */
+        object-fit: cover; /* Menjaga proporsi gambar */
         }
 
-        /* Menentukan gaya untuk tombol Simpan Perubahan */
         .btn-green {
-            background-color: #03d703; /* Warna hijau untuk tombol */
-            border-color: #03d703;
-            color: white;
+        background-color: #03d703; /* Warna tombol hijau */
+        border-color: #03d703; /* Warna border */
+        color: white; /* Warna teks */
+
         }
 
         /* Efek hover pada tombol Simpan Perubahan */
@@ -129,7 +141,20 @@
                 max-width: 120px; /* Mengurangi ukuran foto profil pada perangkat mobile */
             }
         }
-    </style>
+
+        .btn-sm {
+        font-size: 16px; /* Ukuran font lebih besar */
+        }
+
+        .form-header {
+        font-size: 20px; /* Ukuran judul lebih kecil */
+        }
+
+        .profile-photo-preview {
+        max-width: 120px; /* Ukuran gambar lebih kecil */
+        }
+      
+        </style>
 </head>
 
 <body>

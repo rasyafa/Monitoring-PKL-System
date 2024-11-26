@@ -194,22 +194,6 @@ class AdminController extends Controller
         return view('admin.kegiatan.show', compact('students', 'kegiatans'));
     }
 
-    // Method untuk validasi kegiatan
-    public function validasiKegiatan($id)
-    {
-        $kegiatan = KegiatanHarian::findOrFail($id);
-
-        // Mengubah status menjadi 'acc' dan menambahkan catatan jika ada
-        $kegiatan->status = 'acc';
-        if (request()->has('catatan')) {
-            $kegiatan->catatan = request('catatan');
-        }
-
-        $kegiatan->save();
-
-        return redirect()->route('admin.kegiatan.show', $kegiatan->user_id)
-        ->with('success', 'Kegiatan telah diterima (ACC).');
-    }
 
     // LAPORAN AKHIR
     public function laporanAkhirIndex()
@@ -264,25 +248,25 @@ class AdminController extends Controller
     {
         $students = User::where('role', 'siswa')->get(); // Mengambil semua siswa
         $mentors = User::where('role', 'mentor')->get(); // Mengambil semua mentor
+
         return view('admin.assign-mentor', compact('students', 'mentors'));
     }
 
+
     // Menangani penugasan mentor ke siswa
-    public function assignMentor(Request $request, $id)
+    public function assignMentor(Request $request)
     {
         // Validasi input
         $request->validate([
-            'mentor_id' => 'required|exists:users,id', // Pastikan mentor_id ada di users
+            'student_id' => 'required|exists:users,id',
+            'mentor_id' => 'required|exists:users,id',
         ]);
 
-        // Cari siswa berdasarkan ID
-        $students = User::findOrFail($id);
+        // Cari siswa dan update mentor_id
+        $student = User::findOrFail($request->student_id);
+        $student->mentor_id = $request->mentor_id;
+        $student->save();
 
-        // Assign mentor_id ke siswa
-        $students->mentor_id = $request->mentor_id;
-        $students->save(); // Simpan perubahan ke database
-
-        // Kembali ke form dengan pesan sukses
         return redirect()->route('admin.assignMentorForm')->with('success', 'Mentor berhasil ditugaskan.');
     }
 

@@ -165,12 +165,14 @@
                     <!-- Input Foto Profil -->
                     <div class="form-group">
                         <label for="profile_photo">Foto Profil</label>
-                        <input type="file" class="form-control-file" id="profile_photo" name="profile_photo" accept="image/*" onchange="previewImage(event)">
+                        <input type="file" class="form-control-file" id="profile_photo" name="profile_photo" accept="image/*"
+                            onchange="previewImage(event)">
                         <div class="text-center">
-                            <img src="{{ $mentor->profile_photo ? Storage::url($mentor->profile_photo) : '' }}" alt="Foto Profil" class="profile-photo-preview" id="photoPreview">
+                            <img src="{{ $mentor->profile_photo ? Storage::url($mentor->profile_photo) : asset('default-profile.png') }}"
+                                alt="Foto Profil" class="profile-photo-preview" id="photoPreview">
                         </div>
                         @error('profile_photo')
-                            <div class="error-message">{{ $message }}</div>
+                        <div class="error-message">{{ $message }}</div>
                         @enderror
                     </div>
 

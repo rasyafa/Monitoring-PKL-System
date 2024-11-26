@@ -61,7 +61,7 @@ class SiswaController extends Controller
         if (
             Auth::id() !== $siswa->id
         ) {
-            return redirect()->route('home')->with('error', 'Akses ditolak! Anda hanya bisa mengedit profil Anda sendiri.');
+            return redirect()->route('welcome');
         }
 
         return view('siswa.edit', compact('siswa'));
@@ -107,7 +107,7 @@ class SiswaController extends Controller
         $siswa->save();
 
         // Redirect ke halaman profil dengan pesan sukses
-        return redirect()->route('siswa.show', $siswa->id)->with('success', 'Profil berhasil diperbarui.');
+        return redirect()->route('siswa.show', $siswa->id);
     }
 // AKHIR PROFILE
 
@@ -245,7 +245,7 @@ class SiswaController extends Controller
 
         // Pastikan hanya siswa yang dapat mengakses notifikasi
         if ($user->role !== 'siswa') {
-            return redirect()->route('home')->with('error', 'Akses ditolak! Hanya siswa yang dapat mengakses notifikasi.');
+            return redirect()->route('welcome');
         }
 
         // Tanggal hari ini

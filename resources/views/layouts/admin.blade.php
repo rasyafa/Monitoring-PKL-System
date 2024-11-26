@@ -150,9 +150,9 @@
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-users me-2"></i>Manajemen Pengguna
                 </a>
-                <a href="{{ route('admin.assignMentorForm', $user->id) }}"
+                <a href="{{ route('admin.assignMentorForm') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-users me-2"></i>Assign
+                    <i class="fas fa-users me-2"></i>Penugasan
                 </a>
                 <a href="{{ route('admin.absen.index') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">

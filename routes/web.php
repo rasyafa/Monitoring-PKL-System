@@ -47,7 +47,7 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::get('/admin/kegiatan/activity/{id}', [AdminController::class, 'downloadLogbookPdf'])->name('admin.kegiatan.activity');
 
     Route::get('/assign-mentor', [AdminController::class, 'assignMentorForm'])->name('admin.assignMentorForm');
-    Route::post('/assign-mentor/{id}', [AdminController::class, 'assignMentor'])->name('admin.assignMentor');
+    Route::post('/assign-mentor', [AdminController::class, 'assignMentor'])->name('admin.assignMentor');
 
 });
 

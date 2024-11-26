@@ -6,7 +6,7 @@
 
 @push('styles')
 <style>
-     /* Margin kiri untuk konten */
+    /* Margin kiri untuk konten */
     .content-container {
         margin-left: 30px;
     }
@@ -33,7 +33,8 @@
     /* style untuk header tabel */
     .table thead th {
         padding: 15px 20px;
-        background-color: #32CD32; /* Hijau */
+        background-color: #32CD32;
+        /* Hijau */
         color: #fff;
         text-align: center;
     }
@@ -72,9 +73,34 @@
         padding: 8px 18px;
     }
 
-    /* style untuk tombol merah delet*/
+    /* style untuk tombol merah delet */
     .btn-danger {
         padding: 8px 18px;
+    }
+
+    /* Pagination Custom */
+    .pagination {
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination .page-item .page-link {
+        color: #32CD32;
+        /* Warna hijau untuk teks */
+        border: 1px solid #32CD32;
+        margin: 0 2px;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #32CD32;
+        border-color: #32CD32;
+        color: white;
+    }
+
+    .pagination .page-item .page-link:hover {
+        background-color: #218838;
+        border-color: #218838;
+        color: white;
     }
 </style>
 @endpush
@@ -92,11 +118,11 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Actions</th>
+                            <th>Nama</th>
+                            <th>Nama pengguna</th>
+                            <th>Alamat surel</th>
+                            <th>Peran</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -123,6 +149,7 @@
                     </tbody>
                 </table>
             </div>
+            <!-- Pagination -->
             <div>
                 {{ $users->links() }}
             </div>
