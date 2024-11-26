@@ -125,32 +125,22 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Nama Siswa</th>
-                                    <th scope="col">Status</th>
+                                    <th>No</th>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($users as $user)
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td>Siswa 1</td>
-                                    <td>Aktif</td>
+                                    <!-- Nomor urut dengan pagination -->
+                                    <td>{{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->username }}</td>
+                                    <td>{{ $user->email }}</td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Siswa 2</td>
-                                    <td>Aktif</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Siswa 3</td>
-                                    <td>Non-Aktif</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">4</th>
-                                    <td>Siswa 4</td>
-                                    <td>Aktif</td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

@@ -43,7 +43,7 @@ class SiswaController extends Controller
 
         // Cek akses, hanya bisa lihat profil sendiri
         if ($user->role !== 'siswa' || $user->id != $id) {
-            return redirect()->route('home')->with('error', 'Akses ditolak! Anda hanya bisa melihat profil Anda sendiri.');
+            return redirect()->route('welcome');
         }
 
         // Ambil data siswa berdasarkan id

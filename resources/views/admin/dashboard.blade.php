@@ -5,15 +5,57 @@
 @section('page-title', 'Dashboard')
 
 @section('content')
+<div class="row justify-content-center">
+    <!-- Stat Card: Jumlah Siswa -->
+    <div class="col-md-4">
+        <div class="card stat-card">
+            <div class="card-body d-flex align-items-center">
+                <div class="icon-container">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="ms-4">
+                    <h6 class="card-title mb-1">Jumlah Siswa</h6>
+                    <p class="stat-value mb-0">{{ $data['students_count'] }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Stat Card: Jumlah Pembimbing -->
+    <div class="col-md-4">
+        <div class="card stat-card">
+            <div class="card-body d-flex align-items-center">
+                <div class="icon-container">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <div class="ms-4">
+                    <h6 class="card-title mb-1">Jumlah Pembimbing</h6>
+                    <p class="stat-value mb-0">{{ $data['pembimbing_count'] }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stat Card: Jumlah Mentor -->
+    <div class="col-md-4">
+        <div class="card stat-card">
+            <div class="card-body d-flex align-items-center">
+                <div class="icon-container">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="ms-4">
+                    <h6 class="card-title mb-1">Jumlah Mentor</h6>
+                    <p class="stat-value mb-0">{{ $data['mentors_count'] }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {{-- Card untuk Kalender --}}
 <div class="row mb-4">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header d-flex justify-content-center align-items-center">
-                <h5 class="mb-0">Kalender</h5>
-            </div>
             <div class="card-body">
                 <div id="calendar"></div>
             </div>
@@ -21,280 +63,87 @@
     </div>
 </div>
 
-
-{{-- Card untuk Data Siswa --}}
-<div class="row mb-5">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header d-flex justify-content-center align-items-center">
-                <h5 class="mb-0">Data Siswa</h5>
-            </div>
-            <div class="card-body">
-                <div class="chart-container" style="width: 100%;">
-                    <canvas id="chartSiswa" style="width: 100%; height: 300px;"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-{{-- Card Data pembimbing --}}
-<div class="row mb-4">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header d-flex justify-content-center align-items-center">
-                <h5 class="mb-0">Data Pembimbing</h5>
-            </div>
-            <div class="card-body">
-                <div class="chart-container">
-                    <canvas id="chartPembimbing"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- Card Data Mitra --}}
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header d-flex justify-content-center align-items-center">
-                <h5 class="mb-0">Data Mitra</h5>
-            </div>
-            <div class="card-body">
-                <div class="chart-container">
-                    <canvas id="chartMitra"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- Card data Mentor --}}
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header d-flex justify-content-center align-items-center">
-                <h5 class="mb-0">Data Mentor</h5>
-            </div>
-            <div class="card-body">
-                <div class="chart-container">
-                    <canvas id="chartMentor"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 @endsection
-
-@push('scripts')
-<script>
-    // scrip data siswa
-    var ctxSiswa = document.getElementById('chartSiswa').getContext('2d');
-    var chartSiswa = new Chart(ctxSiswa, {
-        type: 'bar',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            datasets: [{
-                label: 'Jumlah Siswa',
-                data: [50, 60, 70, 80, 90, 100, 50, 60, 70, 80, 100, 80],
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // script Data pembimbing
-    var ctxPembimbing = document.getElementById('chartPembimbing').getContext('2d');
-    var chartPembimbing = new Chart(ctxPembimbing, {
-        type: 'line',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'july', 'agust', 'sep', 'okto', 'nov', 'des'],
-            datasets: [{
-                label: 'Jumlah Pembimbing',
-                data: [10, 15, 5, 25, 30, 35, 2, 70, 33, 11, 19, 50],
-                backgroundColor: 'rgba(255, 206, 86, 0.2)',
-                borderColor: 'rgba(255, 206, 86, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // script Data Mitra
-    var ctxMitra = document.getElementById('chartMitra').getContext('2d');
-    var chartMitra = new Chart(ctxMitra, {
-        type: 'pie',
-        data: {
-            labels: ['Mitra A', 'Mitra B', 'Mitra C'],
-            datasets: [{
-                label: 'Jumlah Mitra',
-                data: [30, 40, 30],
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function (tooltipItem) {
-                            return tooltipItem.label + ': ' + tooltipItem.raw + '%';
-                        }
-                    }
-                }
-            }
-        }
-    });
-
-    // script Data Mentor
-    var ctxMentor = document.getElementById('chartMentor').getContext('2d');
-    var chartMentor = new Chart(ctxMentor, {
-        type: 'doughnut',
-        data: {
-            labels: ['Mentor A', 'Mentor B', 'Mentor C'],
-            datasets: [{
-                label: 'Jumlah Mentor',
-                data: [20, 30, 50],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function (tooltipItem) {
-                            return tooltipItem.label + ': ' + tooltipItem.raw + '%';
-                        }
-                    }
-                }
-            }
-        }
-    });
-
-    // FullCalendar Initialization
-    document.addEventListener('DOMContentLoaded', function () {
-        var calendarEl = document.getElementById('calendar');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth', // Display calendar in monthly view
-            headerToolbar: {
-                left: 'prev,next today', // Buttons for navigation
-                center: 'title', // Display title
-                right: 'dayGridMonth,dayGridWeek,dayGridDay' // View options
-            },
-            events: [
-
-            ]
-        });
-
-        calendar.render(); // Render the calendar
-    });
-</script>
-
-@endpush
 
 @push('styles')
 <style>
-    /* style untuk Card diagram */
-    .card {
-        margin-left: 1rem;
-        /* Memberikan jarak kiri */
-        margin-right: 1rem;
-        /* Memberikan jarak kanan */
+    /* style untuk stat card*/
+    .stat-card {
+        border-radius: 20px;
         border: none;
-        border-radius: 15px;
-        box-shadow: 0 2px 10px rgba(27, 25, 25, 0.1);
-        transition: transform 0.2s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #f8f9fa;
+        transition: transform 0.3s ease-in-out;
+        height: 130px;
+        margin-left: 60px;
     }
 
-    .card:hover {
+    .stat-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 4px 15px rgba(35, 33, 33, 0.091);
-    }
-
-    .card-header {
-        background-color: transparent;
-        border-bottom: none;
-    }
-
-    .card-header h5 {
-        margin: 0;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
     }
 
     .card-body {
-        padding: 10px;
+        display: flex;
+        align-items: center;
     }
 
-    .card-title {
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    .chart-container {
+    /* Icon Styles  stat */
+    .icon-container {
+        width: 70px;
+        height: 70px;
+        background-color: #03d703;
+        border-radius: 15px;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 300px;
+        color: white;
+        font-size: 32px;
     }
 
-    .chart-container canvas {
-        max-width: 100%;
-        /* Memastikan canvas responsif */
-        max-height: 100%;
-        /* Memastikan canvas tidak melebihi tinggi container */
+    /* Text Styles */
+    .card-title {
+        font-size: 18px;
+        color: #1a3221;
+        font-weight: 700;
+        margin-bottom: 5px;
     }
 
-    @media (max-width: 768px) {
-        .card {
-            margin-left: 10px;
-            margin-right: 10px;
-        }
+    .stat-value {
+        font-size: 26px;
+        font-weight: bold;
+        color: #343a40;
     }
 
+    /* Calendar Card */
+    /* .card-header {
+        font-weight: bold;
+        font-size: 18px;
+    } */
+
+    /* Calendar */
     #calendar {
-        height: 500px;
-        /* Atur tinggi kalender sesuai kebutuhan */
-        max-width: 100%;
-        margin: 0 auto;
+    height: 600px; /* Perbesar tinggi kalender */
+    width: 100%; /* Pastikan menggunakan seluruh lebar */
+    margin: auto; /* Pusatkan kalender */
+    font-size: 18px; /* Tingkatkan ukuran font */
+    }
+
+    /* Responsiveness */
+    @media (max-width: 768px) {
+        .stat-card {
+            height: auto;
+        }
+
+        .icon-container {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+        }
+
+        .stat-value {
+            font-size: 22px;
+        }
     }
 </style>
 @endpush
@@ -305,4 +154,23 @@
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+<script>
+    // FullCalendar Initialization
+    document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+    locale: 'id', // Mengatur bahasa menjadi Bahasa Indonesia
+    initialView: 'dayGridMonth',
+    headerToolbar: {
+    left: 'prev', // Tombol panah kiri
+    center: 'title', // Judul kalender di tengah
+    right: 'next' // Tombol panah kanan
+    },
+    events: [] // Tambahkan event di sini jika ada
+    });
+
+    calendar.render();
+    });
+</script>
 @endpush

@@ -15,8 +15,9 @@ class MentorController extends Controller
     public function index()
     {
         // Data retrieval (if needed)
-        $mentors = [];
-        return view('mentor.beranda', compact('mentors'));
+
+        $users = User::whereIn('role', ['siswa'])->paginate(5);
+        return view('mentor.beranda', compact('users'));
     }
 
     public function dataSiswa()
