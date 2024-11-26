@@ -63,7 +63,6 @@
     .table td {
         text-align: center;
         padding: 10px;
-        white-space: nowrap; /* Mencegah teks turun ke baris berikutnya */
         text-overflow: ellipsis; /* Tampilkan tanda titik-titik jika teks terlalu panjang */
         overflow: hidden; /* Sembunyikan teks yang keluar */
     }

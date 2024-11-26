@@ -28,7 +28,7 @@ class PembimbingController extends Controller
 
 
     // PROFILE
-    // Fungsi untuk melihat profil mentor
+    // Fungsi untuk melihat profil pembimbing
     public function profil($id)
     {
         $user = Auth::user();
@@ -40,16 +40,16 @@ class PembimbingController extends Controller
             );
         }
 
-        // Ambil data mentor berdasarkan id
-        $pembimbing = User::findOrFail($id);  // Ganti User dengan Mentor
+        // Ambil data pembimbing berdasarkan id
+        $pembimbing = User::findOrFail($id);  // Ganti User dengan pembimbing
 
         return view('pembimbing.profil', compact('pembimbing'));
     }
 
-    // Fungsi untuk edit profil mentor
+    // Fungsi untuk edit profil pembimbing
     public function editprofil($id)
     {
-        $pembimbing = User::findOrFail($id);  // Ganti User dengan Mentor
+        $pembimbing = User::findOrFail($id);  // Ganti User dengan pembimbing
 
         // Pastikan hanya mentor yang sedang login yang bisa mengedit profilnya
         if (Auth::id() !== $pembimbing->id) {
@@ -61,7 +61,7 @@ class PembimbingController extends Controller
         return view('pembimbing.editprofil', compact('pembimbing'));
     }
 
-    // Fungsi untuk update data profil mentor
+    // Fungsi untuk update data profil pembimbing
     public function update1(Request $request, $id)
     {
         // Validasi data
@@ -73,8 +73,8 @@ class PembimbingController extends Controller
             'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
-        // Cari mentor berdasarkan ID
-        $pembimbing = User::findOrFail($id);  // Ganti User dengan Mentor
+        // Cari pembimbing berdasarkan ID
+        $pembimbing = User::findOrFail($id);  // Ganti User dengan pembimbing
 
         // Update data mentor
         $pembimbing->name = $request->input('name');
@@ -134,10 +134,9 @@ class PembimbingController extends Controller
 
         // Jika ada gambar, simpan gambar
         if ($request->hasFile('image')) {
-            // Menyimpan gambar ke folder 'gambar' di storage
+            // Simpan path lengkap dengan Storage disk 'public'
             $imagePath = $request->file('image')->store('gambar', 'public');
-            // Menyimpan hanya nama file (basename) untuk disimpan di database
-            $kegiatan->image = basename($imagePath);
+            $kegiatan->image = $imagePath; // Simpan path lengkap di database
         }
 
         // Simpan data kegiatan
@@ -146,7 +145,6 @@ class PembimbingController extends Controller
         // Redirect ke halaman monitoring setelah berhasil
         return redirect()->route('monitoring')->with('success', 'Kegiatan berhasil ditambahkan!');
     }
-
 
     // Method Edit untuk menampilkan form edit berdasarkan ID kegiatan
     public function edit($id)
@@ -177,14 +175,12 @@ class PembimbingController extends Controller
         if ($request->hasFile('image')) {
             // Hapus gambar lama jika ada
             if ($kegiatan->image) {
-                // Menghapus file gambar lama dari storage
-                Storage::delete('public/gambar/' . $kegiatan->image);
+                Storage::disk('public')->delete($kegiatan->image);
             }
 
-            // Simpan gambar baru
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->storeAs('public/gambar', $imageName);
-            $kegiatan->image = $imageName; // Simpan nama file gambar baru
+            // Simpan path gambar baru dengan Storage disk 'public'
+            $imagePath = $request->file('image')->store('gambar', 'public');
+            $kegiatan->image = $imagePath; // Simpan path lengkap di database
         }
 
         // Simpan perubahan
@@ -193,7 +189,6 @@ class PembimbingController extends Controller
         // Redirect dengan pesan sukses
         return redirect()->route('monitoring')->with('success', 'Kegiatan berhasil diperbarui!');
     }
-
 
     public function absenIndex()
     {
