@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('city');
             $table->enum('role', ['siswa', 'pembimbing', 'mentor', 'admin'])->default('siswa');
+            $table->foreignId('mentor_id')->nullable()->constrained('users')->onDelete('set null'); // Relasi mentor_id
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

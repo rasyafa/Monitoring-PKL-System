@@ -9,117 +9,108 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            height: 100vh;
-            margin: 0;
+        background-color: #f8f9fa; /* Warna latar belakang */
+        display: flex;
+        justify-content: center; /* Menyelaraskan form di tengah horizontal */
+        align-items: flex-start; /* Menyelaraskan form di atas */
+        height: 100vh; /* Tinggi penuh layar */
+        margin: 0;
         }
 
         .form-container {
-            background-color: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 1000px;
-            max-height: 90vh;
-            overflow-y: auto;
+        background-color: white; /* Warna dasar form */
+        padding: 40px; /* Jarak isi dengan tepi */
+        border-radius: 10px; /* Membulatkan sudut */
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+        width: 100%; /* Lebar penuh */
+        max-width: 1000px; /* Lebar maksimum */
+        max-height: 90vh; /* Tinggi maksimum */
+        overflow-y: auto; /* Gulir jika konten terlalu panjang */
         }
 
         .form-header {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 30px;
-            text-align: center;
+        font-size: 24px; /* Ukuran teks judul */
+        font-weight: bold; /* Teks tebal */
+        margin-bottom: 30px; /* Jarak bawah */
+        text-align: center; /* Rata tengah */
         }
 
         .form-group {
-            margin-bottom: 20px;
+        margin-bottom: 20px; /* Jarak antar input */
         }
 
         label {
-            font-weight: bold;
+        font-weight: bold; /* Teks label tebal */
         }
 
         input.form-control {
-            border-radius: 5px;
-            padding: 10px;
+        border-radius: 5px; /* Membulatkan input */
+        padding: 10px; /* Jarak dalam */
         }
 
         .form-control-file {
-            border-radius: 5px;
-            padding: 10px;
+        border-radius: 5px; /* Membulatkan input file */
+        padding: 10px; /* Jarak dalam */
         }
 
         .text-center {
-            text-align: center;
+        text-align: center; /* Rata tengah gambar */
         }
 
-        /* Mengatur ukuran tombol agar lebih kecil */
         .btn-sm {
-            padding: 8px 16px;
-            font-size: 14px;
-            border-radius: 5px;
+        padding: 8px 16px; /* Ukuran tombol kecil */
+        font-size: 14px; /* Ukuran font kecil */
+        border-radius: 5px; /* Membulatkan tombol */
         }
 
         .error-message {
-            color: red;
-            font-size: 14px;
+        color: red; /* Warna pesan error */
+        font-size: 14px; /* Ukuran teks pesan error */
         }
 
         .profile-photo-preview {
-            max-width: 150px;
-            margin-top: 10px;
-            max-height: 150px;
-            object-fit: cover;
+        max-width: 150px; /* Lebar maksimal gambar profil */
+        margin-top: 10px; /* Jarak atas gambar */
+        max-height: 150px; /* Tinggi maksimal gambar profil */
+        object-fit: cover; /* Menjaga proporsi gambar */
         }
 
-        /* Mengubah warna tombol Simpan Perubahan menjadi hijau (#03d703) dan teks putih */
         .btn-green {
-            background-color: #03d703;
-            border-color: #03d703;
-            color: white;
+        background-color: #03d703; /* Warna tombol hijau */
+        border-color: #03d703; /* Warna border */
+        color: white; /* Warna teks */
         }
 
         .btn-green:hover {
-            background-color: #02c602;
-            border-color: #02c602;
+        background-color: #02c602; /* Warna hover */
+        border-color: #02c602; /* Border hover */
         }
 
-        /* Menata tombol agar berada di sisi kiri */
         .button-container {
-            display: flex;
-            justify-content: flex-start; /* Tombol berada di kiri */
-            gap: 10px; /* Jarak antar tombol */
+        display: flex; /* Menyusun tombol dalam baris */
+        justify-content: flex-start; /* Tombol rata kiri */
+        gap: 10px; /* Jarak antar tombol */
         }
 
-        .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
-            color: white;
-        }
-
-        /* Responsif untuk perangkat lebih kecil */
+        /* Responsif untuk layar kecil */
         @media (max-width: 768px) {
-            .form-container {
-                padding: 20px;
-            }
-
-            .btn-sm {
-                font-size: 16px;
-            }
-
-            .form-header {
-                font-size: 20px;
-            }
-
-            .profile-photo-preview {
-                max-width: 120px;
-            }
+        .form-container {
+        padding: 20px; /* Jarak isi lebih kecil */
         }
-    </style>
+
+        .btn-sm {
+        font-size: 16px; /* Ukuran font lebih besar */
+        }
+
+        .form-header {
+        font-size: 20px; /* Ukuran judul lebih kecil */
+        }
+
+        .profile-photo-preview {
+        max-width: 120px; /* Ukuran gambar lebih kecil */
+        }
+        }
+        </style>
 </head>
 
 <body>

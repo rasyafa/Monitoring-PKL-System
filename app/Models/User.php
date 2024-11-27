@@ -50,4 +50,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Relasi One-to-Many: Pembimbing/Mentor memiliki banyak siswa
+    public function students()
+    {
+        return $this->hasMany(User::class, 'mentor_id'); // Mentor/pembimbing memiliki banyak siswa
+    }
+
+    // Relasi Many-to-One: Siswa memiliki pembimbing atau mentor
+    public function mentor()
+    {
+        return $this->belongsTo(User::class, 'mentor_id'); // Siswa memiliki satu pembimbing/mentor
+    }
 }

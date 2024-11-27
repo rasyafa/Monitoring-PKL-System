@@ -118,10 +118,10 @@
         <div class="card">
             <div class="card-body">
                 <div class="form-header">
-                    Edit Profil Mentor
+                    Edit Profil Pembimbing
                 </div>
 
-                <!-- Form Edit Profil Mentor -->
+                <!-- Form Edit Profil pembimbing -->
                 <form action="{{ route('pembimbing.update1', $pembimbing->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')

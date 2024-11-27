@@ -15,52 +15,55 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class AdminController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    //     $this->middleware('role:admin'); // Disesuaikan dengan nama di Kernel.php
-    // }
-
+    // Membuat array $data berisi informasi untuk dashboard
     public function dashboard()
     {
         $data = [
-            'message' => 'Selamat datang, Admin!',
+            // Menghitung total semua pengguna di tabel `users`
             'users_count' => User::count(),
+
+            // Menghitung total pengguna dengan peran siswa
             'students_count' => User::where('role', 'siswa')->count(),
+
+            // Menghitung total pembimbing
             'pembimbing_count' => User::where('role', 'pembimbing')->count(),
-            'partners_count' => User::where('role', 'mitra')->count(),
+
+            // Menghitung total mentor
             'mentors_count' => User::where('role', 'mentor')->count(),
         ];
 
+        // Mengarahkan data ke view
         return view('admin.dashboard', compact('data'));
     }
 
-    // Tampilkan daftar pengguna
+    // Menampilkan daftar pengguna
     public function manageUsers()
     {
-        $users = User::whereIn('role', ['siswa', 'pembimbing', 'mentor', 'mitra'])->paginate(10);
+        $users = User::whereIn('role', ['siswa', 'pembimbing', 'mentor'])->paginate(5);
         return view('admin.users.index', compact('users'));
     }
 
-    // Tampilkan form untuk membuat pengguna baru
+    // Menampilkan form untuk membuat pengguna baru
     public function createUser()
     {
         return view('admin.users.create');
     }
 
-    // Simpan pengguna baru
+    // Menyimpan Pengguna Baru
     public function storeUser(Request $request)
     {
+        // Validasi input untuk memastikan data yang diterima valid
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|unique:users|max:255',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:siswa,pembimbing,mitra,mentor,admin',
+            'role' => 'required|in:siswa,pembimbing,mentor,admin',
             'email' => 'required|string|email|max:255|unique:users',
             'gender' => 'required|string',
             'city' => 'required|string|max:255',
         ]);
 
+        // Membuat pengguna baru di database
         User::create([
             'name' => $request->name,
             'username' => $request->username,
@@ -70,7 +73,7 @@ class AdminController extends Controller
             'gender' => $request->gender,
             'city' => $request->city,
         ]);
-        // @dd($request->all());
+
         return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambahkan');
     }
 
@@ -87,7 +90,7 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-            'role' => 'required|in:siswa,pembimbing,mentor,mitra',
+            'role' => 'required|in:siswa,pembimbing,mentor',
             'gender' => 'required|in:male,female',
             'city' => 'required|string|max:255',
         ]);
@@ -191,22 +194,6 @@ class AdminController extends Controller
         return view('admin.kegiatan.show', compact('students', 'kegiatans'));
     }
 
-    // Method untuk validasi kegiatan
-    public function validasiKegiatan($id)
-    {
-        $kegiatan = KegiatanHarian::findOrFail($id);
-
-        // Mengubah status menjadi 'acc' dan menambahkan catatan jika ada
-        $kegiatan->status = 'acc';
-        if (request()->has('catatan')) {
-            $kegiatan->catatan = request('catatan');
-        }
-
-        $kegiatan->save();
-
-        return redirect()->route('admin.kegiatan.show', $kegiatan->user_id)
-        ->with('success', 'Kegiatan telah diterima (ACC).');
-    }
 
     // LAPORAN AKHIR
     public function laporanAkhirIndex()
@@ -256,5 +243,31 @@ class AdminController extends Controller
         return $pdf->download('laporan_harian_' . $students->name . '.pdf');
     }
 
+     // Menampilkan form untuk memilih mentor untuk siswa
+    public function assignMentorForm()
+    {
+        $students = User::where('role', 'siswa')->get(); // Mengambil semua siswa
+        $mentors = User::where('role', 'mentor')->get(); // Mengambil semua mentor
+
+        return view('admin.assign-mentor', compact('students', 'mentors'));
+    }
+
+
+    // Menangani penugasan mentor ke siswa
+    public function assignMentor(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'student_id' => 'required|exists:users,id',
+            'mentor_id' => 'required|exists:users,id',
+        ]);
+
+        // Cari siswa dan update mentor_id
+        $student = User::findOrFail($request->student_id);
+        $student->mentor_id = $request->mentor_id;
+        $student->save();
+
+        return redirect()->route('admin.assignMentorForm')->with('success', 'Mentor berhasil ditugaskan.');
+    }
 
 }
