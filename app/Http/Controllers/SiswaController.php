@@ -184,6 +184,7 @@ class SiswaController extends Controller
             'waktu_mulai' => 'required|date_format:H:i',
             'waktu_selesai' => 'required|date_format:H:i',
             'kegiatan' => 'required|string',
+            'foto' => 'required|image|mimes:jpeg,png,jpg',
         ]);
 
         // Batas waktu pengisian kegiatan
@@ -195,17 +196,35 @@ class SiswaController extends Controller
             return back()->withErrors(['error' => 'Pengisian laporan harian hanya dapat dilakukan dari jam 08:00 hingga jam 16:00.']);
         }
 
+        // Periksa apakah siswa sudah mengisi kegiatan untuk tanggal yang sama
+        $existingKegiatan = KegiatanHarian::where('user_id', Auth::id())
+        ->whereDate('tanggal', $request->tanggal)
+        ->first();
+
+        if ($existingKegiatan) {
+            return back()->withErrors(['error' => 'Anda sudah mengisi laporan harian untuk tanggal ini.']);
+        }
+
+        // Menangani unggahan file jika ada file yang dikirimkan
+        $filePath = null;
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            // Menyimpan file ke dalam folder 'kegiatan_fotos' di dalam direktori 'public/storage'
+            $filePath = $file->store('kegiatan_fotos', 'public');
+        }
+
         KegiatanHarian::create([
             'user_id' => Auth::id(),
             'tanggal' => $request->tanggal,
             'waktu_mulai' => $request->waktu_mulai,
             'waktu_selesai' => $request->waktu_selesai,
             'kegiatan' => $request->kegiatan,
+            'foto' => $filePath,
         ]);
 
         return redirect()->route('siswa.riwayat-kegiatan')->with('success', 'Kegiatan berhasil disimpan.');
     }
-    // AKHIR KEGIATAN HARIAN
+// AKHIR KEGIATAN HARIAN
 
 // AWAL LAPORAN AKHIR
     // Menampilkan halaman riwayat laporan
@@ -221,6 +240,7 @@ class SiswaController extends Controller
         $validated = $request->validate([
             'file' => 'required|file|mimes:pdf,doc,docx',
             'judul' => 'required|string|max:255',
+            'link_laporan' => 'required|url',
         ]);
 
         // Get the original file name
@@ -233,6 +253,7 @@ class SiswaController extends Controller
             'user_id' => Auth::id(),
             'judul' => $request->judul,
             'file_path' => $filePath,
+            'link_laporan' => $request->link_laporan,
             'tanggal' => today(),
         ]);
 
@@ -248,7 +269,7 @@ class SiswaController extends Controller
 
         return redirect()->route('laporan.riwayat')->with('success', 'Laporan berhasil dihapus.');
     }
-    // AKHIR LAPORAN
+// AKHIR LAPORAN
 
 // NOTIFIKASI
     public function notifikasi()
