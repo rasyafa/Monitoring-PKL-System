@@ -58,12 +58,9 @@ class SiswaController extends Controller
         $siswa = User::findOrFail($id);
 
         // Pastikan hanya siswa yang sedang login yang bisa mengedit profilnya
-        if (
-            Auth::id() !== $siswa->id
-        ) {
-            return redirect()->route('home')->with('error', 'Akses ditolak! Anda hanya bisa mengedit profil Anda sendiri.');
+        if (Auth::id() !== $siswa->id) {
+            return redirect()->route('welcome');
         }
-
         return view('siswa.edit', compact('siswa'));
     }
 
@@ -125,6 +122,7 @@ class SiswaController extends Controller
     {
         $request->validate([
             'status' => 'required',
+            'foto' => 'required|image|mimes:jpeg,png,jpg',
         ]);
 
         // / Batas waktu absen
@@ -135,6 +133,7 @@ class SiswaController extends Controller
         if ($currentTime->lt($startTime) || $currentTime->gt($endTime)) {
             return back()->withErrors(['error' => 'Absen hanya bisa dilakukan dari jam 07:00 hingga jam 14:00.']);
         }
+
         // Cek apakah siswa sudah absen hari ini
         $existingAbsen = Absen::where('user_id', Auth::id())
             ->where('tanggal', today())
@@ -144,11 +143,15 @@ class SiswaController extends Controller
             return back()->withErrors(['error' => 'Anda sudah absen hari ini.']);
         }
 
+        // Simpan foto ke dalam folder
+        $fotoPath = $request->file('foto')->store('absen_fotos', 'public');
+
         // Simpan data absen
         Absen::create([
             'user_id' => Auth::id(),
             'tanggal' => today(),
             'status' => $request->status,
+            'foto' => $fotoPath,
 
         ]);
 
@@ -181,6 +184,15 @@ class SiswaController extends Controller
             'waktu_selesai' => 'required|date_format:H:i',
             'kegiatan' => 'required|string',
         ]);
+
+        // Batas waktu pengisian kegiatan
+        $startTime = Carbon::createFromTime(8, 0, 0, 'Asia/Jakarta'); // 08:00
+        $endTime = Carbon::createFromTime(16, 0, 0, 'Asia/Jakarta'); // 16:00
+        $currentTime = Carbon::now('Asia/Jakarta'); // Waktu saat ini
+
+        if ($currentTime->lt($startTime) || $currentTime->gt($endTime)) {
+            return back()->withErrors(['error' => 'Pengisian laporan harian hanya dapat dilakukan dari jam 08:00 hingga jam 16:00.']);
+        }
 
         KegiatanHarian::create([
             'user_id' => Auth::id(),
