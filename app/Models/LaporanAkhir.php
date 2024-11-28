@@ -13,6 +13,7 @@ class LaporanAkhir extends Model
         'user_id',
         'judul',
         'file_path',
+        'link_laporan',
         'tanggal',
         'status',
         'catatan',
