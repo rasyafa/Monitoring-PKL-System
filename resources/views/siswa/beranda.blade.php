@@ -1,23 +1,26 @@
-@extends('layouts.siswa')
+@extends('layouts.siswa') <!-- Menggunakan layout dengan nama 'siswa' yang telah didefinisikan -->
 
-@section('content')
-  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
-  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
+@section('content') <!-- Bagian ini adalah konten utama halaman yang akan di-render -->
 
- <!-- Container for Cards -->
+  <!-- Menghubungkan file CSS dan JS dari FullCalendar -->
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' /> <!-- CSS untuk tampilan kalender -->
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script> <!-- JS untuk fungsionalitas kalender -->
+
+  <!-- Container untuk Card (kotak) Notifikasi Absen dan Laporan Kegiatan -->
   <div class="container">
-      <!-- Combined Card for Absen Notification and Activity Report -->
+      <!-- Card Gabungan untuk Notifikasi Absen dan Laporan Kegiatan -->
       <div class="card mb-4" style="max-width: 900px; margin: 0 auto;">
           <div class="card-header">
-              <h4>Notifikasi Absen dan Laporan Kegiatan</h4>
+              <h4>Notifikasi Absen dan Laporan Kegiatan</h4> <!-- Judul untuk card ini -->
           </div>
           <div class="card-body">
+              <!-- Mengecek status absen dan laporan kegiatan -->
               @if(!$Absen && !$IsiLaporan)
                   <!-- Jika belum absen dan belum isi laporan -->
                   <div class="box-container mb-3">
                       <p><strong>Perhatian:</strong> Jangan lupa untuk melakukan absen sebelum jam 14:00!</p>
                   </div>
-                  <hr>
+                  <hr> <!-- Pemisah antar box-container -->
                   <div class="box-container">
                       <p><strong>Segera isi laporan kegiatan Anda.</strong> Harap mengisi laporan harian setelah belajar hari ini.</p>
                   </div>
@@ -32,7 +35,7 @@
                       <p><strong>Segera isi laporan kegiatan Anda.</strong> Harap mengisi laporan harian setelah belajar hari ini.</p>
                   </div>
               @else
-                  <!-- Jika sudah absen dan isi laporan -->
+                  <!-- Jika sudah absen dan sudah isi laporan -->
                   <div class="box-container">
                       <p><strong>Semua tugas telah selesai.</strong> Terima kasih atas kedisiplinan Anda!</p>
                   </div>
@@ -41,58 +44,59 @@
       </div>
   </div>
 
-  <!-- Calendar Container -->
-  <div id="calendar" class="calendar-container"></div>
+  <!-- Container untuk Kalender -->
+  <div id="calendar" class="calendar-container"></div> <!-- Tempat di mana kalender akan dirender -->
 
+  <!-- Styling untuk kalender dan elemen lainnya -->
   <style>
-      /* Kalender container */
+      /* Styling untuk container kalender */
       .calendar-container {
           margin: 20px;
           padding: 20px;
           border-radius: 8px;
           background-color: #fff;
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          width: 100%; /* Kalender mengikuti lebar kontainer 100% */
-          max-width: 900px; /* Sesuaikan dengan lebar maksimal kotak notifikasi */
-          margin: 30px auto;
+          width: 100%; /* Kalender akan mengikuti lebar kontainer */
+          max-width: 900px; /* Lebar maksimal kalender agar sesuai dengan lebar kontainer */
+          margin: 30px auto; /* Membuat kalender terpusat secara horizontal */
           overflow: hidden;
-          position: relative; /* Memastikan kalender berada di atas elemen lainnya */
+          position: relative; /* Memastikan kalender tetap di atas elemen lainnya */
           z-index: 10;
       }
 
       /* Mengatur tinggi kalender */
       #calendar {
-          height: auto; /* Agar bisa menyesuaikan dengan ukuran kontainer */
+          height: auto; /* Menyesuaikan tinggi kalender secara otomatis */
           min-height: 600px; /* Menetapkan tinggi minimal untuk kalender */
       }
 
-      /* Mengatur ukuran kotak tanggal */
+      /* Mengatur tampilan angka tanggal pada kalender */
       .fc-daygrid-day-number {
-          font-size: 12px; /* Menurunkan ukuran font angka */
-          padding: 5px; /* Menambahkan sedikit padding agar tidak terlalu rapat */
+          font-size: 12px; /* Ukuran font angka tanggal yang lebih kecil */
+          padding: 5px; /* Memberikan sedikit jarak antara angka dan tepi kotak tanggal */
       }
 
-      /* Menyesuaikan jarak antar kolom dan baris */
+      /* Mengatur jarak antar kolom dan baris pada kalender */
       .fc-daygrid-day {
-          padding: 4px; /* Mengurangi padding antar kolom dan baris */
+          padding: 4px; /* Mengurangi padding antar kotak tanggal */
       }
 
-      /* Memastikan text di dalam kotak tanggal rata tengah */
+      /* Memastikan teks dalam kotak tanggal berada di tengah */
       .fc-daygrid-day-top {
           text-align: center;
       }
 
-      /* Style for the box container */
+      /* Styling untuk box-container yang menampilkan pesan */
       .box-container {
           border: 2px solid #ccc;
           padding: 15px;
           border-radius: 8px;
           margin-bottom: 15px;
-          background-color: #f9f9f9;
+          background-color: #f9f9f9; /* Warna latar belakang untuk box-container */
           z-index: 1;
       }
 
-      /* Style for the divider (line) */
+      /* Styling untuk garis pemisah antara konten */
       hr {
           margin: 20px 0;
           border: 0;
@@ -100,21 +104,24 @@
       }
   </style>
 
+  <!-- Script untuk menginisialisasi dan menampilkan kalender -->
   <script>
+      // Menunggu sampai konten halaman sepenuhnya dimuat sebelum menjalankan fungsi kalender
       document.addEventListener('DOMContentLoaded', function () {
-          var calendarEl = document.getElementById('calendar');
+          var calendarEl = document.getElementById('calendar'); // Mendapatkan elemen kalender
           var calendar = new FullCalendar.Calendar(calendarEl, {
-              initialView: 'dayGridMonth',
+              initialView: 'dayGridMonth', // Menentukan tampilan kalender awal sebagai tampilan bulanan
               headerToolbar: {
-                  left: 'prev,next',
-                  center: 'title',
-                  right: ''
+                  left: 'prev,next', // Tombol navigasi untuk bulan sebelumnya dan berikutnya
+                  center: 'title', // Menampilkan judul bulan di tengah
+                  right: '' // Tidak menampilkan elemen di bagian kanan header
               },
-              height: 'auto',
-              events: [] // Masukkan data event kalender jika ada
+              height: 'auto', // Tinggi kalender otomatis menyesuaikan kontainer
+              events: [] // Masukkan data event kalender jika ada, saat ini kosong
           });
-          calendar.render();
+          calendar.render(); // Merender dan menampilkan kalender
       });
   </script>
 
 @endsection
+ 

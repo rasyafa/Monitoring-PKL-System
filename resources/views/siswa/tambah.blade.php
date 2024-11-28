@@ -16,11 +16,34 @@
             background-color: #02c102;
             border-color: #02c102;
         }
+
+        .toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1055;
+        }
     </style>
 </head>
 <body>
     <div class="container mt-5">
         <h1>Tambah Kegiatan Harian</h1>
+
+        <!-- Alert Error -->
+        @if ($errors->has('error'))
+        <div class="toast-container">
+            <div class="toast align-items-center text-bg-danger border-0" id="errorToast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ $errors->first('error') }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        @endif
+
+        <!-- Form -->
         <form action="{{ route('siswa.kegiatan.store') }}" method="POST">
             @csrf
             <div class="mb-3">
@@ -45,5 +68,12 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Tampilkan toast jika ada error
+        @if ($errors->has('error'))
+        const errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
+        errorToast.show();
+        @endif
+    </script>
 </body>
 </html>

@@ -15,6 +15,7 @@ class KegiatanHarian extends Model
         'waktu_mulai',
         'waktu_selesai',
         'kegiatan',
+        'foto',
         'status',
         'catatan',
     ];
