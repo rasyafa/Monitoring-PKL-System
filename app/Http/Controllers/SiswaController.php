@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Models\KegiatanHarian;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Mitra;
+
 
 class SiswaController extends Controller
 {
@@ -29,6 +31,8 @@ class SiswaController extends Controller
         $IsiLaporan = KegiatanHarian::where('user_id', $userId)
             ->whereDate('tanggal', $today)
             ->exists();
+
+        $mitra = Auth::user()->mitra;
 
         // Kirim data ke view
         return view('siswa.beranda', compact('Absen', 'IsiLaporan'));
@@ -300,4 +304,22 @@ class SiswaController extends Controller
         // Return ke view notifikasi
         return view('siswa.notifikasi', compact('user', 'absen', 'laporanHarian', 'tanggalHariIni'));
     }
+
+    public function showAssign()
+{
+    // Ambil data siswa yang sedang login
+    $siswa = Auth::user();
+
+    // Ambil data mitra yang berelasi dengan siswa
+    $mitra = $siswa->mitra;
+
+    // Pastikan hanya siswa yang memiliki akses
+    if ($siswa->role !== 'siswa') {
+        return redirect()->route('welcome')->withErrors(['error' => 'Akses ditolak.']);
+    }
+
+    // Kirim data ke view
+    return view('siswa.profil-mitra', compact('siswa', 'mitra'));
+}
+
 }

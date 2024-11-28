@@ -13,7 +13,7 @@
     <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <form action="{{ route('admin.assignMentor', ['id' => $selectedStudent->id ?? null]) }}" method="POST">
+    <form action="{{ route('admin.assignMentor') }}" method="POST">
         @csrf
         <div class="form-group">
             <label for="student_id">Pilih Siswa</label>
@@ -35,7 +35,31 @@
             <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Assign Mentor</button>
+        <button type="submit" class="btn-custom-green mt-3">Assign Mentor</button>
     </form>
 </div>
 @endsection
+
+@push('styles')
+<style>
+    .btn-custom-green {
+    background-color: #2bcf51; /* Warna hijau */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    }
+
+    /* Efek hover pada tombol */
+    .btn-custom-green:hover {
+    background-color: #19a938; /* Warna hijau lebih gelap saat hover */
+    box-shadow: 0 4px 8px rgba(0, 128, 0, 0.3);
+    }
+
+</style>
+
+@endpush
