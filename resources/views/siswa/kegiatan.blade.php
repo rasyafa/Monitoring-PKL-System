@@ -1,121 +1,108 @@
-@extends('layouts.siswa') <!-- Menggunakan layout 'siswa' sebagai template utama -->
+@extends('layouts.siswa')
 
-@section('content') <!-- Memulai bagian konten halaman yang akan ditampilkan di dalam layout -->
+@section('content')
 
-    <title>Riwayat Kegiatan Harian</title> <!-- Judul halaman yang ditampilkan di tab browser -->
-
-    <!-- Menyertakan pustaka SweetAlert2 untuk menampilkan notifikasi alert -->
+    <title>Riwayat Kegiatan Harian</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        /* Gaya untuk tombol dengan warna khusus */
         .btn-custom {
-            background-color: #03d703; /* Warna hijau untuk tombol */
+            background-color: #03d703;
             border-color: #03d703;
             color: white;
         }
 
-        /* Efek hover untuk tombol khusus */
         .btn-custom:hover {
-            background-color: #028d02; /* Warna lebih gelap saat hover */
+            background-color: #028d02;
             border-color: #028d02;
         }
 
-        /* Gaya untuk tombol sekunder */
         .btn-secondary-custom {
-            background-color: #6c757d; /* Warna abu-abu untuk tombol */
+            background-color: #6c757d;
             border-color: #6c757d;
             color: white;
         }
 
-        /* Efek hover untuk tombol sekunder */
         .btn-secondary-custom:hover {
-            background-color: #5a6268; /* Warna lebih gelap saat hover */
+            background-color: #5a6268;
             border-color: #5a6268;
         }
 
-        /* Penataan untuk tabel, memastikan teks di tengah */
         .table th, .table td {
-            vertical-align: middle; /* Menyusun teks secara vertikal di tengah */
-            text-align: center; /* Menyusun teks secara horizontal di tengah */
+            vertical-align: middle;
+            text-align: center;
         }
 
-        /* Penataan untuk bagian kepala tabel */
         .table thead {
-            background-color: #f8f9fa; /* Warna latar belakang kepala tabel */
-            color: #495057; /* Warna teks di kepala tabel */
+            background-color: #f8f9fa;
+            color: #495057;
         }
 
-        /* Efek hover pada baris tabel */
         .table-hover tbody tr:hover {
-            background-color: #e9ecef; /* Warna latar belakang baris saat hover */
+            background-color: #e9ecef;
         }
 
-        /* Menata tampilan pagination (halaman navigasi tabel) */
         .pagination {
-            justify-content: center; /* Menyusun pagination di tengah */
+            justify-content: center;
             display: flex;
-            margin: 20px 0; /* Memberikan margin atas dan bawah pada pagination */
+            margin: 20px 0;
         }
-
-        /* Gaya untuk tautan halaman pagination */
         .pagination .page-link {
-            background-color: #ffffff; /* Warna latar belakang tautan */
-            color: #000; /* Warna teks tautan */
+            background-color: #ffffff;
+            color: #000;
         }
-
-        /* Gaya untuk tautan halaman yang aktif */
         .pagination .active .page-link {
-            background-color: #03d703; /* Warna hijau untuk halaman yang aktif */
-            color: #000; /* Warna teks halaman aktif */
+            background-color: #03d703;
+            color: #000;
         }
     </style>
 
-    <div class="container mt-5"> <!-- Menampilkan konten dalam container dengan margin atas -->
-        <h1 class="text-center mb-4">Riwayat Kegiatan Harian</h1> <!-- Judul halaman, disusun di tengah -->
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Riwayat Kegiatan Harian</h1>
 
-        <!-- Menampilkan notifikasi sukses jika ada pesan dari session -->
         @if(session('success'))
             <script>
                 Swal.fire({
-                    icon: 'success',  /* Jenis notifikasi (icon) */
-                    title: 'Sukses!', /* Judul notifikasi */
-                    text: '{{ session('success') }}', /* Pesan yang ditampilkan */
-                    showConfirmButton: false, /* Menghilangkan tombol konfirmasi */
-                    timer: 2000 /* Waktu notifikasi ditampilkan selama 2 detik */
+                    icon: 'success',
+                    title: 'Sukses!',
+                    text: '{{ session('success') }}',
+                    showConfirmButton: false,
+                    timer: 2000
                 });
             </script>
         @endif
 
-        <!-- Menampilkan tabel riwayat kegiatan harian -->
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th>Tanggal</th> <!-- Kolom untuk Tanggal -->
-                        <th>Waktu Mulai</th> <!-- Kolom untuk Waktu Mulai -->
-                        <th>Waktu Selesai</th> <!-- Kolom untuk Waktu Selesai -->
-                        <th>Kegiatan</th> <!-- Kolom untuk Kegiatan -->
-                        <th>Status</th> <!-- Kolom untuk Status -->
+                        <th>Tanggal</th>
+                        <th>Waktu Mulai</th>
+                        <th>Waktu Selesai</th>
+                        <th>Kegiatan</th>
+                        <th>Bukti Kegiatan</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Looping untuk menampilkan setiap kegiatan -->
                     @foreach ($kegiatans as $kegiatan)
                         <tr>
-                            <!-- Menampilkan tanggal kegiatan dalam format d-m-Y -->
                             <td>{{ \Carbon\Carbon::parse($kegiatan->tanggal)->format('d-m-Y') }}</td>
-                            <!-- Menampilkan waktu mulai kegiatan -->
                             <td>{{ $kegiatan->waktu_mulai }}</td>
-                            <!-- Menampilkan waktu selesai kegiatan -->
                             <td>{{ $kegiatan->waktu_selesai }}</td>
-                            <!-- Menampilkan nama kegiatan -->
                             <td>{{ $kegiatan->kegiatan }}</td>
-                             <td>
+                            <td>
+                                @if($kegiatan->foto)
+                                    <img src="{{ asset('storage/' . $kegiatan->foto) }}" alt="Bukti Kegiatan" class="img-fluid" style="max-height: 100px;">
+                                @else
+                                    Tidak ada foto
+                                @endif
+                            </td>
+                            <td>
                                 @if($kegiatan->status === 'acc')
                                     <span class="badge bg-success">ACC</span>
                                 @elseif($kegiatan->status === 'revisi')
-                                    <span class="badge bg-warning text-dark"> Revisi</span>
+                                    <span class="badge bg-warning text-dark">Revisi</span>
                                 @else
                                     <span class="badge bg-secondary">Menunggu Validasi</span>
                                 @endif
@@ -126,20 +113,16 @@
             </table>
         </div>
 
-        <!-- Menambahkan tombol untuk menambah kegiatan baru -->
         <div class="row mt-4">
             <div class="col-12 d-flex justify-content-start">
-                <a href="{{ route('siswa.kegiatan.create') }}" class="btn btn-custom me-2">Tambah Kegiatan</a> <!-- Tombol untuk menambah kegiatan -->
+                <a href="{{ route('siswa.kegiatan.create') }}" class="btn btn-custom me-2">Tambah Kegiatan</a>
             </div>
         </div>
     </div>
 
-    <!-- Menampilkan navigasi pagination -->
     <div class="pagination">
-        {{ $kegiatans->links() }} <!-- Menampilkan pagination sesuai dengan data yang ada -->
+        {{ $kegiatans->links() }}
     </div>
 
-    <!-- Menyertakan Bootstrap JS untuk interaktivitas jika diperlukan -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-@endsection <!-- Mengakhiri bagian konten yang akan dimasukkan ke dalam layout -->
+@endsection
