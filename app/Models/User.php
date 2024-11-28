@@ -57,9 +57,15 @@ class User extends Authenticatable
         return $this->hasMany(User::class, 'mentor_id'); // Mentor/pembimbing memiliki banyak siswa
     }
 
-    // Relasi Many-to-One: Siswa memiliki pembimbing atau mentor
+    // Relasi Many-to-One: Siswa memiliki mentor
     public function mentor()
     {
-        return $this->belongsTo(User::class, 'mentor_id'); // Siswa memiliki satu pembimbing/mentor
+        return $this->belongsTo(User::class, 'mentor_id'); // Siswa memiliki satu mentor
+    }
+
+    // Relasi Many-to-One: Siswa memiliki pembimbing
+    public function pembimbing()
+    {
+        return $this->belongsTo(User::class, 'pembimbing_id'); // Siswa memiliki satu pembimbing
     }
 }

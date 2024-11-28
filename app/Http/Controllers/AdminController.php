@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Absen;
 use App\Models\KegiatanHarian;
 use App\Models\LaporanAkhir;
+use App\Models\Mitra;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -269,5 +270,123 @@ class AdminController extends Controller
 
         return redirect()->route('admin.assignMentorForm')->with('success', 'Mentor berhasil ditugaskan.');
     }
+
+
+    // Menampilkan form untuk memilih pembimbing untuk siswa
+    public function assignPembimbingForm()
+    {
+        // Mengambil semua siswa
+        $students = User::where('role', 'siswa')->get();
+
+        // Mengambil semua pembimbing
+        $pembimbings = User::where('role', 'pembimbing')->get();
+
+        // Mengarahkan data ke view form penugasan pembimbing
+        return view('admin.assign-pembimbing', compact('students', 'pembimbings'));
+    }
+
+
+    // Menangani penugasan pembimbing ke siswa
+    public function assignPembimbing(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'student_id' => 'required|exists:users,id', // ID siswa harus valid
+            'pembimbing_id' => 'required|exists:users,id', // ID pembimbing harus valid
+        ]);
+
+        // Cari data siswa berdasarkan student_id
+        $student = User::findOrFail($request->student_id);
+
+        // Update kolom pembimbing_id di tabel users dengan pembimbing yang dipilih
+        $student->pembimbing_id = $request->pembimbing_id;
+
+        // Simpan perubahan ke database
+        $student->save();
+
+        // Redirect kembali ke form dengan pesan sukses
+        return redirect()->route('admin.assignPembimbingForm')->with('success', 'Pembimbing berhasil ditugaskan.');
+    }
+
+    public function assignMitraForm()
+{
+    // Ambil data mitra, mentor, dan pembimbing
+    $mitras = Mitra::all();
+    $mentors = User::where('role', 'mentor')->get();
+    $pembimbings = User::where('role', 'pembimbing')->get();
+
+    return view('admin.assign-mitra', compact('mitras', 'mentors', 'pembimbings'));
+}
+
+public function assignMitra(Request $request)
+{
+    // Validasi input
+    $request->validate([
+        'mitra_id' => 'required|exists:mitras,id',
+        'mentor_ids' => 'required|array',
+        'mentor_ids.*' => 'exists:users,id',
+        'pembimbing_ids' => 'required|array',
+        'pembimbing_ids.*' => 'exists:users,id',
+    ]);
+
+    // Ambil data mitra
+    $mitra = Mitra::findOrFail($request->mitra_id);
+
+    // Hubungkan mentor dan pembimbing ke mitra
+    $mitra->mentors()->sync($request->mentor_ids);
+    $mitra->pembimbings()->sync($request->pembimbing_ids);
+
+    return redirect()->route('admin.assignMitraForm')->with('success', 'Mitra berhasil di-assign.');
+}
+
+
+public function indexMitra()
+{
+    // Ambil data mitra
+    $mitras = Mitra::with(['mentors', 'pembimbings'])->get();
+
+    return view('admin.mitra.index', compact('mitras'));
+}
+
+
+public function createMitra()
+{
+    // Ambil semua data mentor dan pembimbing
+    $mentors = User::where('role', 'mentor')->get();
+    $pembimbings = User::where('role', 'pembimbing')->get();
+
+    return view('admin.mitra.create', compact('mentors', 'pembimbings'));
+}
+
+public function storeMitra(Request $request)
+{
+    // Validasi input
+    $request->validate([
+        'nama_perusahaan' => 'required|string|max:255',
+        'bidang_usaha' => 'required|string|max:255',
+        'no_telpon' => 'required|string|max:20',
+        'nama_pimpinan' => 'required|string|max:255',
+        'alamat' => 'required|string',
+        'mentor_ids' => 'required|array',
+        'mentor_ids.*' => 'exists:users,id',
+        'pembimbing_ids' => 'required|array',
+        'pembimbing_ids.*' => 'exists:users,id',
+    ]);
+
+    // Simpan data mitra
+    $mitra = Mitra::create([
+        'nama_perusahaan' => $request->nama_perusahaan,
+        'bidang_usaha' => $request->bidang_usaha,
+        'no_telpon' => $request->no_telpon,
+        'nama_pimpinan' => $request->nama_pimpinan,
+        'alamat' => $request->alamat,
+    ]);
+
+    // Menyambungkan mitra dengan mentor dan pembimbing
+    $mitra->mentors()->sync($request->mentor_ids);
+    $mitra->pembimbings()->sync($request->pembimbing_ids);
+
+    return redirect()->route('admin.mitra.create')->with('success', 'Mitra berhasil ditambahkan');
+}
 
 }

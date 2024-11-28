@@ -152,7 +152,19 @@
                 </a>
                 <a href="{{ route('admin.assignMentorForm') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-users me-2"></i>Penugasan
+                    <i class="fas fa-users me-2"></i>Penugasan Mentor
+                </a>
+                <a href="{{ route('admin.assignPembimbingForm') }}"
+                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-users me-2"></i>Penugasan Pembimbing
+                </a>
+                <a href="{{ route('admin.assignMitraForm') }}"
+                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-users me-2"></i>Penugasan Mitra
+                </a>
+                <a href="{{ route('admin.mitra.index') }}"
+                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-users me-2"></i>Data Mitra
                 </a>
                 <a href="{{ route('admin.absen.index') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">

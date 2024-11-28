@@ -43,11 +43,27 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::get('/laporan-akhir', [AdminController::class, 'laporanAkhirIndex'])->name('admin.laporan-akhir');
     Route::get('/laporan-akhir/{id}', [AdminController::class, 'laporanAkhirShow'])->name('admin.laporan');
 
+    // Routes untuk dom-pdf
     Route::get('/absen/attendance', [AdminController::class, 'downloadAttendancePDF'])->name('admin.absen.attendance');
     Route::get('/admin/kegiatan/activity/{id}', [AdminController::class, 'downloadLogbookPdf'])->name('admin.kegiatan.activity');
 
+    // Routes untuk assign mentor
     Route::get('/assign-mentor', [AdminController::class, 'assignMentorForm'])->name('admin.assignMentorForm');
     Route::post('/assign-mentor', [AdminController::class, 'assignMentor'])->name('admin.assignMentor');
+
+    // Routes untuk assign pembimbing
+    Route::get('/assign-pembimbing', [AdminController::class, 'assignPembimbingForm'])->name('admin.assignPembimbingForm');
+    Route::post('/assign-pembimbing', [AdminController::class, 'assignPembimbing'])->name('admin.assignPembimbing');
+
+    Route::get('/assign-mitra', [AdminController::class, 'assignMitraForm'])->name('admin.assignMitraForm');
+    Route::post('/assign-mitra', [AdminController::class, 'assignMitra'])->name('admin.assignMitra');
+
+    // Menampilkan form tambah mitra
+Route::get('/mitra/create', [AdminController::class, 'createMitra'])->name('admin.mitra.create');
+// Menyimpan data mitra
+Route::post('/mitra', [AdminController::class, 'storeMitra'])->name('admin.mitra.store');
+// Menampilkan daftar mitra
+Route::get('/mitra', [AdminController::class, 'indexMitra'])->name('admin.mitra.index');
 
 });
 
