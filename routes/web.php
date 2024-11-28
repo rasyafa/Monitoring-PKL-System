@@ -59,11 +59,19 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::post('/assign-mitra', [AdminController::class, 'assignMitra'])->name('admin.assignMitra');
 
     // Menampilkan form tambah mitra
-Route::get('/mitra/create', [AdminController::class, 'createMitra'])->name('admin.mitra.create');
-// Menyimpan data mitra
-Route::post('/mitra', [AdminController::class, 'storeMitra'])->name('admin.mitra.store');
-// Menampilkan daftar mitra
-Route::get('/mitra', [AdminController::class, 'indexMitra'])->name('admin.mitra.index');
+    Route::get('/mitra/create', [AdminController::class, 'createMitra'])->name('admin.mitra.create');
+
+    // Menyimpan data mitra
+    Route::post('/mitra', [AdminController::class, 'storeMitra'])->name('admin.mitra.store');
+
+    // Menampilkan daftar mitra
+    Route::get('/mitra', [AdminController::class, 'indexMitra'])->name('admin.mitra.index');
+
+    // Route untuk menampilkan form
+    Route::get('/assign-siswa', [AdminController::class, 'assignSiswaForm'])->name('admin.assignSiswaForm');
+
+    // Route untuk memproses form assign mitra
+    Route::post('/assign-siswa', [AdminController::class, 'assignSiswa'])->name('admin.assignSiswa');
 
 });
 
@@ -94,6 +102,8 @@ Route::middleware(['auth', CheckRole::class . ':siswa'])->group(function () {
 
     // NOTIFIKASI
     Route::get('/notifikasi', [SiswaController::class, 'notifikasi'])->name('siswa.notifikasi');
+
+       Route::get('/assign', [SiswaController::class, 'showAssign'])->name('siswa.profil-mitra');
 });
 
 

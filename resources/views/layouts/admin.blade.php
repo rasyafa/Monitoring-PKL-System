@@ -46,30 +46,45 @@
         }
 
         #sidebar-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 15rem;
+            min-height: 100vh;
+            background: var(--second-bg-color);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: left 0.25s ease-out;
+            /* Tambahkan transisi untuk pergerakan sidebar */
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            left: -15rem;
+            /* Geser sidebar ke luar layar sesuai lebar sidebar */
+        }
+
+        #page-content-wrapper {
+            margin-left: 15rem;
+            overflow-x: auto;
+            /* Tambahkan gulir horizontal */
+            transition: margin-left 0.25s ease-out;
+        }
+
+        #sidebar-wrapper {
         position: fixed;
         top: 0;
         left: 0;
         width: 15rem;
-        min-height: 100vh;
+        height: 100vh; /* Pastikan sidebar memiliki tinggi penuh layar */
         background: var(--second-bg-color);
         box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-        transition: left 0.25s ease-out; /* Tambahkan transisi untuk pergerakan sidebar */
+        overflow-y: auto; /* Scroll tetap aktif */
+        overflow-x: hidden; /* Hilangkan scroll horizontal */
+        /* Sembunyikan scrollbar */
+        scrollbar-width: none; /* Untuk Firefox */
         }
 
-        #wrapper.toggled #sidebar-wrapper {
-        left: -15rem; /* Geser sidebar ke luar layar sesuai lebar sidebar */
-        }
-
-        #page-content-wrapper {
-        margin-left: 15rem;
-        overflow-x: auto; /* Tambahkan gulir horizontal */
-        transition: margin-left 0.25s ease-out;
-        }
-
-        #sidebar-wrapper .sidebar-heading {
-            padding: 0.875rem 1.25rem;
-            font-size: 1.2rem;
-            color: var(--heading-color);
+        #sidebar-wrapper::-webkit-scrollbar {
+        display: none; /* Untuk Chrome, Safari, dan Edge */
         }
 
         #wrapper.toggled #page-content-wrapper {
@@ -78,21 +93,27 @@
 
         /* Tambahkan aturan ini untuk menyembunyikan konten saat sidebar terbuka */
         #page-content-wrapper {
-            transition: margin-left 0.25s ease-out; /* Pastikan transisi halus */
+            transition: margin-left 0.25s ease-out;
+            /* Pastikan transisi halus */
         }
 
         /* style untuk hamburer agar tetap di posisi */
-       #menu-toggle {
-            position: fixed; /* Tetap di layar meskipun konten di-scroll */
-            top: 20px; /* Jarak dari atas layar */
-            left: 15rem; /* Jarak dari tepi kiri layar (sejajar dengan sidebar) */
-            z-index: 1030; /* Pastikan tombol tetap di atas konten */
+        #menu-toggle {
+            position: fixed;
+            /* Tetap di layar meskipun konten di-scroll */
+            top: 20px;
+            /* Jarak dari atas layar */
+            left: 15rem;
+            /* Jarak dari tepi kiri layar (sejajar dengan sidebar) */
+            z-index: 1030;
+            /* Pastikan tombol tetap di atas konten */
             padding: 10px;
-    }
+        }
 
 
         #wrapper.toggled #menu-toggle {
-            left: 0; /* Saat sidebar ditutup, tombol pindah ke tepi layar */
+            left: 0;
+            /* Saat sidebar ditutup, tombol pindah ke tepi layar */
         }
 
         .list-group {
@@ -108,27 +129,30 @@
         }
 
         .list-group-item:hover {
-            background-color: rgba(50, 255, 19, 0.757);
+            background-color: transparent;
+            color: rgb(40, 229, 68) !important;
+            /* Change text color to white for better contrast */
+            transition: background-color 0.3s ease;
+            /* Smooth transition */
         }
 
         .list-group-item.active {
             background-color: transparent;
-            color: var(--second-text-color);
+            color: rgb(40, 229, 68) !important;
             font-weight: bold;
             border: none;
         }
-
         .card {
-            margin: 1rem;
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(27, 25, 25, 0.1);
-            transition: transform 0.2s;
+        margin: 1rem;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 2px 10px rgba(27, 25, 25, 0.1);
+        transition: transform 0.2s;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 15px rgba(35, 33, 33, 0.091);
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(35, 33, 33, 0.091);
         }
     </style>
     @stack('styles')
@@ -150,18 +174,33 @@
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-users me-2"></i>Manajemen Pengguna
                 </a>
-                <a href="{{ route('admin.assignMentorForm') }}"
-                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-users me-2"></i>Penugasan Mentor
+                {{-- dropdown penugasan --}}
+                <a class="list-group-item list-group-item-action bg-transparent second-text fw-bold dropdown-toggle"
+                    data-bs-toggle="collapse" href="#manageUsersDropdown" role="button" aria-expanded="false"
+                    aria-controls="manageUsersDropdown">
+                    <i class="fas fa-users me-2"></i>Penugasan
                 </a>
-                <a href="{{ route('admin.assignPembimbingForm') }}"
-                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-users me-2"></i>Penugasan Pembimbing
-                </a>
-                <a href="{{ route('admin.assignMitraForm') }}"
-                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-users me-2"></i>Penugasan Mitra
-                </a>
+                <div class="collapse" id="manageUsersDropdown">
+                    <ul class="list-group list-group-flush ms-3">
+
+                        <li><a href="{{ route('admin.assignSiswaForm') }}"
+                                class="list-group-item list-group-item-action bg-transparent second-text fw-bold fs-7">
+                                <i class="fas fa-chalkboard-teacher me-2"></i>Penugasan Siswa</a>
+                        </li>
+                        <li><a href="{{ route('admin.assignMentorForm') }}"
+                                class="list-group-item list-group-item-action bg-transparent second-text fw-bold fs-7">
+                                <i class="fas fa-chalkboard-teacher me-2"></i>Penugasan Mentor</a>
+                        </li>
+                        <li><a href="{{ route('admin.assignPembimbingForm') }}"
+                                class="list-group-item list-group-item-action bg-transparent second-text fw-bold fs-7">
+                                <i class="fas fa-users-cog me-2"></i>Penugasan Pembimbing</a>
+                        </li>
+                        <li><a href="{{ route('admin.assignMitraForm') }}"
+                                class="list-group-item list-group-item-action bg-transparent second-text fw-bold fs-7">
+                                <i class="fas fa-handshake me-2"></i>Penugasan Mitra</a>
+                        </li>
+                    </ul>
+                </div>
                 <a href="{{ route('admin.mitra.index') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-users me-2"></i>Data Mitra
@@ -174,7 +213,8 @@
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-file-alt me-2"></i>Data Laporan Harian
                 </a>
-                <a href="{{ route('admin.laporan-akhir') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                <a href="{{ route('admin.laporan-akhir') }}"
+                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-file-alt me-2"></i>Data Laporan Akhir
                 </a>
                 <form action="{{ route('logout') }}" method="POST">

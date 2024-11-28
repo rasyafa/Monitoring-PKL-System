@@ -1,20 +1,19 @@
 @extends('layouts.admin')
 
-@section('title', 'Assign')
-
-@section('page-title', 'Assign')
+@section('title', 'Assign Mitra ke Siswa')
 
 @section('content')
 <div class="container">
-    <h2>Assign Mentor to Siswa</h2>
+    <h2>Assign Mitra ke Siswa</h2>
 
     <!-- Menampilkan pesan sukses jika ada -->
     @if (session('success'))
     <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <form action="{{ route('admin.assignMentor') }}" method="POST">
+    <form action="{{ route('admin.assignSiswa') }}" method="POST">
         @csrf
+
         <div class="form-group">
             <label for="student_id">Pilih Siswa</label>
             <select class="form-control" id="student_id" name="student_id">
@@ -25,17 +24,15 @@
         </div>
 
         <div class="form-group">
-            <label for="mentor_id">Pilih Mentor</label>
-            <select class="form-control" id="mentor_id" name="mentor_id">
-                @foreach ($mentors as $mentor)
-                <option value="{{ $mentor->id }}">{{ $mentor->name }}</option>
+            <label for="mitra_id">Pilih Mitra</label>
+            <select class="form-control" id="mitra_id" name="mitra_id">
+                @foreach ($mitras as $mitra)
+                <option value="{{ $mitra->id }}">{{ $mitra->nama_perusahaan }}</option>
                 @endforeach
             </select>
-            @error('mentor_id')
-            <div class="text-danger">{{ $message }}</div>
-            @enderror
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Assign Mentor</button>
+
+        <button type="submit" class="btn btn-primary mt-3">Assign Mitra</button>
     </form>
 </div>
 @endsection
