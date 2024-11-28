@@ -26,6 +26,7 @@
     </style>
 </head>
 <body>
+
     <div class="container mt-5">
         <h1>Tambah Kegiatan Harian</h1>
 
@@ -44,7 +45,7 @@
         @endif
 
         <!-- Form -->
-        <form action="{{ route('siswa.kegiatan.store') }}" method="POST">
+        <form action="{{ route('siswa.kegiatan.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label for="tanggal" class="form-label">Tanggal</label>
@@ -62,6 +63,12 @@
                 <label for="kegiatan" class="form-label">Kegiatan</label>
                 <textarea class="form-control" id="kegiatan" name="kegiatan" rows="3" required></textarea>
             </div>
+            <!-- Upload Foto -->
+                <div class="mb-3">
+                    <label for="foto" class="form-label">Bukti Kegiatan</label>
+                    <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+                </div>
+
             <button type="submit" class="btn btn-custom">Simpan Kegiatan</button>
             <a href="{{ route('siswa.riwayat-kegiatan') }}" class="btn btn-secondary">Kembali ke Riwayat</a>
         </form>
