@@ -17,6 +17,7 @@ class CreateAbsensTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->date('tanggal');
+            $table->string('foto');
             $table->enum('status', ['Hadir', 'Sakit', 'Izin', 'Alpha']);
             $table->timestamps();
 
