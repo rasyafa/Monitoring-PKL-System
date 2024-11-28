@@ -32,8 +32,6 @@ class SiswaController extends Controller
             ->whereDate('tanggal', $today)
             ->exists();
 
-        $mitra = Auth::user()->mitra;
-
         // Kirim data ke view
         return view('siswa.beranda', compact('Absen', 'IsiLaporan'));
     }
@@ -193,7 +191,7 @@ class SiswaController extends Controller
 
         // Batas waktu pengisian kegiatan
         $startTime = Carbon::createFromTime(8, 0, 0, 'Asia/Jakarta'); // 08:00
-        $endTime = Carbon::createFromTime(16, 0, 0, 'Asia/Jakarta'); // 16:00
+        $endTime = Carbon::createFromTime(21, 0, 0, 'Asia/Jakarta'); // 16:00
         $currentTime = Carbon::now('Asia/Jakarta'); // Waktu saat ini
 
         if ($currentTime->lt($startTime) || $currentTime->gt($endTime)) {

@@ -122,11 +122,6 @@
                     <i class="fas fa-user me-2"></i>Profile
                 </a>
 
-                <a href="{{ route('siswa.profil-mitra')}}"
-                    class="list-group-item list-group-item-action bg-transparent second-text}">
-                    <i class="fas fa-user me-2"></i>Assign
-                </a>
-
                 <!-- Menu Item Absen -->
                 <a href="{{ route('siswa.absen') }}" class="list-group-item list-group-item-action bg-transparent second-text {{ Request::routeIs('siswa.absen') ? 'active' : '' }}">
                     <i class="fas fa-clipboard-list me-2"></i>Absen
