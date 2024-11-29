@@ -7,61 +7,65 @@
     <title>Detail Kegiatan Harian</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* Gaya untuk body halaman */
         body {
-            background-color: #ffffff;
-            color: #333;
+            background-color: #ffffff; /* Mengatur warna latar belakang halaman menjadi putih */
+            color: #333; /* Mengatur warna teks menjadi abu-abu gelap */
         }
 
+        /* Gaya untuk judul h2 */
         h2 {
-           font-weight: bold;
-            color: #505050;
+            font-weight: bold; /* Membuat teks judul menjadi tebal */
+            color: #505050; /* Mengatur warna teks menjadi abu-abu sedang */
         }
 
-        /* .table-primary {
-            background-color: #ffffff;
-            color: #333;
-        } */
-
+        /* Gaya untuk header tabel */
         .table-head {
-            background-color: #0ccf4d;
-            color: #fbfdff;
-
+            background-color: #0ccf4d; /* Mengatur latar belakang header tabel menjadi hijau */
+            color: #fbfdff; /* Mengatur warna teks header menjadi putih */
         }
 
+        /* Gaya untuk body tabel */
         .table-tbody {
-            background-color: #ffffff;
+            background-color: #ffffff; /* Mengatur latar belakang body tabel menjadi putih */
         }
 
+        /* Gaya untuk tombol dengan kelas .btn-info dan .btn-warning */
         .btn-info,
         .btn-warning {
-            background-color: #ffc107;
-            color: 212529;
-            border: none;
+            background-color: #ffc107; /* Mengatur warna latar belakang tombol menjadi kuning */
+            color: 212529; /* Mengatur warna teks tombol menjadi gelap */
+            border: none; /* Menghilangkan border pada tombol */
         }
 
+        /* Gaya hover untuk tombol .btn-info dan .btn-warning */
         .btn-info:hover,
         .btn-warning:hover {
-            background-color: #ffc107;
+            background-color: #ffc107; /* Warna latar belakang tetap sama saat tombol dihover */
         }
 
+        /* Gaya untuk tombol dengan kelas .btn-success */
         .btn-success {
-            background-color: #17d033;
-            color: 212529;
-            border: none;
+            background-color: #17d033; /* Mengatur warna latar belakang tombol sukses menjadi hijau */
+            color: 212529; /* Mengatur warna teks tombol menjadi gelap */
+            border: none; /* Menghilangkan border pada tombol */
         }
 
+        /* Gaya hover untuk tombol .btn-success */
         .btn-success:hover {
-            background-color: #1b5e20;
+            background-color: #1b5e20; /* Mengubah warna latar belakang saat tombol dihover menjadi hijau lebih gelap */
         }
 
+        /* Gaya untuk tombol dengan kelas .btn-danger */
         .btn-danger {
-            background-color: #c62828;
-            color: white;
-            border: none;
+            background-color: #c62828; /* Mengatur warna latar belakang tombol menjadi merah */
+            color: white; /* Mengatur warna teks tombol menjadi putih */
+            border: none; /* Menghilangkan border pada tombol */
         }
 
+        /* Gaya hover untuk tombol .btn-danger */
         .btn-danger:hover {
-            background-color: #791616;
+            background-color: #791616; /* Mengubah warna latar belakang tombol saat dihover menjadi merah lebih gelap */
         }
     </style>
 </head>

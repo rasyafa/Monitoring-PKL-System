@@ -34,7 +34,9 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Assign Mitra</button>
+        <!-- Tombol dengan warna hijau #03d703 -->
+        <button type="submit" class="btn"
+            style="background-color: #03d703; color: white; border: none; margin-top: 20px;">Assign Mitra</button>
     </form>
 </div>
 @endsection

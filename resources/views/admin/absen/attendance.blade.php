@@ -5,21 +5,26 @@
     <meta charset="UTF-8">
     <title>Rekap Kehadiran</title>
     <style>
+       <style>
+
+        /* Menetapkan lebar tabel menjadi 100% dari lebar container */
         table {
-            width: 100%;
+            width: 100%;/* Menggabungkan border antara sel sehingga tidak ada jarak antar border */
             border-collapse: collapse;
         }
 
+        /* Menambahkan border ke tabel, header tabel (th), dan sel tabel (td) */
         table,
         th,
         td {
-            border: 1px solid black;
+            border: 1px solid black;/* Border berwarna hitam dengan ketebalan 1px */
         }
 
+        /* Menetapkan padding di dalam sel dan header tabel agar lebih mudah dibaca */
         th,
         td {
-            padding: 10px;
-            text-align: center;
+            padding: 10px;/* Memberikan jarak 10px di dalam setiap sel */
+            text-align: center;/* Menyelaraskan teks ke tengah di dalam sel */
         }
     </style>
 </head>

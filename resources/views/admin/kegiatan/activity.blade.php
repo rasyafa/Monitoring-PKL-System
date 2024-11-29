@@ -6,40 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Kegiatan Harian - Logbook</title>
     <style>
+       /* Mengatur gaya keseluruhan untuk elemen body */
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            color: #333;
+            font-family: Arial, sans-serif; /* Menggunakan font Arial */
+            margin: 20px; /* Memberikan margin sekitar 20px pada seluruh halaman */
+            color: #333; /* Warna teks utama berwarna abu-abu gelap */
         }
 
+        /* Gaya untuk judul h2 */
         h2 {
             font-weight: bold;
             color: #505050;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 20px; 
         }
 
+        /* Gaya untuk tabel */
         table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+            width: 100%; /* Tabel mengisi seluruh lebar halaman */
+            border-collapse: collapse; /* Menggabungkan border antar sel */
+            margin-top: 20px; /* Memberikan jarak 20px di atas tabel */
         }
 
+        /* Gaya untuk header dan sel tabel */
         th,
         td {
-            padding: 8px 12px;
-            text-align: left;
-            border: 1px solid #ddd;
+            padding: 8px 12px; /* Memberikan padding di dalam sel */
+            text-align: left; /* Menyelaraskan teks di kiri dalam sel */
+            border: 1px solid #ddd; /* Border tipis dengan warna abu-abu */
         }
 
+        /* Gaya khusus untuk header tabel */
         th {
-            background-color: #0ccf4d;
-            color: #fff;
+            background-color: #0ccf4d; /* Warna latar belakang hijau untuk header */
+            color: #fff; /* Warna teks putih pada header */
         }
 
+        /* Gaya untuk tombol dengan kelas .btn-success */
         .btn-success {
-            background-color: #17d033;
-            color: 212529;
+            background-color: #17d033; /* Warna latar belakang hijau */
+            color: 212529; /* Warna teks gelap */
         }
     </style>
 </head>

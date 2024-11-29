@@ -7,43 +7,43 @@
 @section('content')
 <style>
 
-        h2{
-        background-color: transparent;
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #333;
-        padding: 5px;
-        border-bottom: none;
+        /* Menyusun tampilan judul h2 */
+        h2 {
+            background-color: transparent; /* Tidak ada warna latar belakang */
+            font-size: 1.5rem; /* Ukuran font judul */
+            font-weight: bold; /* Menebalkan font */
+            color: #333; /* Warna teks */
+            padding: 5px; /* Memberikan ruang di sekitar teks */
+            border-bottom: none; /* Menghilangkan border bawah */
         }
 
+        /* Styling untuk tabel */
         .table {
-        background-color: #f9f9f9;/* Warna latar belakang tabel */
-        table-layout: fixed; Kolom memiliki ukuran tetap sesuai lebar
-
+            background-color: #f9f9f9; /* Warna latar belakang tabel */
+            table-layout: fixed; /* Mengatur kolom agar memiliki ukuran tetap sesuai lebar */
         }
 
-        /* Memberikan padding pada card */
+        /* Styling untuk card agar lebih rapi */
         .card {
-        margin-top: 20px;
-        padding: 20px;
-        border: 1px solid #ffffff;
-        border-radius: px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Bayangan sangat ringan */
+            margin-top: 20px; /* Memberikan jarak dari elemen di atasnya */
+            padding: 20px; /* Memberikan ruang di dalam card */
+            border: 1px solid #ffffff; /* Border berwarna putih */
+            border-radius: 5px; /* Membuat sudut card menjadi melengkung */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Bayangan lembut di bawah card */
         }
 
-        /* style untuk th */
+        /* Styling untuk header tabel (th) */
         th {
-        background-color: #3dd83d !important; /* Pastikan aturan ini prioritas */
-        color: white !important;
-        text-align: center;
+            background-color: #3dd83d !important; /* Warna latar belakang header tabel */
+            color: white !important; /* Warna teks putih pada header tabel */
+            text-align: center; /* Menyelaraskan teks ke tengah */
         }
 
-        /* Tambahan untuk tampilan tabel */
+        /* Menambahkan responsivitas pada tabel */
         .table-responsive {
-        overflow-x: auto;
+            rflow-x: auto; /* Membuat tabel dapat digulir secara horizontal jika terlalu lebar */
         }
-
-</style>
+        </style>
 
 <div class="container">
     <div class="card">
