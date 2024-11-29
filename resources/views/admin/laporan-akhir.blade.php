@@ -54,8 +54,8 @@
 
     /* Tema hijau untuk tabel */
     .table {
-        background-color: #f9f9f9;
-        /* Warna latar belakang tabel */
+        background-color: #f9f9f9;/* Warna latar belakang tabel */
+        table-layout: fixed; Kolom memiliki ukuran tetap sesuai lebar
     }
 
     /* Mengatur lebar tabel agar lebih panjang */
@@ -63,13 +63,15 @@
     .table td {
         text-align: center;
         padding: 10px;
+        text-overflow: ellipsis; /* Tampilkan tanda titik-titik jika teks terlalu panjang */
+        overflow: hidden; /* Sembunyikan teks yang keluar */
     }
 
     /* Mengatur lebar kolom Nama */
     .table td:nth-child(2),
     .table th:nth-child(2) {
-        width: 40%;
-        /* Mengatur kolom Nama lebih lebar */
+        min-width: 150px; /* Menentukan lebar minimal */
+        width: 25%; /* Atur lebar kolom Nama */
     }
 
     /* Mengatur lebar kolom Aksi */
@@ -103,6 +105,10 @@
         /* Warna tombol hijau */
         color: white;
         /* Warna teks tombol */
+        padding: 5px 20px; /* Tambahkan ruang horizontal */
+        min-width: 150px; /* Pastikan tombol cukup lebar untuk teks */
+        white-space: nowrap; /* Teks tetap dalam satu baris */
+        text-align: center; /* Teks rata tengah */
     }
 
     .btn-light-green:hover {
@@ -110,6 +116,15 @@
         /* Warna tombol saat hover */
         color: white;
         /* Warna teks tombol saat hover */
+    }
+
+    /* Responsif untuk perangkat kecil */
+    @media (max-width: 768px) {
+    .btn-light-green {
+    font-size: 12px; /* Kecilkan ukuran font untuk layar kecil */
+    padding: 5px 10px;
+    min-width: 120px; /* Lebar minimum tombol di layar kecil */
+    }
     }
 </style>
 @endpush

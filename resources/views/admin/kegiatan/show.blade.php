@@ -76,7 +76,7 @@
             {{ session('success') }}
         </div>
         @endif
-
+        <a href="{{ route('admin.kegiatan.activity', ['id' => $students->id]) }}" class="btn btn-success mb-3" style="width: 20%;">Download</a>
         <table class="table table-striped table-hover table-bordered">
             <thead class="table-head text-center">
                 <tr>

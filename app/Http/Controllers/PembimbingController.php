@@ -16,13 +16,19 @@ class PembimbingController extends Controller
     // Menampilkan halaman utama (home) pembimbing
     public function index()
     {
-        $pembimbings = [];
-        
-        return view('pembimbing.home');
+        // Menghitung jumlah kegiatan harian
+        $kegiatan = Kegiatan::count(); // Total data di tabel Kegiatan
+
+        // Menghitung jumlah data absensi
+        $absens = Absen::count(); // Total data di tabel Absen
+
+        // Passing data ke view
+        return view('pembimbing.home', compact('kegiatan', 'absens'));
     }
 
+
     // PROFILE
-    // Fungsi untuk melihat profil mentor
+    // Fungsi untuk melihat profil pembimbing
     public function profil($id)
     {
         $user = Auth::user();
@@ -34,16 +40,16 @@ class PembimbingController extends Controller
             );
         }
 
-        // Ambil data mentor berdasarkan id
-        $pembimbing = User::findOrFail($id);  // Ganti User dengan Mentor
+        // Ambil data pembimbing berdasarkan id
+        $pembimbing = User::findOrFail($id);  // Ganti User dengan pembimbing
 
         return view('pembimbing.profil', compact('pembimbing'));
     }
 
-    // Fungsi untuk edit profil mentor
+    // Fungsi untuk edit profil pembimbing
     public function editprofil($id)
     {
-        $pembimbing = User::findOrFail($id);  // Ganti User dengan Mentor
+        $pembimbing = User::findOrFail($id);  // Ganti User dengan pembimbing
 
         // Pastikan hanya mentor yang sedang login yang bisa mengedit profilnya
         if (Auth::id() !== $pembimbing->id) {
@@ -55,7 +61,7 @@ class PembimbingController extends Controller
         return view('pembimbing.editprofil', compact('pembimbing'));
     }
 
-    // Fungsi untuk update data profil mentor
+    // Fungsi untuk update data profil pembimbing
     public function update1(Request $request, $id)
     {
         // Validasi data
@@ -67,8 +73,8 @@ class PembimbingController extends Controller
             'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
-        // Cari mentor berdasarkan ID
-        $pembimbing = User::findOrFail($id);  // Ganti User dengan Mentor
+        // Cari pembimbing berdasarkan ID
+        $pembimbing = User::findOrFail($id);  // Ganti User dengan pembimbing
 
         // Update data mentor
         $pembimbing->name = $request->input('name');
@@ -128,10 +134,12 @@ class PembimbingController extends Controller
 
         // Jika ada gambar, simpan gambar
         if ($request->hasFile('image')) {
+            // Simpan path lengkap dengan Storage disk 'public'
             $imagePath = $request->file('image')->store('gambar', 'public');
-            $kegiatan->image = basename($imagePath);
+            $kegiatan->image = $imagePath; // Simpan path lengkap di database
         }
 
+        // Simpan data kegiatan
         $kegiatan->save();
 
         // Redirect ke halaman monitoring setelah berhasil
@@ -165,15 +173,14 @@ class PembimbingController extends Controller
 
         // Update gambar jika ada
         if ($request->hasFile('image')) {
-            // Hapus gambar lama
+            // Hapus gambar lama jika ada
             if ($kegiatan->image) {
-                Storage::delete('public/gambar/' . $kegiatan->image);
+                Storage::disk('public')->delete($kegiatan->image);
             }
 
-            // Simpan gambar baru
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->storeAs('public/gambar', $imageName);
-            $kegiatan->image = $imageName;
+            // Simpan path gambar baru dengan Storage disk 'public'
+            $imagePath = $request->file('image')->store('gambar', 'public');
+            $kegiatan->image = $imagePath; // Simpan path lengkap di database
         }
 
         // Simpan perubahan
@@ -235,22 +242,28 @@ class PembimbingController extends Controller
         return view('pembimbing.laporanakhir', compact('students', 'laporans'));
     }
 
-    public function updateStatus(Request $request, $id)
-    {
-        $laporans = LaporanAkhir::findOrFail($id);
-        $request->validate([
-            'status' => 'required|in:acc,revisi',
-        ]);
-
-        $laporans->update(['status' => $request->status]);
-        return redirect()->back()->with('success', 'Status berhasil diperbarui.');
-    }
-
-    // Update catatan
     public function updateCatatan(Request $request, $id)
     {
+
+
         $laporans = LaporanAkhir::findOrFail($id);
-        $laporans->update(['catatan' => $request->catatan]);
-        return redirect()->back()->with('success', 'Catatan berhasil diperbarui.');
+
+        $laporans->catatan = $request->catatan;
+        $laporans->status = 'revisi'; // Tetapkan status sebagai revisi
+        $laporans->save();
+
+        return redirect()->back()->with('success', 'Catatan berhasil diperbarui!');
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+
+
+        $laporans = LaporanAkhir::findOrFail($id);
+
+        $laporans->status = $request->status;
+        $laporans->save();
+
+        return redirect()->back()->with('success', 'Status kegiatan berhasil diperbarui!');
     }
 }

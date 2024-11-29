@@ -18,7 +18,8 @@ return new class extends Migration
             $table->time('waktu_mulai');
             $table->time('waktu_selesai');
             $table->text('kegiatan');
-            $table->enum('status', ['acc', 'revisi'])->default('acc'); // Kolom status
+            $table->string('foto');
+            $table->enum('status', ['menunggu validasi', 'acc', 'revisi'])->default('menunggu validasi'); // Kolom status
             $table->text('catatan')->nullable(); // Kolom catatan yang nullable
             $table->timestamps();
         });

@@ -81,8 +81,6 @@ class AuthController extends Controller
             return redirect()->route('siswa.beranda');
         } elseif ($user->role == 'pembimbing') {
             return redirect()->route('pembimbing.home');
-        } elseif ($user->role == 'mitra') {
-            return redirect()->route('mitra.dashboard');
         } elseif ($user->role == 'mentor') {
             return redirect()->route('mentor.beranda');
         }

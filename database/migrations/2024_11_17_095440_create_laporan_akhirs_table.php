@@ -16,8 +16,9 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('judul');
             $table->string('file_path');
+            $table->string('link_laporan');
             $table->date('tanggal');
-            $table->enum('status', ['acc', 'revisi'])->default('acc'); // Kolom status
+            $table->enum('status', ['menunggu validasi', 'acc', 'revisi'])->default('menunggu validasi'); // Kolom status
             $table->text('catatan')->nullable(); // Kolom catatan yang nullable
             $table->timestamps();
         });

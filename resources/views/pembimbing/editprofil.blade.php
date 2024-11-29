@@ -37,10 +37,10 @@
          /* Foto profil di bawah form */
         .profile-photo-preview {
             border-radius: 50%;
-            width: 120px; /* Menyesuaikan ukuran foto profil agar lebih besar */
-            height: 120px;
+            width: 150px; /* Menyesuaikan ukuran foto profil agar lebih besar */
+            height: 150px;
             object-fit: cover;
-            border: 5px solid #03d703;
+            border: 5px solid #fff;
 
         }
 
@@ -118,10 +118,10 @@
         <div class="card">
             <div class="card-body">
                 <div class="form-header">
-                    Edit Profil Mentor
+                    Edit Profil Pembimbing
                 </div>
 
-                <!-- Form Edit Profil Mentor -->
+                <!-- Form Edit Profil pembimbing -->
                 <form action="{{ route('pembimbing.update1', $pembimbing->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')

@@ -31,7 +31,7 @@
 
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700">
-                        Username
+                        Nama pengguna
                     </label>
                     <div class="mt-1">
                         <input id="username" name="username" type="text" required
@@ -45,7 +45,7 @@
 
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700">
-                        Password
+                        Kata sandi
                     </label>
                     <div class="mt-1">
                         <input id="password" name="password" type="password" required
@@ -58,7 +58,7 @@
 
                 <div>
                     <label for="password_confirmation" class="block text-sm font-medium text-gray-700">
-                        Konfirmasi Password
+                        Konfirmasi Kata sandi
                     </label>
                     <div class="mt-1">
                         <input id="password_confirmation" name="password_confirmation" type="password" required
@@ -68,14 +68,13 @@
 
                 <div>
                     <label for="role" class="block text-sm font-medium text-gray-700">
-                        Role
+                        Peran
                     </label>
                     <div class="mt-1">
                         <select id="role" name="role" required
                             class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             <option value="siswa">Siswa</option>
                             <option value="pembimbing">Pembimbing</option>
-                            <option value="mitra">Mitra</option>
                             <option value="mentor">Mentor</option>
                         </select>
                     </div>
@@ -87,12 +86,12 @@
                 <!-- Gender -->
                 <div>
                     <label for="gender" class="block text-sm font-medium text-gray-700">
-                        Gender
+                        Jenis Kelamin
                     </label>
                     <div class="mt-1">
                         <select id="gender" name="gender" required
                             class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            <option value="">Pilih Gender</option>
+                            <option value="">Jenis Kelamin</option>
                             <option value="male">Laki-laki</option>
                             <option value="female">Perempuan</option>
                         </select>
@@ -104,7 +103,7 @@
 
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700">
-                        Email
+                        Alamat Surel
                     </label>
                     <div class="mt-1">
                         <input id="email" name="email" type="email" required

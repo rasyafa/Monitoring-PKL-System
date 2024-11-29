@@ -21,7 +21,7 @@
                         <thead>
                             <tr style="background-color: #f7f7f7;">
                                 <th><strong>Nama</strong></th>
-                                <th>{{ Auth::user()->name }}</th>
+                                <th>{{ $students->name }}</th>
                             </tr>
                             <tr style="background-color: #fafafa;">
                                 <th><strong>Tanggal</strong></th>
@@ -41,6 +41,16 @@
                                     </a>
                                 </th>
                             </tr>
+
+                            <tr style="background-color: #fafafa;">
+                                <th><strong>Link Laporan</strong></th>
+                                <th>
+                                    <a href="{{ $laporan->link_laporan }}" target="_blank" class="btn btn-link">
+                                        {{ basename($laporan->link_laporan) }}
+                                    </a>
+                                </th>
+                            </tr>
+
                             <tr style="background-color: #f7f7f7;">
                                 <th><strong>Status</strong></th>
                                 <th>

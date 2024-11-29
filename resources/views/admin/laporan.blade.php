@@ -21,7 +21,7 @@
                         <thead>
                             <tr style="background-color: #f7f7f7;">
                                 <th><strong>Nama</strong></th>
-                                <th>{{ Auth::user()->name }}</th>
+                                <th>{{ $students->name }}</th>
                             </tr>
                             <tr style="background-color: #fafafa;">
                                 <th><strong>Tanggal</strong></th>
@@ -80,6 +80,12 @@
     button.btn-primary {
         background-color: #03d703 !important;
         border-color: #03d703 !important;
+    }
+
+    .table {
+    background-color: #f9f9f9;/* Warna latar belakang tabel */
+    table-layout: fixed; Kolom memiliki ukuran tetap sesuai lebar
+
     }
 
     /* Ubah warna teks laporan terkirim menjadi abu-abu */

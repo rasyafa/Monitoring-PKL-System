@@ -26,6 +26,9 @@ class User extends Authenticatable
         'email',
         'city',
         'profile_photo',
+        'mentor_id',
+        'pembimbing_id',
+        'mitra_id',
     ];
 
     /**
@@ -50,4 +53,33 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Relasi One-to-Many: Pembimbing/Mentor memiliki banyak siswa
+    public function students()
+    {
+        return $this->hasMany(User::class, 'mentor_id'); // Mentor/pembimbing memiliki banyak siswa
+    }
+
+    // Relasi Many-to-One: Siswa memiliki mentor
+    public function mentor()
+    {
+        return $this->belongsTo(User::class, 'mentor_id'); // Siswa memiliki satu mentor
+    }
+
+    // Relasi Many-to-One: Siswa memiliki pembimbing
+    public function pembimbing()
+    {
+        return $this->belongsTo(User::class, 'pembimbing_id'); // Siswa memiliki satu pembimbing
+    }
+
+     public function mitras()
+    {
+        return $this->belongsToMany(Mitra::class, 'mitra_pembimbing', 'pembimbing_id', 'mitra_id');
+    }
+
+    public function mitra()
+    {
+        return $this->belongsTo(Mitra::class, 'mitra_id');
+    }
+
 }

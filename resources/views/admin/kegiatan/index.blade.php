@@ -54,8 +54,9 @@
 
     /* Tema hijau untuk tabel */
     .table {
-        background-color: #f9f9f9;
-        /* Warna latar belakang tabel */
+        background-color: #f9f9f9;/* Warna latar belakang tabel */
+        table-layout: fixed; Kolom memiliki ukuran tetap sesuai lebar
+        
     }
 
     /* Mengatur lebar tabel agar lebih panjang */
@@ -99,10 +100,11 @@
     }
 
     .btn-light-green {
-        background-color: #3daf58ce;
-        /* Warna tombol hijau */
-        color: white;
-        /* Warna teks tombol */
+        background-color: #3daf58ce;/* Warna tombol hijau */
+        color: white;/* Warna teks tombol */
+        padding: 5px 15px;
+        min-width: 150px; /* Tombol cukup lebar untuk teks */
+        white-space: nowrap; /* Teks tidak turun ke baris berikutnya */
     }
 
     .btn-light-green:hover {
@@ -110,6 +112,14 @@
         /* Warna tombol saat hover */
         color: white;
         /* Warna teks tombol saat hover */
+    }
+
+    @media (max-width: 768px) {
+    .btn-light-green {
+    font-size: 12px;
+    padding: 5px 10px;
+    min-width: 120px; /* Lebar minimum untuk layar kecil */
+    }
     }
 </style>
 @endpush

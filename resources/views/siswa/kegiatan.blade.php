@@ -3,10 +3,9 @@
 @section('content')
 
     <title>Riwayat Kegiatan Harian</title>
-     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-
         .btn-custom {
             background-color: #03d703;
             border-color: #03d703;
@@ -43,7 +42,7 @@
             background-color: #e9ecef;
         }
 
-         .pagination {
+        .pagination {
             justify-content: center;
             display: flex;
             margin: 20px 0;
@@ -61,7 +60,6 @@
     <div class="container mt-5">
         <h1 class="text-center mb-4">Riwayat Kegiatan Harian</h1>
 
-
         @if(session('success'))
             <script>
                 Swal.fire({
@@ -74,7 +72,6 @@
             </script>
         @endif
 
-
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
                 <thead>
@@ -83,6 +80,8 @@
                         <th>Waktu Mulai</th>
                         <th>Waktu Selesai</th>
                         <th>Kegiatan</th>
+                        <th>Bukti Kegiatan</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,6 +91,22 @@
                             <td>{{ $kegiatan->waktu_mulai }}</td>
                             <td>{{ $kegiatan->waktu_selesai }}</td>
                             <td>{{ $kegiatan->kegiatan }}</td>
+                            <td>
+                                @if($kegiatan->foto)
+                                    <img src="{{ asset('storage/' . $kegiatan->foto) }}" alt="Bukti Kegiatan" class="img-fluid" style="max-height: 100px;">
+                                @else
+                                    Tidak ada foto
+                                @endif
+                            </td>
+                            <td>
+                                @if($kegiatan->status === 'acc')
+                                    <span class="badge bg-success">ACC</span>
+                                @elseif($kegiatan->status === 'revisi')
+                                    <span class="badge bg-warning text-dark">Revisi</span>
+                                @else
+                                    <span class="badge bg-secondary">Menunggu Validasi</span>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -104,8 +119,10 @@
             </div>
         </div>
     </div>
-            <div class="pagination">
-                {{ $kegiatans->links() }}
-            </div>
+
+    <div class="pagination">
+        {{ $kegiatans->links() }}
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 @endsection

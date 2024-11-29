@@ -44,6 +44,26 @@
                                 <th><strong>Judul Laporan</strong></th>
                                 <th>{{ $laporan->judul }}</th>
                             </tr>
+                            <!-- Status Laporan -->
+                            <tr style="background-color: #f7f7f7;">
+                                <th><strong>Status</strong></th>
+                                <th>
+                                    @if($laporan->status === 'acc')
+                                        <span class="badge bg-success">ACC</span>
+                                    @elseif($laporan->status === 'revisi')
+                                        <span class="badge bg-warning text-dark">Revisi</span>
+                                    @else
+                                        <span class="badge bg-secondary">Menunggu Validasi</span>
+                                    @endif
+                                </th>
+                            </tr>
+                            <!-- Catatan Pembimbing -->
+                            @if($laporan->catatan)
+                            <tr style="background-color: #fafafa;">
+                                <th><strong>Catatan Pembimbing</strong></th>
+                                <th>{{ $laporan->catatan }}</th>
+                            </tr>
+                            @endif
                             <tr style="background-color: #fafafa;">
                                 <th><strong>File</strong></th>
                                 <th>
@@ -53,7 +73,18 @@
                                     </a>
                                 </th>
                             </tr>
-                            <!-- Button Hapus di dalam tabel -->
+                            @if($laporan->link_laporan)
+                                <tr style="background-color: #fafafa;">
+                                    <th><strong>Link Laporan</strong></th>
+                                    <th>
+                                        <a href="{{ $laporan->link_laporan }}" target="_blank" class="btn btn-link">
+                                            {{ basename($laporan->link_laporan) }}
+                                        </a>
+                                    </th>
+                                </tr>
+                            @endif
+
+                                                            <!-- Button Hapus di dalam tabel -->
                             <tr style="background-color: #f7f7f7;">
                                 <td colspan="2" class="text-center">
                                     <form action="{{ route('laporan.hapus', $laporan->id) }}" method="POST" style="display:inline;">
@@ -101,10 +132,14 @@
                         <label for="file" class="form-label">Unggah File</label>
                         <input type="file" class="form-control" id="file" name="file" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="link_laporan" class="form-label">Link Laporan</label>
+                        <input type="url" class="form-control" id="link_laporan" name="link_laporan" placeholder="https://example.com/link-laporan" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                     <button type="submit" class="btn btn-primary">Kirim</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </form>
         </div>

@@ -126,7 +126,7 @@
             <div class="card-header">
                 <h4>Absen Hari Ini</h4>
             </div>
-            <form action="{{ route('siswa.absen.store') }}" method="POST">
+            <form action="{{ route('siswa.absen.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                     <label for="user_name" class="form-label">Nama</label>
@@ -139,12 +139,17 @@
                         value="{{ now()->toDateString() }}" disabled>
                 </div>
 
+                <!-- Upload Foto -->
+                <div class="mb-3">
+                    <label for="foto" class="form-label">Kirim Foto</label>
+                    <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+                </div>
 
                 <div class="mb-3">
                     <label class="form-label">Status Kehadiran</label>
                     <div class="status-kehadiran">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="status" id="hadir" value="Hadir" checked>
+                            <input class="form-check-input" type="radio" name="status" id="hadir" value="Hadir">
                             <label class="form-check-label" for="hadir">
                                 Hadir
                             </label>
@@ -174,7 +179,6 @@
             </form>
         </div>
 
-
         <h4 class="mb-4">Riwayat Absen</h4>
         <div class="card shadow-sm p-3">
             <table class="table table-striped">
@@ -183,6 +187,7 @@
                         <th>Nama</th>
                         <th>Tanggal</th>
                         <th>Status</th>
+                        <th>Foto</th> <!-- Menambahkan kolom Foto -->
                     </tr>
                 </thead>
                 <tbody>
@@ -191,6 +196,13 @@
                         <td>{{ $absen->user->name }}</td>
                         <td>{{ \Carbon\Carbon::parse($absen->tanggal)->format('d-m-Y') }}</td>
                         <td>{{ $absen->status }}</td>
+                        <td>
+                            @if ($absen->foto)
+                                <img src="{{ asset('storage/' . $absen->foto) }}" alt="Foto Absen" width="100">
+                            @else
+                                Tidak ada foto
+                            @endif
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>

@@ -45,10 +45,10 @@
 
     .profile-photo {
         border-radius: 50%;
-        width: 100px;  /* Mengurangi ukuran foto profil */
-        height: 100px; /* Mengurangi ukuran foto profil */
+        width: 150px;  /* Mengurangi ukuran foto profil */
+        height: 150px; /* Mengurangi ukuran foto profil */
         object-fit: cover;
-        border: 5px solid #03d703;
+        border: 5px solid #fff;
     }
 
     .profile-placeholder {

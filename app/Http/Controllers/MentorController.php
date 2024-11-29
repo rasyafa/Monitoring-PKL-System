@@ -12,43 +12,58 @@ use Illuminate\Support\Facades\Auth;
 
 class MentorController extends Controller
 {
+
     public function index()
     {
-        // Data retrieval (if needed)
-        $mentors = [];
-        return view('mentor.beranda', compact('mentors'));
+        $mentor = Auth::user(); // Mentor yang sedang login
+        $users = $mentor->students()->paginate(5); // Mengambil siswa yang di-assign ke mentor ini
+        return view('mentor.beranda', compact('users'));
     }
 
     public function dataSiswa()
     {
-        $users = User::whereIn('role', ['siswa'])->paginate(5);
+        $mentor = Auth::user();
+        $users = $mentor->students()->paginate(5); // Mengambil data siswa yang relevan
         return view('mentor.datasiswa', compact('users'));
     }
 
     public function absenIndex()
     {
-        $absens = Absen::with('user')->get(); // Mengambil data absen beserta data siswa
+        $mentor = Auth::user();
+        $absens = Absen::whereIn('user_id', $mentor->students()->pluck('id'))
+            ->with('user')
+            ->get();
+
         return view('mentor.absen', compact('absens'));
     }
 
     public function kegiatanIndex()
     {
-        $students = User::where('role', 'siswa')->get(); // Mengambil data siswa dengan peran 'siswa'
+        $mentor = Auth::user();
+        $students = $mentor->students; // Mengambil siswa yang di-assign
         return view('mentor.kegiatan', compact('students'));
     }
 
     public function kegiatanShow($id)
     {
-        $students = User::findOrFail($id);
+        $mentor = Auth::user();
+
+        // Validasi siswa terkait dengan mentor yang login
+        $student = $mentor->students()->findOrFail($id);
 
         $kegiatans = KegiatanHarian::where('user_id', $id)->get();
 
-        return view('mentor.detail', compact('students', 'kegiatans'));
+        return view('mentor.detail', compact('student', 'kegiatans'));
     }
 
     public function updateCatatan(Request $request, $id)
     {
-        $kegiatans = KegiatanHarian::findOrFail($id);
+        $mentor = Auth::user();
+
+        // Validasi kegiatan milik siswa yang di-assign ke mentor
+        $kegiatans = KegiatanHarian::where('id', $id)
+            ->whereIn('user_id', $mentor->students()->pluck('id'))
+            ->firstOrFail();
 
         $kegiatans->catatan = $request->catatan;
         $kegiatans->status = 'revisi'; // Tetapkan status sebagai revisi
@@ -59,7 +74,12 @@ class MentorController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
-        $kegiatans = KegiatanHarian::findOrFail($id);
+        $mentor = Auth::user();
+
+        // Validasi kegiatan milik siswa yang di-assign ke mentor
+        $kegiatans = KegiatanHarian::where('id', $id)
+            ->whereIn('user_id', $mentor->students()->pluck('id'))
+            ->firstOrFail();
 
         $kegiatans->status = $request->status;
         $kegiatans->save();
@@ -67,51 +87,31 @@ class MentorController extends Controller
         return redirect()->back()->with('success', 'Status kegiatan berhasil diperbarui!');
     }
 
-
     // PROFILE
-// Fungsi untuk melihat profil mentor
-public function profil($id)
-{
-    $user = Auth::user();
-
-    // Cek akses, hanya bisa lihat profil sendiri
-    if ($user->role !== 'mentor' || $user->id != $id) {
-        return redirect()->route('home')->with('error', 'Akses ditolak! Anda hanya bisa melihat profil Anda sendiri.');
-    }
-
-    // Ambil data mentor berdasarkan id
-    $mentor = User::findOrFail($id);  // Ganti User dengan Mentor
-
-    return view('mentor.profil', compact('mentor'));
-}
-
-// Fungsi untuk edit profil mentor
-public function edit($id)
-{
-    $mentor = User::findOrFail($id);  // Ganti User dengan Mentor
-
-    // Pastikan hanya mentor yang sedang login yang bisa mengedit profilnya
-    if (Auth::id() !== $mentor->id) {
-        return redirect()->route('home')->with('error', 'Akses ditolak! Anda hanya bisa mengedit profil Anda sendiri.');
-    }
-
-    return view('mentor.edit', compact('mentor'));
-}
-
-// Fungsi untuk update data profil mentor
-    public function update(Request $request, $id)
+    public function profil()
     {
-        // Validasi data
+        $mentor = Auth::user();
+        return view('mentor.profil', compact('mentor'));
+    }
+
+    public function edit()
+    {
+        $mentor = Auth::user();
+        return view('mentor.edit', compact('mentor'));
+    }
+
+    public function update(Request $request)
+    {
+        $mentor = Auth::user();
+
+        // Validasi input
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'password' => 'nullable|min:8|confirmed',
             'city' => 'required|string|max:255',
-            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
-        // Cari mentor berdasarkan ID
-        $mentor = User::findOrFail($id);  // Ganti User dengan Mentor
 
         // Update data mentor
         $mentor->name = $request->input('name');
@@ -124,73 +124,52 @@ public function edit($id)
 
         // Proses upload foto jika ada
         if ($request->hasFile('profile_photo')) {
-            // Cek jika foto lama ada dan hapus
+            // Hapus foto lama jika ada
             if ($mentor->profile_photo) {
-                Storage::delete($mentor->profile_photo); // Hapus foto lama
+                Storage::disk('public')->delete($mentor->profile_photo);
             }
 
-            // Simpan foto baru
+            // Simpan foto baru di storage public
             $photoPath = $request->file('profile_photo')->store('profile_photos', 'public');
-            $mentor->profile_photo = $photoPath; // Simpan path foto
+            $mentor->profile_photo = $photoPath;
         }
 
-        // Simpan perubahan ke database
         $mentor->save();
 
-        // Redirect ke halaman profil dengan pesan sukses
-        return redirect()->route('mentor.profil', $mentor->id)->with('success', 'Profil berhasil diperbarui.');
+        // Redirect ke halaman profil dengan parameter id
+        return redirect()->route('mentor.profil', ['id' => $mentor->id])->with('success', 'Profil berhasil diperbarui.');
     }
 
-// LAPORAN AKHIR
+    // LAPORAN AKHIR
     public function laporanAkhirIndex()
-    {
-        $students = User::where('role', 'siswa')->get();
-        $laporans = LaporanAkhir::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
-        return view('mentor.laporan', compact('students', 'laporans'));
-    }
+{
+    $mentor = Auth::user();
+
+    // Ambil daftar siswa yang di-assign ke mentor
+    $students = $mentor->students;
+
+    // Ambil laporan akhir siswa terkait
+    $laporans = LaporanAkhir::whereIn('user_id', $students->pluck('id'))
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    // Kirim data ke view
+    return view('mentor.laporan', compact('students', 'laporans'));
+}
+
 
     public function laporanAkhirShow($id)
-    {
-        // Cari siswa berdasarkan ID
-        $students = User::findOrFail($id);
+{
+    $mentor = Auth::user();
 
-        // Ambil data laporan akhir berdasarkan ID siswa
-        $laporans = LaporanAkhir::where('user_id', $id)->get();
+    // Pastikan siswa terkait dengan mentor
+    $students = User::where('mentor_id', $mentor->id)->where('id', $id)->firstOrFail();
 
-        // Kirim data ke view
-        return view('mentor.laporan_akhir', compact('students', 'laporans'));
-    }
+    // Ambil laporan akhir siswa terkait
+    $laporans = LaporanAkhir::where('user_id', $id)->get();
 
-
-
-    // public function kegiatanSiswa()
-    // {
-    //     $users = [
-    //     ['nama' => 'Hilma Fitri Solehah', 'link' => '#link1'],
-    //     ['nama' => 'Yehezkiel Frederick Ruru', 'link' => '#link2'],
-    //     ['nama' => 'Hana Hanifah', 'link' => '#link3'],
-    // ];
-
-    //     return view('mentor.kegiatan', compact('users')); // Mengirim data 'users' ke view
-    // }
-
-    // public function detailKegiatan($id)
-    // {
-    // // Anda bisa mengambil data berdasarkan ID atau bisa juga langsung mengirim data yang sesuai
-    // $kegiatan = [
-    //     ['id' => 1, 'tanggal' => '2024-11-13', 'waktu_mulai' => '08:00', 'waktu_selesai' => '10:00', 'kegiatan' => 'Rapat Tim'],
-    //     ['id' => 2, 'tanggal' => '2024-11-13', 'waktu_mulai' => '10:30', 'waktu_selesai' => '12:00', 'kegiatan' => 'Analisis Data'],
-    //     ['id' => 3, 'tanggal' => '2024-11-13', 'waktu_mulai' => '13:00', 'waktu_selesai' => '15:00', 'kegiatan' => 'Penyusunan Laporan'],
-    // ];
-
-    // // Temukan kegiatan berdasarkan ID
-    // $kegiatanDetail = collect($kegiatan)->firstWhere('id', $id);
-
-    // if (!$kegiatanDetail) {
-    //     abort(404);  // Jika ID tidak ditemukan
-    // }
-
-    // return view('mentor.detail', ['kegiatanDetail' => (object) $kegiatanDetail]);
-    // }
+    // Kirim data ke view
+    return view('mentor.laporan_akhir', compact('students', 'laporans'));
+}
 
 }

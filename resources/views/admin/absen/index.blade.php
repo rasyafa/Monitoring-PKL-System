@@ -16,6 +16,12 @@
         border-bottom: none;
         }
 
+        .table {
+        background-color: #f9f9f9;/* Warna latar belakang tabel */
+        table-layout: fixed; Kolom memiliki ukuran tetap sesuai lebar
+
+        }
+
         /* Memberikan padding pada card */
         .card {
         margin-top: 20px;
@@ -42,6 +48,7 @@
 <div class="container">
     <div class="card">
         <h2 class="mb-4">Rekap Kehadiran Siswa</h2>
+        <a href="{{ route('admin.absen.attendance') }}" class="btn btn-success mb-3" style="width: 20%;">Download PDF</a>
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
                 <thead class="table-light">
