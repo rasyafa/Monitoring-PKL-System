@@ -38,10 +38,19 @@
                                     <a href="{{ Storage::url($laporan->file_path) }}" class="btn btn-link"
                                         target="_blank">
                                         {{ basename($laporan->file_path) }}
-                                        <!-- Display the original file name -->
                                     </a>
                                 </th>
                             </tr>
+
+                            <tr style="background-color: #fafafa;">
+                                <th><strong>Link Laporan</strong></th>
+                                <th>
+                                    <a href="{{ $laporan->link_laporan }}" target="_blank" class="btn btn-link">
+                                        {{ basename($laporan->link_laporan) }}
+                                    </a>
+                                </th>
+                            </tr>
+
                             <tr style="background-color: #f7f7f7;">
                                 <th><strong>Status</strong></th>
                                 <th>

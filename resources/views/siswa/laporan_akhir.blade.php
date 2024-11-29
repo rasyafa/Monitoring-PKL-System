@@ -1,11 +1,14 @@
-@extends('layouts.siswa')
+@extends('layouts.siswa') <!-- Menggunakan layout siswa yang sudah didefinisikan -->
 
-@section('content')
+@section('content') <!-- Menandai mulai bagian content -->
+
 <div class="container mt-4">
+    <!-- Tombol untuk membuka modal kirim laporan -->
     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#kirimLaporanModal">
         Kirim Laporan
     </button>
 
+    <!-- Menampilkan pesan sukses jika ada session success -->
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" id="alertSuccess">
             <strong>Berhasil!</strong> {{ session('success') }}
@@ -13,6 +16,7 @@
         </div>
     @endif
 
+    <!-- Menampilkan pesan error jika ada session error -->
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show" id="alertError">
             <strong>Gagal!</strong> {{ session('error') }}
@@ -20,18 +24,18 @@
         </div>
     @endif
 
+    <!-- Menampilkan daftar laporan -->
     <div class="row">
-        <!-- Card untuk semua laporan -->
         <div class="col-md-12 mb-4">
             <div class="card" style="border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                 <div class="card-body">
-                    <!-- Judul Laporan Akhir -->
                     <h3 class="text-center mb-4">Laporan Akhir</h3>
 
-                    <!-- Cek jika ada laporan -->
+                    <!-- Cek apakah ada laporan -->
                     @forelse($laporans as $laporan)
                     <table class="table table-bordered" style="border-radius: 10px;">
                         <thead>
+                            <!-- Menampilkan detail laporan -->
                             <tr style="background-color: #f7f7f7;">
                                 <th><strong>Nama</strong></th>
                                 <th>{{ Auth::user()->name }}</th>
@@ -44,10 +48,10 @@
                                 <th><strong>Judul Laporan</strong></th>
                                 <th>{{ $laporan->judul }}</th>
                             </tr>
-                            <!-- Status Laporan -->
                             <tr style="background-color: #f7f7f7;">
                                 <th><strong>Status</strong></th>
                                 <th>
+                                    <!-- Menampilkan status laporan dengan badge warna -->
                                     @if($laporan->status === 'acc')
                                         <span class="badge bg-success">ACC</span>
                                     @elseif($laporan->status === 'revisi')
@@ -57,7 +61,6 @@
                                     @endif
                                 </th>
                             </tr>
-                            <!-- Catatan Pembimbing -->
                             @if($laporan->catatan)
                             <tr style="background-color: #fafafa;">
                                 <th><strong>Catatan Pembimbing</strong></th>
@@ -67,9 +70,9 @@
                             <tr style="background-color: #fafafa;">
                                 <th><strong>File</strong></th>
                                 <th>
-                                    <!-- Link to the file with the original file name -->
+                                    <!-- Link untuk mendownload file laporan -->
                                     <a href="{{ Storage::url($laporan->file_path) }}" class="btn btn-link" target="_blank">
-                                        {{ basename($laporan->file_path) }} <!-- Display the original file name -->
+                                        {{ basename($laporan->file_path) }} <!-- Menampilkan nama file asli -->
                                     </a>
                                 </th>
                             </tr>
@@ -77,6 +80,7 @@
                                 <tr style="background-color: #fafafa;">
                                     <th><strong>Link Laporan</strong></th>
                                     <th>
+                                        <!-- Link eksternal ke laporan jika ada -->
                                         <a href="{{ $laporan->link_laporan }}" target="_blank" class="btn btn-link">
                                             {{ basename($laporan->link_laporan) }}
                                         </a>
@@ -84,7 +88,7 @@
                                 </tr>
                             @endif
 
-                                                            <!-- Button Hapus di dalam tabel -->
+                            <!-- Form Hapus Laporan -->
                             <tr style="background-color: #f7f7f7;">
                                 <td colspan="2" class="text-center">
                                     <form action="{{ route('laporan.hapus', $laporan->id) }}" method="POST" style="display:inline;">
@@ -97,6 +101,7 @@
                         </thead>
                     </table>
                     @empty
+                    <!-- Jika belum ada laporan -->
                     <p class="text-center">Belum ada laporan. Silakan kirim laporan menggunakan tombol di atas.</p>
                     @endforelse
                 </div>
@@ -109,6 +114,7 @@
 <div class="modal fade" id="kirimLaporanModal" tabindex="-1" aria-labelledby="kirimLaporanLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+            <!-- Form kirim laporan -->
             <form action="{{ route('laporan.simpan') }}" method="POST" enctype="multipart/form-data" onsubmit="showToast('Laporan sedang dikirim...')">
                 @csrf
                 <div class="modal-header">
@@ -116,6 +122,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <!-- Form input untuk nama, tanggal, judul, file, dan link laporan -->
                     <div class="mb-3">
                         <label for="nama" class="form-label">Nama</label>
                         <input type="text" class="form-control" id="nama" value="{{ Auth::user()->name }}" readonly>
@@ -146,12 +153,12 @@
     </div>
 </div>
 
-<!-- Toast Notification -->
+<!-- Script untuk menampilkan notifikasi toast -->
 <script>
     function showToast(message) {
-        // Cek apakah ada alert yang sudah tampil
+        // Cek apakah sudah ada notifikasi alert yang ditampilkan
         if (document.getElementById('alertSuccess') || document.getElementById('alertError')) {
-            return; // Prevent showing toast if alert is already shown
+            return; // Hindari menampilkan toast jika alert sudah ada
         }
 
         let toastElement = document.createElement('div');
@@ -163,7 +170,7 @@
         toastElement.classList.add('position-fixed');
         toastElement.classList.add('top-0');
         toastElement.classList.add('end-0');
-        toastElement.style.zIndex = '9999'; // Make sure the toast is on top
+        toastElement.style.zIndex = '9999'; // Pastikan toast berada di atas
         toastElement.innerHTML = `
             <div class="d-flex">
                 <div class="toast-body">${message}</div>
@@ -176,26 +183,27 @@
 
         setTimeout(() => {
             toastElement.remove();
-        }, 10000); // Toast disappears after 10 seconds
+        }, 10000); // Toast akan hilang setelah 10 detik
     }
 </script>
 
-<!-- Tambahkan gaya khusus -->
+<!-- Styling khusus untuk tombol dan tabel -->
 <style>
-/* Ubah warna tombol menjadi #03d703 */
-button.btn-primary {
-    background-color: #03d703 !important;
-    border-color: #03d703 !important;
-}
+    /* Mengubah warna tombol kirim laporan menjadi hijau */
+    button.btn-primary {
+        background-color: #03d703 !important;
+        border-color: #03d703 !important;
+    }
 
-/* Ubah warna teks laporan terkirim menjadi abu-abu */
-.table th, .table td {
-    color: #6c757d !important; /* Abu-abu */
-}
+    /* Menambahkan warna abu-abu pada teks di tabel laporan */
+    .table th, .table td {
+        color: #6c757d !important;
+    }
 
-/* Tambahkan jarak antar elemen */
-.table th, .table td {
-    padding: 15px !important; /* Tambah jarak */
-}
+    /* Menambah jarak antar elemen tabel */
+    .table th, .table td {
+        padding: 15px !important;
+    }
 </style>
-@endsection
+
+@endsection <!-- Menandai akhir bagian content -->

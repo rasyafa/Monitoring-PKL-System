@@ -33,11 +33,12 @@
                 @endforeach
             </td>
             <td>
-                <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                <form action="#" method="POST" style="display:inline;">
+                <a href="{{ route('admin.mitra.edit', $mitra->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                <form action="{{ route('admin.mitra.delete', $mitra->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Hapus</button>
+                    <button type="submit" class="btn btn-sm btn-danger"
+                        onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
                 </form>
             </td>
         </tr>

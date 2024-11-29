@@ -1,7 +1,11 @@
 @extends('layouts.admin')
 
+@section('title', 'Penugasan')
+
+@section('page-title', 'Penugasan')
+
 @section('content')
-<h1>Assign Mitra</h1>
+<h1>Penugasan Mitra</h1>
 
 @if(session('success'))
 <div class="alert alert-success">{{ session('success') }}</div>

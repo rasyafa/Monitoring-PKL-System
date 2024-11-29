@@ -1,5 +1,9 @@
 @extends('layouts.admin')
 
+@section('title', 'Penugasan')
+
+@section('page-title', 'Penugasan')
+
 @section('content')
 <h1>Penugasan Pembimbing</h1>
 
