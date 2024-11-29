@@ -38,11 +38,31 @@
                                     <a href="{{ Storage::url($laporan->file_path) }}" class="btn btn-link"
                                         target="_blank">
                                         {{ basename($laporan->file_path) }}
-                                        <!-- Display the original file name -->
                                     </a>
                                 </th>
                             </tr>
-
+                            <tr style="background-color: #f7f7f7;">
+                                <th><strong>Status</strong></th>
+                                <th>
+                                    @if($laporan->status == 'acc')
+                                    <span class="text-success">Sudah Diterima (ACC)</span>
+                                    @elseif($laporan->status == 'revisi')
+                                    <span class="text-danger">Perlu Revisi</span>
+                                    @else
+                                    <span class="text-warning">Menunggu Validasi</span>
+                                    @endif
+                                </th>
+                            </tr>
+                            <tr style="background-color: #fafafa;">
+                                <th><strong>Catatan</strong></th>
+                                <th>
+                                    @if($laporan->catatan)
+                                    {{ $laporan->catatan }}
+                                    @else
+                                    <span class="text-muted">Tidak ada catatan</span>
+                                    @endif
+                                </th>
+                            </tr>
                         </thead>
                     </table>
                     @empty
