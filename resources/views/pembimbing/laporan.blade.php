@@ -18,7 +18,7 @@
 
     .content-container {
         margin-left: 30px;
-        
+
     }
 
     .card {
