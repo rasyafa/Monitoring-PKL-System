@@ -38,7 +38,6 @@
                                     <a href="{{ Storage::url($laporan->file_path) }}" class="btn btn-link"
                                         target="_blank">
                                         {{ basename($laporan->file_path) }}
-                                        <!-- Display the original file name -->
                                     </a>
                                 </th>
                             </tr>
@@ -51,7 +50,7 @@
                                     </a>
                                 </th>
                             </tr>
-                           
+
                             <tr style="background-color: #f7f7f7;">
                                 <th><strong>Status</strong></th>
                                 <th>
