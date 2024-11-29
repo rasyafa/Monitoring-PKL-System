@@ -223,9 +223,9 @@
                 <div class="col-md-5 mt-5">
                     <!-- Menu Absen -->
                     <div class="menu-section">
-                        <h5>Detail Absen</h5>
+                        <h5>Detail Mitra</h5>
                         <ul>
-                            <li><a href="{{ route('siswa.absen') }}">Lihat Absen</a></li>
+                            <li><a href="{{ route('siswa.profil-mitra')}}">Lihat Mitra</a></li>
                         </ul>
                     </div>
 
