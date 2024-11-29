@@ -66,30 +66,32 @@
 
         <!-- Tabel daftar absen -->
         <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Nama</th>
-                    <th>Tanggal</th>
-                    <th>Status</th>
-                    <th>Foto</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($absens as $absen)
-                <tr>
-                    <td>{{ $absen->user->name }}</td>
-                    <td>{{ \Carbon\Carbon::parse($absen->tanggal)->format('d-m-Y') }}</td>
-                    <td>{{ $absen->status }}</td>
-                    <td>
-                         @if ($absen->foto)
-                            <img src="{{ asset('storage/' .$absen->foto) }}" alt="Foto Absen" width="100">
-                        @else
-                            Tidak ada foto
-                        @endif
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+    <thead>
+        <tr>
+            <th>Nama</th>
+            <th>Tanggal</th>
+            <th>Waktu</th> <!-- Tambahkan kolom Waktu -->
+            <th>Status</th>
+            <th>Foto</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($absens as $absen)
+        <tr>
+            <td>{{ $absen->user->name }}</td>
+            <td>{{ \Carbon\Carbon::parse($absen->tanggal)->format('d-m-Y') }}</td>
+            <td>{{ \Carbon\Carbon::parse($absen->waktu)->format('H:i:s') }}</td> <!-- Format Waktu -->
+            <td>{{ $absen->status }}</td>
+            <td>
+                @if ($absen->foto)
+                    <img src="{{ asset('storage/' . $absen->foto) }}" alt="Foto Absen" width="100">
+                @else
+                    Tidak ada foto
+                @endif
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
     </div>
 @endsection
