@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;  // Perbaiki penggunaan Auth
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Kegiatan;
@@ -26,45 +26,32 @@ class PembimbingController extends Controller
         return view('pembimbing.home', compact('kegiatan', 'absens'));
     }
 
-
     // PROFILE
-    // Fungsi untuk melihat profil pembimbing
     public function profil($id)
     {
         $user = Auth::user();
 
-        // Cek akses, hanya bisa lihat profil sendiri
         if ($user->role !== 'pembimbing' || $user->id != $id) {
-            return redirect()->route('home')->with('error',
-                'Akses ditolak! Anda hanya bisa melihat profil Anda sendiri.'
-            );
+            return redirect()->route('home')->with('error', 'Akses ditolak! Anda hanya bisa melihat profil Anda sendiri.');
         }
 
-        // Ambil data pembimbing berdasarkan id
-        $pembimbing = User::findOrFail($id);  // Ganti User dengan pembimbing
-
+        $pembimbing = User::findOrFail($id);
         return view('pembimbing.profil', compact('pembimbing'));
     }
 
-    // Fungsi untuk edit profil pembimbing
     public function editprofil($id)
     {
-        $pembimbing = User::findOrFail($id);  // Ganti User dengan pembimbing
+        $pembimbing = User::findOrFail($id);
 
-        // Pastikan hanya mentor yang sedang login yang bisa mengedit profilnya
         if (Auth::id() !== $pembimbing->id) {
-            return redirect()->route('home')->with('error',
-                'Akses ditolak! Anda hanya bisa mengedit profil Anda sendiri.'
-            );
+            return redirect()->route('home')->with('error', 'Akses ditolak! Anda hanya bisa mengedit profil Anda sendiri.');
         }
 
         return view('pembimbing.editprofil', compact('pembimbing'));
     }
 
-    // Fungsi untuk update data profil pembimbing
     public function update1(Request $request, $id)
     {
-        // Validasi data
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
@@ -73,10 +60,8 @@ class PembimbingController extends Controller
             'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
-        // Cari pembimbing berdasarkan ID
-        $pembimbing = User::findOrFail($id);  // Ganti User dengan pembimbing
+        $pembimbing = User::findOrFail($id);
 
-        // Update data mentor
         $pembimbing->name = $request->input('name');
         $pembimbing->email = $request->input('email');
         $pembimbing->city = $request->input('city');
@@ -85,180 +70,183 @@ class PembimbingController extends Controller
             $pembimbing->password = bcrypt($request->input('password'));
         }
 
-        // Proses upload foto jika ada
         if ($request->hasFile('profile_photo')) {
-            // Cek jika foto lama ada dan hapus
             if ($pembimbing->profile_photo) {
-                Storage::delete($pembimbing->profile_photo); // Hapus foto lama
+                Storage::delete($pembimbing->profile_photo);
             }
 
-            // Simpan foto baru
             $photoPath = $request->file('profile_photo')->store('profile_photos', 'public');
-            $pembimbing->profile_photo = $photoPath; // Simpan path foto
+            $pembimbing->profile_photo = $photoPath;
         }
 
-        // Simpan perubahan ke database
         $pembimbing->save();
 
-        // Redirect ke halaman profil dengan pesan sukses
         return redirect()->route('pembimbing.profil', $pembimbing->id)->with('success', 'Profil berhasil diperbarui.');
     }
 
-    // Menampilkan kegiatan
     public function indexkegiatan()
     {
         $kegiatan = Kegiatan::paginate(3);
         return view('pembimbing.monitoring', compact('kegiatan'));
     }
 
-    // Menampilkan form untuk menambah kegiatan
     public function create()
     {
         return view('pembimbing.create');
     }
 
-    // Menyimpan kegiatan baru
     public function store(Request $request)
     {
-        // Validasi input
         $validated = $request->validate([
             'tanggal' => 'required|date',
             'kegiatan' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Proses penyimpanan data kegiatan
         $kegiatan = new Kegiatan();
         $kegiatan->tanggal = $request->tanggal;
         $kegiatan->kegiatan = $request->kegiatan;
 
-        // Jika ada gambar, simpan gambar
         if ($request->hasFile('image')) {
-            // Simpan path lengkap dengan Storage disk 'public'
             $imagePath = $request->file('image')->store('gambar', 'public');
-            $kegiatan->image = $imagePath; // Simpan path lengkap di database
+            $kegiatan->image = $imagePath;
         }
 
-        // Simpan data kegiatan
         $kegiatan->save();
 
-        // Redirect ke halaman monitoring setelah berhasil
         return redirect()->route('monitoring')->with('success', 'Kegiatan berhasil ditambahkan!');
     }
 
-    // Method Edit untuk menampilkan form edit berdasarkan ID kegiatan
     public function edit($id)
     {
-        // Menemukan kegiatan berdasarkan ID
         $kegiatan = Kegiatan::findOrFail($id);
-
         return view('pembimbing.edit', compact('kegiatan'));
     }
 
     public function update(Request $request, $id)
     {
-        // Validasi input
         $request->validate([
             'tanggal' => 'required|date',
             'kegiatan' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
 
-        // Cari kegiatan berdasarkan ID
         $kegiatan = Kegiatan::findOrFail($id);
 
-        // Update data kegiatan
         $kegiatan->tanggal = $request->tanggal;
         $kegiatan->kegiatan = $request->kegiatan;
 
-        // Update gambar jika ada
         if ($request->hasFile('image')) {
-            // Hapus gambar lama jika ada
             if ($kegiatan->image) {
                 Storage::disk('public')->delete($kegiatan->image);
             }
 
-            // Simpan path gambar baru dengan Storage disk 'public'
             $imagePath = $request->file('image')->store('gambar', 'public');
-            $kegiatan->image = $imagePath; // Simpan path lengkap di database
+            $kegiatan->image = $imagePath;
         }
 
-        // Simpan perubahan
         $kegiatan->save();
 
-        // Redirect dengan pesan sukses
         return redirect()->route('monitoring')->with('success', 'Kegiatan berhasil diperbarui!');
     }
 
     public function absenIndex()
     {
-        $absens = Absen::with('user')->get(); // Mengambil data absen beserta data siswa
+        $absens = Absen::with('user')->get();
         return view('pembimbing.absen', compact('absens'));
     }
 
+    // Menampilkan data siswa yang ditugaskan kepada pembimbing yang sedang login
     public function dataSiswa()
     {
-        $users = User::whereIn('role', ['siswa'])->paginate(5);
-        return view('pembimbing.datasiswa', compact('users'));
+        $user = Auth::user();
+
+        $students = User::where('role', 'siswa')
+                        ->where('pembimbing_id', $user->id) // Pastikan siswa memiliki pembimbing yang sesuai
+                        ->paginate(5);
+
+        return view('pembimbing.datasiswa', compact('students'));
     }
 
     public function kegiatanIndex()
     {
-        // Mendapatkan data siswa dengan role 'siswa'
-        $students = User::where('role', 'siswa')->get(); // Mengambil data siswa dengan peran 'siswa'
+        $user = Auth::user();  // Pembimbing yang sedang login
+
+        // Mengambil siswa yang di-assign ke pembimbing yang sedang login
+        $students = User::where('role', 'siswa')
+                        ->where('pembimbing_id', $user->id)  // Filter siswa berdasarkan pembimbing
+                        ->get();
+
         return view('pembimbing.laporanharian', compact('students'));
     }
 
-    // Menampilkan detail kegiatan/logbook siswa berdasarkan ID
+
+    // Menampilkan kegiatan harian siswa yang ditugaskan kepada pembimbing yang sedang login
     public function kegiatanShow($id)
     {
-        // Cari siswa berdasarkan ID
-        $students = User::findOrFail($id);
+        $user = Auth::user();
 
-        // Ambil data kegiatan siswa berdasarkan ID siswa
+        $student = User::findOrFail($id); // Pastikan variabel 'student' digunakan di sini
+
+        if ($student->pembimbing_id != $user->id) {
+            return redirect()->route('pembimbing.home')->with('error', 'Akses ditolak!');
+        }
+
         $kegiatans = KegiatanHarian::where('user_id', $id)->get();
 
-        // Kirim data ke view
-        return view('pembimbing.show', compact('students', 'kegiatans'));
+        return view('pembimbing.show', compact('student', 'kegiatans')); // Mengirimkan variabel 'student' dan 'kegiatans'
     }
 
-    // LAPORAN AKHIR
+    // Menampilkan laporan akhir untuk siswa yang ditugaskan kepada pembimbing
     public function laporanAkhirIndex()
-    {
-        $students = User::where('role', 'siswa')->get();
-        $laporans = LaporanAkhir::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
-        return view('pembimbing.laporan', compact('students', 'laporans'));
-    }
+{
+    $user = Auth::user();
 
+    // Ambil siswa yang dibimbing oleh pembimbing
+    $students = User::where('pembimbing_id', $user->id)->get();
+
+    $laporans = LaporanAkhir::whereHas('user', function ($query) use ($user) {
+        $query->where('pembimbing_id', $user->id); // Pastikan hanya laporan yang sesuai pembimbing yang diambil
+    })->get();
+
+    return view('pembimbing.laporan', compact('laporans', 'students')); // Kirimkan data siswa dan laporan
+}
+
+
+    // Menampilkan laporan akhir untuk siswa berdasarkan ID
     public function laporanAkhirShow($id)
     {
-        // Cari siswa berdasarkan ID
+        $user = Auth::user();  // Pembimbing yang sedang login
+
         $students = User::findOrFail($id);
 
-        // Ambil data laporan akhir berdasarkan ID siswa
+        // Validasi jika siswa tersebut di-assign ke pembimbing yang sedang login
+        if ($students->pembimbing_id != $user->id) {
+            return redirect()->route('pembimbing.home')->with('error', 'Akses ditolak!');
+        }
+
+        // Mengambil laporan akhir untuk siswa tersebut
         $laporans = LaporanAkhir::where('user_id', $id)->get();
 
-        // Kirim data ke view
         return view('pembimbing.laporanakhir', compact('students', 'laporans'));
     }
 
+
+    // Mengupdate catatan pada laporan akhir
     public function updateCatatan(Request $request, $id)
     {
-
-
         $laporans = LaporanAkhir::findOrFail($id);
 
         $laporans->catatan = $request->catatan;
-        $laporans->status = 'revisi'; // Tetapkan status sebagai revisi
+        $laporans->status = 'revisi';
         $laporans->save();
 
         return redirect()->back()->with('success', 'Catatan berhasil diperbarui!');
     }
 
+    // Mengupdate status laporan akhir
     public function updateStatus(Request $request, $id)
     {
-
-
         $laporans = LaporanAkhir::findOrFail($id);
 
         $laporans->status = $request->status;

@@ -16,40 +16,47 @@ class MentorController extends Controller
     public function index()
     {
         $mentor = Auth::user(); // Mentor yang sedang login
-        $users = $mentor->students()->paginate(5); // Mengambil siswa yang di-assign ke mentor ini
+        $users = $mentor->students; // Mengambil siswa yang di-assign ke mentor ini
         return view('mentor.beranda', compact('users'));
     }
 
     public function dataSiswa()
     {
-        $mentor = Auth::user();
-        $users = $mentor->students()->paginate(5); // Mengambil data siswa yang relevan
-        return view('mentor.datasiswa', compact('users'));
+        $user = Auth::user();
+
+        $students = User::where('role', 'siswa')
+                        ->where('mentor_id', $user->id) // Pastikan siswa memiliki pembimbing yang sesuai
+                        ->paginate(5);
+        return view('mentor.datasiswa', compact('students'));
     }
 
     public function absenIndex()
     {
-        $mentor = Auth::user();
-        $absens = Absen::whereIn('user_id', $mentor->students()->pluck('id'))
-            ->with('user')
-            ->get();
-
+        $absens = Absen::with('user')->get();
         return view('mentor.absen', compact('absens'));
     }
 
     public function kegiatanIndex()
     {
-        $mentor = Auth::user();
-        $students = $mentor->students; // Mengambil siswa yang di-assign
+        $user = Auth::user();  // Pembimbing yang sedang login
+
+        // Mengambil siswa yang di-assign ke pembimbing yang sedang login
+        $students = User::where('role', 'siswa')
+                        ->where('mentor_id', $user->id)  // Filter siswa berdasarkan pembimbing
+                        ->get();
+
         return view('mentor.kegiatan', compact('students'));
     }
 
     public function kegiatanShow($id)
     {
-        $mentor = Auth::user();
+        $user = Auth::user();
 
-        // Validasi siswa terkait dengan mentor yang login
-        $student = $mentor->students()->findOrFail($id);
+       $student = User::findOrFail($id); // Pastikan variabel 'student' digunakan di sini
+
+        if ($student->mentor_id != $user->id) {
+            return redirect()->route('mentor.beranda')->with('error', 'Akses ditolak!');
+        }
 
         $kegiatans = KegiatanHarian::where('user_id', $id)->get();
 
@@ -58,12 +65,8 @@ class MentorController extends Controller
 
     public function updateCatatan(Request $request, $id)
     {
-        $mentor = Auth::user();
-
         // Validasi kegiatan milik siswa yang di-assign ke mentor
-        $kegiatans = KegiatanHarian::where('id', $id)
-            ->whereIn('user_id', $mentor->students()->pluck('id'))
-            ->firstOrFail();
+        $kegiatans = KegiatanHarian::findOrFail($id);
 
         $kegiatans->catatan = $request->catatan;
         $kegiatans->status = 'revisi'; // Tetapkan status sebagai revisi
@@ -74,18 +77,15 @@ class MentorController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
-        $mentor = Auth::user();
-
         // Validasi kegiatan milik siswa yang di-assign ke mentor
-        $kegiatans = KegiatanHarian::where('id', $id)
-            ->whereIn('user_id', $mentor->students()->pluck('id'))
-            ->firstOrFail();
+        $kegiatans = KegiatanHarian::findOrFail($id);
 
         $kegiatans->status = $request->status;
         $kegiatans->save();
 
         return redirect()->back()->with('success', 'Status kegiatan berhasil diperbarui!');
     }
+
 
     // PROFILE
     public function profil()
@@ -100,10 +100,8 @@ class MentorController extends Controller
         return view('mentor.edit', compact('mentor'));
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $mentor = Auth::user();
-
         // Validasi input
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -112,6 +110,8 @@ class MentorController extends Controller
             'city' => 'required|string|max:255',
             'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        $mentor = User::findOrFail($id);
 
         // Update data mentor
         $mentor->name = $request->input('name');
@@ -142,34 +142,37 @@ class MentorController extends Controller
 
     // LAPORAN AKHIR
     public function laporanAkhirIndex()
-{
-    $mentor = Auth::user();
+    {
+        $user = Auth::user();
 
-    // Ambil daftar siswa yang di-assign ke mentor
-    $students = $mentor->students;
+        // Ambil siswa yang dibimbing oleh pembimbing
+        $students = User::where('mentor_id', $user->id)->get();
 
-    // Ambil laporan akhir siswa terkait
-    $laporans = LaporanAkhir::whereIn('user_id', $students->pluck('id'))
-        ->orderBy('created_at', 'desc')
-        ->get();
+        $laporans = LaporanAkhir::whereHas('user', function ($query) use ($user) {
+        $query->where('mentor_id', $user->id); // Pastikan hanya laporan yang sesuai pembimbing yang diambil
+    })->get();
 
-    // Kirim data ke view
-    return view('mentor.laporan', compact('students', 'laporans'));
-}
-
+        // Kirim data ke view
+        return view('mentor.laporan', compact('students', 'laporans'));
+    }
 
     public function laporanAkhirShow($id)
-{
-    $mentor = Auth::user();
+    {
+        $user = Auth::user();
 
-    // Pastikan siswa terkait dengan mentor
-    $students = User::where('mentor_id', $mentor->id)->where('id', $id)->firstOrFail();
+        // Pastikan siswa terkait dengan mentor
+        $students = User::findOrFail($id);
 
-    // Ambil laporan akhir siswa terkait
-    $laporans = LaporanAkhir::where('user_id', $id)->get();
+        // Validasi jika siswa tersebut di-assign ke pembimbing yang sedang login
+        if ($students->mentor_id != $user->id) {
+            return redirect()->route('mentor.beranda')->with('error', 'Akses ditolak!');
+        }
 
-    // Kirim data ke view
-    return view('mentor.laporan_akhir', compact('students', 'laporans'));
-}
+        // Mengambil laporan akhir untuk siswa tersebut
+        $laporans = LaporanAkhir::where('user_id', $id)->get();
+
+        // Kirim data ke view
+        return view('mentor.laporan_akhir', compact('students', 'laporans'));
+    }
 
 }

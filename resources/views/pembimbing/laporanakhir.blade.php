@@ -41,7 +41,7 @@
                                 </td>
                                 <td><a href="{{ Storage::url($laporan->link_laporan) }}" class="btn btn-link"
                                         target="_blank">
-                                        {{ basename($laporan->link_lap) }}
+                                        {{ basename($laporan->link_laporan) }}
                                     </a></td>
                                 <td class="text-center">
                                     @if($laporan->status == 'acc')

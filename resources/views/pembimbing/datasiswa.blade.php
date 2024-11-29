@@ -73,19 +73,20 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($users as $user)
+            @foreach ($students as $student)
+            <!-- Ganti dari $users menjadi $students -->
             <tr>
-                <td>{{ $user->id }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->username }}</td>
-                <td>{{ $user->email }}</td>
+                <td>{{ $student->id }}</td> <!-- Ganti dari $user menjadi $student -->
+                <td>{{ $student->name }}</td>
+                <td>{{ $student->username }}</td>
+                <td>{{ $student->email }}</td>
             </tr>
             @endforeach
         </tbody>
     </table>
     <div>
-        {{ $users->links() }}
-    </div>
+        {{ $students->links() }}
+        <!-- Ganti dari $users menjadi $students -->
     </div>
 </div>
 @endsection

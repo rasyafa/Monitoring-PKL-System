@@ -88,8 +88,8 @@
                     <th>Waktu Mulai</th>
                     <th>Waktu Selesai</th>
                     <th>Kegiatan</th>
+                    <th>Bukti Kegiatan</th>
                     <th>Status</th>
-                    <th>Catatan</th>
                 </tr>
             </thead>
             <tbody class="table-tbody">
@@ -99,6 +99,15 @@
                     <td>{{ $kegiatan->waktu_mulai }}</td>
                     <td>{{ $kegiatan->waktu_selesai }}</td>
                     <td>{{ $kegiatan->kegiatan }}</td>
+                    <td>
+                        <!-- Menampilkan foto bukti kegiatan jika ada -->
+                        @if($kegiatan->foto)
+                        <img src="{{ asset('storage/' . $kegiatan->foto) }}" alt="Bukti Kegiatan" class="img-fluid"
+                            style="max-height: 100px;">
+                        @else
+                        Tidak ada foto
+                        @endif
+                    </td>
                     <td class="text-center">
                         @if($kegiatan->status == 'acc')
                         <span class="text-success">Sudah Diterima (ACC)</span>
@@ -106,13 +115,6 @@
                         <span class="text-danger">Perlu Revisi</span>
                         @else
                         <span class="text-warning">Menunggu Validasi</span>
-                        @endif
-                    </td>
-                    <td>
-                        @if($kegiatan->catatan)
-                        {{ $kegiatan->catatan }}
-                        @else
-                        <span class="text-muted">Tidak ada catatan</span>
                         @endif
                     </td>
                 </tr>

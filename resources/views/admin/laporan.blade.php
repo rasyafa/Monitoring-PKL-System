@@ -41,6 +41,17 @@
                                     </a>
                                 </th>
                             </tr>
+                           
+                            <tr style="background-color: #fafafa;">
+                                <th><strong>Link Laporan</strong></th>
+                                <th>
+                                    <!-- Link eksternal ke laporan jika ada -->
+                                    <a href="{{ $laporan->link_laporan }}" target="_blank" class="btn btn-link">
+                                        {{ basename($laporan->link_laporan) }}
+                                    </a>
+                                </th>
+                            </tr>
+
                             <tr style="background-color: #f7f7f7;">
                                 <th><strong>Status</strong></th>
                                 <th>

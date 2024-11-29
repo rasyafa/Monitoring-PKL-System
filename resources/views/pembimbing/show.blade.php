@@ -69,7 +69,7 @@
     </style>
 
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Data Logbook untuk {{ $students->name }}</h2>
+        <h2 class="text-center mb-4">Data Logbook untuk {{ $student->name }}</h2>
 
         <!-- Pesan Sukses -->
         @if(session('success'))
@@ -87,7 +87,6 @@
                     <th>Kegiatan</th>
                     <th>Bukti Kegiatan</th>
                     <th>Status</th>
-                    <th>Catatan</th>
                 </tr>
             </thead>
             <tbody class="table-tbody">
@@ -111,13 +110,6 @@
                         <span class="text-danger">Perlu Revisi</span>
                         @else
                         <span class="text-warning">Menunggu Validasi</span>
-                        @endif
-                    </td>
-                    <td>
-                        @if($kegiatan->catatan)
-                        {{ $kegiatan->catatan }}
-                        @else
-                        <span class="text-muted">Tidak ada catatan</span>
                         @endif
                     </td>
                 </tr>

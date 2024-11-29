@@ -12,7 +12,6 @@
                 <th>Kegiatan</th>
                 <th>Bukti Kegiatan</th>
                 <th>Status</th>
-                <th>Catatan</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -25,7 +24,7 @@
                 <td>{{ $kegiatan->kegiatan }}</td>
                 <td>
                     @if($kegiatan->foto)
-                    <img src="{{ asset( $kegiatan->foto ) }}" alt="Bukti Kegiatan" class="img-fluid"
+                    <img src="{{ asset( 'storage/' .$kegiatan->foto ) }}" alt="Bukti Kegiatan" class="img-fluid"
                         style="max-height: 100px;">
                     @else
                     Tidak ada foto
@@ -40,7 +39,7 @@
                     <span class="text-warning">Menunggu Validasi</span>
                     @endif
                 </td>
-                <td>{{ $kegiatan->catatan ?? 'Tidak ada catatan' }}</td>
+                {{-- <td>{{ $kegiatan->catatan ?? 'Tidak ada catatan' }}</td> --}}
                 <td class="text-center">
                     <!-- Tombol ACC -->
                     <form action="{{ route('mentor.kegiatan.updateStatus', $kegiatan->id) }}" method="POST"
@@ -53,9 +52,9 @@
                     </form>
 
                     <!-- Tombol Revisi -->
-                    <button class="btn btn-danger btn-sm" onclick="showRevisiModal({{ $kegiatan->id }}, '{{ $kegiatan->catatan }}')">
+                    {{-- <button class="btn btn-danger btn-sm" onclick="showRevisiModal({{ $kegiatan->id }}, '{{ $kegiatan->catatan }}')">
                         Revisi
-                    </button>
+                    </button> --}}
                 </td>
             </tr>
             @endforeach
