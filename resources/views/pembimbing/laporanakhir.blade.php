@@ -22,6 +22,7 @@
                                 <th>Tanggal</th>
                                 <th>Judul Laporan</th>
                                 <th>File</th>
+                                <th>Link Laporan</th>
                                 <th>Status</th>
                                 <th>Catatan</th>
                                 <th>Aksi</th>
@@ -38,6 +39,10 @@
                                         {{ basename($laporan->file_path) }}
                                     </a>
                                 </td>
+                                <td><a href="{{ Storage::url($laporan->link_laporan) }}" class="btn btn-link"
+                                        target="_blank">
+                                        {{ basename($laporan->link_lap) }}
+                                    </a></td>
                                 <td class="text-center">
                                     @if($laporan->status == 'acc')
                                     <span class="text-success">Sudah Diterima (ACC)</span>
