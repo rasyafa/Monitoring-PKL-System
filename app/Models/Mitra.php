@@ -23,7 +23,7 @@ class Mitra extends Model
 
     public function mentors()
     {
-        return $this->hasMany(User::class, 'mitra_id');
+        return $this->hasMany(User::class, 'mitra_id')->where('role', 'mentor');
     }
 
     public function students()

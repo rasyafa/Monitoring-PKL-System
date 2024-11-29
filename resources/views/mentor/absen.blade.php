@@ -30,6 +30,7 @@
                     <th>Nama</th>
                     <th>Tanggal</th>
                     <th>Status</th>
+                    <th>Foto</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +39,13 @@
                     <td>{{ $absen->user->name }}</td>
                     <td>{{ \Carbon\Carbon::parse($absen->tanggal)->format('d-m-Y') }}</td>
                     <td>{{ $absen->status }}</td>
+                    <td>
+                        @if ($absen->foto)
+                        <img src="{{ asset('storage/' .$absen->foto) }}" alt="Foto Absen" width="100">
+                        @else
+                        Tidak ada foto
+                        @endif
+                    </td>
                 </tr>
                 @endforeach
 

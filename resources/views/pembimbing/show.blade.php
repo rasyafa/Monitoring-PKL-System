@@ -99,7 +99,7 @@
                     <td>{{ $kegiatan->kegiatan }}</td>
                     <td>
                                 @if($kegiatan->foto)
-                                    <img src="{{ asset('storage/' . $kegiatan->foto) }}" alt="Bukti Kegiatan" class="img-fluid" style="max-height: 100px;">
+                                    <img src="{{ asset('storage/' .$kegiatan->foto) }}" alt="Bukti Kegiatan" class="img-fluid" style="max-height: 100px;">
                                 @else
                                     Tidak ada foto
                                 @endif

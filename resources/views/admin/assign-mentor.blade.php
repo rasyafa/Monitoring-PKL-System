@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
-@section('title', 'Assign')
+@section('title', 'Penugasan')
 
-@section('page-title', 'Assign')
+@section('page-title', 'Penugasan')
 
 @section('content')
 <div class="container">
-    <h2>Assign Mentor to Siswa</h2>
+    <h2>Penugasan Mentor ke Siswa</h2>
 
     <!-- Menampilkan pesan sukses jika ada -->
     @if (session('success'))

@@ -1,10 +1,12 @@
 @extends('layouts.admin')
 
-@section('title', 'Assign Mitra ke Siswa')
+@section('title', 'Penugasan')
+
+@section('page-title', 'Penugasan')
 
 @section('content')
 <div class="container">
-    <h2>Assign Mitra ke Siswa</h2>
+    <h2>Penugasan Mitra ke Siswa</h2>
 
     <!-- Menampilkan pesan sukses jika ada -->
     @if (session('success'))

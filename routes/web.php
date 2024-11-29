@@ -58,14 +58,18 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::get('/assign-mitra', [AdminController::class, 'assignMitraForm'])->name('admin.assignMitraForm');
     Route::post('/assign-mitra', [AdminController::class, 'assignMitra'])->name('admin.assignMitra');
 
+    // Menampilkan daftar mitra
+    Route::get('/mitra', [AdminController::class, 'indexMitra'])->name('admin.mitra.index');
+
     // Menampilkan form tambah mitra
     Route::get('/mitra/create', [AdminController::class, 'createMitra'])->name('admin.mitra.create');
 
     // Menyimpan data mitra
     Route::post('/mitra', [AdminController::class, 'storeMitra'])->name('admin.mitra.store');
 
-    // Menampilkan daftar mitra
-    Route::get('/mitra', [AdminController::class, 'indexMitra'])->name('admin.mitra.index');
+    Route::get('/mitra/{id}/edit', [AdminController::class, 'editMitra'])->name('admin.mitra.edit');
+    Route::put('/mitra/{id}', [AdminController::class, 'updateMitra'])->name('admin.mitra.update');
+    Route::delete('/mitra/{id}', [AdminController::class, 'destroyMitra'])->name('admin.mitra.delete');
 
     // Route untuk menampilkan form
     Route::get('/assign-siswa', [AdminController::class, 'assignSiswaForm'])->name('admin.assignSiswaForm');

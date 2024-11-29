@@ -82,7 +82,7 @@
                     <td>{{ $absen->status }}</td>
                     <td>
                          @if ($absen->foto)
-                            <img src="{{ asset('storage/' . $absen->foto) }}" alt="Foto Absen" width="100">
+                            <img src="{{ asset('storage/' .$absen->foto) }}" alt="Foto Absen" width="100">
                         @else
                             Tidak ada foto
                         @endif
