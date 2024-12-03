@@ -2,7 +2,7 @@
 
 @section('content') <!-- Menandai mulai bagian konten untuk halaman ini -->
 
-    <title>Riwayat Kegiatan Harian</title> <!-- Mengatur title halaman untuk Riwayat Kegiatan Harian -->
+    <title>Riwayat Laporan Harian</title> <!-- Mengatur title halaman untuk Riwayat Kegiatan Harian -->
 
     <!-- Memasukkan script SweetAlert2 untuk menampilkan notifikasi pop-up -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -72,7 +72,7 @@
     </style>
 
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Riwayat Kegiatan Harian</h1>
+        <h1 class="text-center mb-4">Riwayat Laporan Harian</h1>
 
         <!-- Menampilkan notifikasi SweetAlert jika ada session success -->
         @if(session('success'))
@@ -124,8 +124,6 @@
                                 <!-- Menampilkan status kegiatan dengan badge warna berbeda -->
                                 @if($kegiatan->status === 'acc')
                                     <span class="badge bg-success">ACC</span>
-                                @elseif($kegiatan->status === 'revisi')
-                                    <span class="badge bg-warning text-dark">Revisi</span>
                                 @else
                                     <span class="badge bg-secondary">Menunggu Validasi</span>
                                 @endif

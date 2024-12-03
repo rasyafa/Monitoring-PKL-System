@@ -302,22 +302,23 @@ class SiswaController extends Controller
         // Return ke view notifikasi
         return view('siswa.notifikasi', compact('user', 'absen', 'laporanHarian', 'tanggalHariIni'));
     }
+//AKHIR NOTIFIKASI
 
+//DATA MITRA
     public function showAssign()
-{
-    // Ambil data siswa yang sedang login
-    $siswa = Auth::user();
+    {
+        // Ambil data siswa yang sedang login
+        $siswa = Auth::user();
 
-    // Ambil data mitra yang berelasi dengan siswa
-    $mitra = $siswa->mitra;
+        // Ambil data mitra yang berelasi dengan siswa
+        $mitra = $siswa->mitra;
 
-    // Pastikan hanya siswa yang memiliki akses
-    if ($siswa->role !== 'siswa') {
-        return redirect()->route('welcome')->withErrors(['error' => 'Akses ditolak.']);
+        // Pastikan hanya siswa yang memiliki akses
+        if ($siswa->role !== 'siswa') {
+            return redirect()->route('welcome')->withErrors(['error' => 'Akses ditolak.']);
+        }
+
+        // Kirim data ke view
+        return view('siswa.profil-mitra', compact('siswa', 'mitra'));
     }
-
-    // Kirim data ke view
-    return view('siswa.profil-mitra', compact('siswa', 'mitra'));
-}
-
 }
