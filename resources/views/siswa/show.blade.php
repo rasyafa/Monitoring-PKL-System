@@ -231,17 +231,17 @@
 
                     <!-- Menu Laporan Harian -->
                     <div class="menu-section">
-                        <h5>Detail Laporan Harian</h5>
+                        <h5>Detail Absen</h5>
                         <ul>
-                            <li><a href="{{ route('siswa.riwayat-kegiatan') }}">Lihat Laporan Harian</a></li>
+                            <li><a href="{{ route('siswa.absen') }}">Lihat Absen</a></li>
                         </ul>
                     </div>
 
                     <!-- Menu Laporan Akhir -->
                     <div class="menu-section">
-                        <h5>Detail Laporan Akhir</h5>
+                        <h5>Detail Laporan Harian</h5>
                         <ul>
-                            <li><a href="{{ route('laporan.riwayat') }}">Lihat Laporan Akhir</a></li>
+                            <li><a href="{{ route('siswa.riwayat-kegiatan') }}">Lihat Laporan Harian</a></li>
                         </ul>
                     </div>
                 </div>
