@@ -183,11 +183,6 @@
                             <input class="form-check-input" type="radio" name="status" id="izin" value="Izin">
                             <label class="form-check-label" for="izin">Izin</label>
                         </div>
-                        <!-- Pilihan radio untuk alpha -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="status" id="alpha" value="Alpha">
-                            <label class="form-check-label" for="alpha">Alpha</label>
-                        </div>
                     </div>
                 </div>
 

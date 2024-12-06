@@ -20,7 +20,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // routes ADMIN
-Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group(function () {
+Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group(function () { //Dengan adanya prefix, URL setiap rute akan diawali dengan /admin
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
     //Route untuk  MANAJEMEN PENGGUNA
