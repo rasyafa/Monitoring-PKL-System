@@ -245,144 +245,98 @@ class AdminController extends Controller
         return $pdf->download('laporan_harian_' . $students->name . '.pdf');
     }
 
-
-
-    public function assignMentorForm()
+    public function assignAllForm()
     {
-        // Mengambil semua siswa dan mentor
         $students = User::where('role', 'siswa')->get();
         $mentors = User::where('role', 'mentor')->get();
-
-
-        return view('admin.assign-mentor', compact('students', 'mentors'));
-    }
-
-    // Menangani penugasan mentor ke siswa
-    public function assignMentor(Request $request)
-    {
-        // Validasi input
-        $request->validate([
-            'student_id' => ['required', 'exists:users,id'], // Validasi role siswa
-            'mentor_id' => ['required', 'exists:users,id', function($attribute, $value, $fail) {
-                $mentor = User::find($value);
-                if (!$mentor || $mentor->role !== 'mentor') {
-                    return $fail('The selected mentor id is invalid.');
-                }
-            }],
-        ]);
-
-        // Cari siswa dan update mentor_id
-        $student = User::findOrFail($request->student_id);
-        $student->mentor_id = $request->mentor_id;
-        $student->save();
-
-        return redirect()->route('admin.assignMentorForm')->with('success', 'Mentor berhasil ditugaskan.');
-    }
-
-
-    // Menampilkan form untuk memilih pembimbing untuk siswa
-    public function assignPembimbingForm()
-    {
-        // Mengambil semua siswa dan pembimbing
-        $students = User::where('role', 'siswa')->get();
         $pembimbings = User::where('role', 'pembimbing')->get();
-
-        return view('admin.assign-pembimbing', compact('students', 'pembimbings'));
-    }
-
-    // Menangani penugasan pembimbing ke siswa
-    public function assignPembimbing(Request $request)
-    {
-        // Validasi input
-        $request->validate([
-            'student_id' => ['required', 'exists:users,id'], // Validasi role siswa
-            'pembimbing_id' => ['required', 'exists:users,id'], // Validasi role pembimbing
-        ]);
-
-        // Cari siswa dan update pembimbing_id
-        $student = User::findOrFail($request->student_id);
-        $student->pembimbing_id = $request->pembimbing_id;
-        $student->save();
-
-        return redirect()->route('admin.assignPembimbingForm')->with('success', 'Pembimbing berhasil ditugaskan.');
-    }
-
-    // Menampilkan form untuk penugasan mitra ke siswa
-    public function assignMitraForm()
-    {
-        // Mengambil data mitra, mentor, pembimbing, dan siswa
         $mitras = Mitra::all();
-        $mentors = User::where('role', 'mentor')->get();
-        $pembimbings = User::where('role', 'pembimbing')->get();
 
-        return view('admin.assign-mitra', compact('mitras', 'mentors', 'pembimbings'));
+        return view('admin.assign-all', compact('students', 'mentors', 'pembimbings', 'mitras'));
     }
 
-    // Menangani penugasan mitra ke mentor dan pembimbing
-    public function assignMitra(Request $request)
+    public function assignAll(Request $request)
     {
-        // Validasi input
-        $request->validate([
-            'mitra_id' => 'required|exists:mitras,id', // Pastikan mitra ada
-            'mentor_ids' => 'required|array', // Pastikan mentor_ids berupa array
-            'mentor_ids.*' => ['exists:users,id'], // Validasi role mentor
-            'pembimbing_ids' => 'required|array', // Pastikan pembimbing_ids berupa array
-            'pembimbing_ids.*' => ['exists:users,id'], // Validasi role pembimbing
-        ]);
+        if ($request->action == 'assignMentor') {
+            $request->validate([
+                'student_id' => ['required', 'exists:users,id'],
+                'mentor_id' => ['required', 'exists:users,id'],
+            ]);
 
-        // Ambil data mitra
-        $mitra = Mitra::findOrFail($request->mitra_id);
+            $student = User::findOrFail($request->student_id);
+            $student->mentor_id = $request->mentor_id;
+            $student->save();
 
-        // *** Relasi One-to-Many (Mentor) ***
-        // Hapus relasi mentor lama
-        User::where('mitra_id', $mitra->id)->update(['mitra_id' => null]);
-
-        // Tambahkan mentor baru
-        foreach ($request->mentor_ids as $mentorId) {
-            $mentor = User::findOrFail($mentorId);
-
-            // Pastikan user adalah mentor
-            if ($mentor->role !== 'mentor') {
-                return back()->withErrors(['mentor_ids' => "User dengan ID $mentorId bukan mentor."]);
-            }
-
-            // Update mitra_id untuk mentor
-            $mentor->mitra_id = $mitra->id;
-            $mentor->save();
+            return back()->with('success', 'Mentor berhasil ditugaskan.');
         }
 
-        // *** Relasi Many-to-Many (Pembimbing) ***
-        // Sinkronisasi pembimbing dengan mitra
-        $mitra->pembimbings()->sync($request->pembimbing_ids);
+        if ($request->action == 'assignPembimbing') {
+            $request->validate([
+                'student_id' => ['required', 'exists:users,id'],
+                'pembimbing_id' => ['required', 'exists:users,id'],
+            ]);
 
-        return redirect()->route('admin.assignMitraForm')->with('success', 'Mitra berhasil di-assign.');
+            $student = User::findOrFail($request->student_id);
+            $student->pembimbing_id = $request->pembimbing_id;
+            $student->save();
+
+            return back()->with('success', 'Pembimbing berhasil ditugaskan.');
+        }
+
+        if ($request->action == 'assignMitraToMentorPembimbing') {
+            $request->validate([
+                'mitra_id' => 'required|exists:mitras,id',
+                'mentor_ids' => 'required|array',
+                'mentor_ids.*' => ['exists:users,id'],
+                'pembimbing_ids' => 'required|array',
+                'pembimbing_ids.*' => ['exists:users,id'],
+            ]);
+
+            $mitra = Mitra::findOrFail($request->mitra_id);
+            User::where('mitra_id', $mitra->id)->update(['mitra_id' => null]);
+
+            foreach ($request->mentor_ids as $mentorId) {
+                $mentor = User::findOrFail($mentorId);
+                $mentor->mitra_id = $mitra->id;
+                $mentor->save();
+            }
+
+            $mitra->pembimbings()->sync($request->pembimbing_ids);
+
+            return back()->with('success', 'Mitra berhasil di-assign.');
+        }
+
+        if ($request->action == 'assignMitraToSiswa') {
+            $request->validate([
+                'student_id' => ['required', 'exists:users,id'],
+                'mitra_id' => 'required|exists:mitras,id',
+            ]);
+
+            $student = User::findOrFail($request->student_id);
+            $student->mitra_id = $request->mitra_id;
+            $student->save();
+
+            return back()->with('success', 'Mitra berhasil ditugaskan ke siswa.');
+        }
+
+        return back()->withErrors(['action' => 'Aksi tidak valid']);
     }
 
-    // Menampilkan form untuk assign mitra ke siswa
-    public function assignSiswaForm()
+    public function fetchData(Request $request)
     {
-        // Mengambil semua siswa dan mitra
-        $students = User::where('role', 'siswa')->get();
-        $mitras = Mitra::all();
+        $type = $request->get('type');
 
-        return view('admin.assign-siswa', compact('students', 'mitras'));
+    if ($type === 'students') {
+        $data = User::where('role', 'siswa')->get(['name', 'email']);
+    } elseif ($type === 'pembimbings') {
+        $data = User::where('role', 'pembimbing')->get(['name', 'email']);
+    } elseif ($type === 'mentors') {
+        $data = User::where('role', 'mentor')->get(['name', 'email']);
+    } else {
+        return response()->json(['error' => 'Invalid type'], 400);
     }
 
-    // Menangani penugasan mitra ke siswa
-    public function assignSiswa(Request $request)
-    {
-        // Validasi input
-        $request->validate([
-            'student_id' => ['required', 'exists:users,id'], // Validasi role siswa
-            'mitra_id' => 'required|exists:mitras,id', // Pastikan mitra ada
-        ]);
-
-        // Cari siswa dan assign mitra_id
-        $student = User::findOrFail($request->student_id);
-        $student->mitra_id = $request->mitra_id; // Assign mitra ke siswa
-        $student->save();
-
-        return redirect()->route('admin.assignSiswaForm')->with('success', 'Mitra berhasil ditugaskan ke siswa.');
+    return response()->json($data);
     }
 
     public function indexMitra()

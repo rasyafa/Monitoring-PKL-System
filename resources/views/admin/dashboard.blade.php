@@ -5,10 +5,24 @@
 @section('page-title', 'Dashboard')
 
 @section('content')
+<!-- Modal -->
+<div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="modalDetailLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalDetailLabel">Detail Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent">Loading...</div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row justify-content-center">
     <!-- Stat Card: Jumlah Siswa -->
     <div class="col-md-4">
-        <div class="card stat-card">
+        <div class="card stat-card" data-bs-toggle="modal" data-bs-target="#modalDetail" onclick="fetchData('students')">
             <div class="card-body d-flex align-items-center">
                 <div class="icon-container">
                     <i class="fas fa-user-graduate"></i>
@@ -23,7 +37,7 @@
 
     <!-- Stat Card: Jumlah Pembimbing -->
     <div class="col-md-4">
-        <div class="card stat-card">
+        <div class="card stat-card" data-bs-toggle="modal" data-bs-target="#modalDetail" onclick="fetchData('pembimbings')">
             <div class="card-body d-flex align-items-center">
                 <div class="icon-container">
                     <i class="fas fa-chalkboard-teacher"></i>
@@ -38,7 +52,7 @@
 
     <!-- Stat Card: Jumlah Mentor -->
     <div class="col-md-4">
-        <div class="card stat-card">
+        <div class="card stat-card" data-bs-toggle="modal" data-bs-target="#modalDetail" onclick="fetchData('mentors')">
             <div class="card-body d-flex align-items-center">
                 <div class="icon-container">
                     <i class="fas fa-user-tie"></i>
@@ -172,5 +186,42 @@
 
     calendar.render();
     });
+
+    function fetchData(type) {
+        // URL untuk fetch data
+        const url = `{{ route('admin.fetchData') }}?type=${type}`;
+
+        // Set isi modal ke "Loading..." sementara menunggu data
+        document.getElementById('modalContent').innerHTML = 'Loading...';
+
+        // Ambil data dari server
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                // Render data ke modal
+                let html = `<table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nama</th>
+                                        <th>Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody>`;
+                data.forEach((item, index) => {
+                    html += `<tr>
+                                <td>${index + 1}</td>
+                                <td>${item.name}</td>
+                                <td>${item.email}</td>
+                             </tr>`;
+                });
+                html += `</tbody></table>`;
+                document.getElementById('modalContent').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('modalContent').innerHTML = 'Gagal memuat data.';
+            });
+    }
 </script>
 @endpush
