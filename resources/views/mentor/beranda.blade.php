@@ -120,25 +120,22 @@
         <div class="row my-5">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Jumlah Siswa</h5>
+                    <h5 class="card-title">Daftar Siswa</h5>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>No</th>
                                     <th>Name</th>
                                     <th>Username</th>
                                     <th>Email</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($users as $user)
+                                @foreach ($students as $student)
                                 <tr>
-                                    <!-- Nomor urut dengan pagination -->
-                                    <td>{{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</td>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->username }}</td>
-                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $student->name }}</td>
+                                    <td>{{ $student->username }}</td>
+                                    <td>{{ $student->email }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -235,5 +232,6 @@
         });
 
         renderCalendar();
+
     </script>
 @endsection

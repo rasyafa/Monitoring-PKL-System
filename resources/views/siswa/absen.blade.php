@@ -200,6 +200,7 @@
                     <tr>
                         <th>Nama</th>
                         <th>Tanggal</th>
+                        <th>Waktu</th>
                         <th>Status</th>
                         <th>Foto</th> <!-- Menampilkan kolom untuk foto -->
                     </tr>
@@ -210,6 +211,7 @@
                     <tr>
                         <td>{{ $absen->user->name }}</td>
                         <td>{{ \Carbon\Carbon::parse($absen->tanggal)->format('d-m-Y') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($absen->created_at)->setTimezone('Asia/Jakarta')->format('H:i') }}</td>
                         <td>{{ $absen->status }}</td>
                         <td>
                             <!-- Menampilkan foto absen jika ada -->

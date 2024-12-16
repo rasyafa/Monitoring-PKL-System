@@ -159,6 +159,9 @@ Route::middleware(['auth', CheckRole::class . ':mentor'])->group(function () {
     Route::post('/mentor/kegiatan/{id}/updateStatus', [MentorController::class, 'updateStatus'])->name('mentor.kegiatan.updateStatus');
 
 
+
+
+
     // Route::get('/kegiatan/{id}', [MentorController::class, 'detailKegiatan'])->name('mentor.detail');
     // Route::get('/kegiatan/{id}/konfirmasi', function ($id) {return "Konfirmasi kegiatan dengan ID $id berhasil.";})->name('kegiatan.konfirmasi');
 

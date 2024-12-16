@@ -15,9 +15,12 @@ class MentorController extends Controller
 
     public function index()
     {
-        $mentor = Auth::user(); // Mentor yang sedang login
-        $users = $mentor->students; // Mengambil siswa yang di-assign ke mentor ini
-        return view('mentor.beranda', compact('users'));
+        $user = Auth::user();
+
+        $students = User::where('role', 'siswa')
+        ->where('mentor_id', $user->id) // Pastikan siswa memiliki pembimbing yang sesuai
+            ->paginate(5);
+        return view('mentor.beranda', compact('students'));
     }
 
     public function dataSiswa()
@@ -25,8 +28,8 @@ class MentorController extends Controller
         $user = Auth::user();
 
         $students = User::where('role', 'siswa')
-                        ->where('mentor_id', $user->id) // Pastikan siswa memiliki pembimbing yang sesuai
-                        ->paginate(5);
+            ->where('mentor_id', $user->id) // Pastikan siswa memiliki pembimbing yang sesuai
+            ->paginate(5);
         return view('mentor.datasiswa', compact('students'));
     }
 
@@ -42,8 +45,8 @@ class MentorController extends Controller
 
         // Mengambil siswa yang di-assign ke pembimbing yang sedang login
         $students = User::where('role', 'siswa')
-                        ->where('mentor_id', $user->id)  // Filter siswa berdasarkan pembimbing
-                        ->get();
+            ->where('mentor_id', $user->id)  // Filter siswa berdasarkan pembimbing
+            ->get();
 
         return view('mentor.kegiatan', compact('students'));
     }
@@ -52,7 +55,7 @@ class MentorController extends Controller
     {
         $user = Auth::user();
 
-       $student = User::findOrFail($id); // Pastikan variabel 'student' digunakan di sini
+        $student = User::findOrFail($id); // Pastikan variabel 'student' digunakan di sini
 
         if ($student->mentor_id != $user->id) {
             return redirect()->route('mentor.beranda')->with('error', 'Akses ditolak!');
@@ -149,8 +152,8 @@ class MentorController extends Controller
         $students = User::where('mentor_id', $user->id)->get();
 
         $laporans = LaporanAkhir::whereHas('user', function ($query) use ($user) {
-        $query->where('mentor_id', $user->id); // Pastikan hanya laporan yang sesuai pembimbing yang diambil
-    })->get();
+            $query->where('mentor_id', $user->id); // Pastikan hanya laporan yang sesuai pembimbing yang diambil
+        })->get();
 
         // Kirim data ke view
         return view('mentor.laporan', compact('students', 'laporans'));
