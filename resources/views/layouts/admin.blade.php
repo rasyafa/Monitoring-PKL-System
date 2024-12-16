@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Dashboard')</title>
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet" />
@@ -174,35 +175,10 @@
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-users me-2"></i>Manajemen Pengguna
                 </a>
-                {{-- dropdown penugasan --}}
-                <a class="list-group-item list-group-item-action bg-transparent second-text fw-bold dropdown-toggle"
-                    data-bs-toggle="collapse" href="#manageUsersDropdown" role="button" aria-expanded="false"
-                    aria-controls="manageUsersDropdown">
-                    <i class="fas fa-users me-2"></i>Penugasan
+                <!-- Penugasan Gabungan -->
+                <a href="{{ route('assignAllForm') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-tasks me-2"></i>Penugasan Gabungan
                 </a>
-                <div class="collapse" id="manageUsersDropdown">
-                    <ul class="list-group list-group-flush ms-3">
-
-
-                        <li><a href="{{ route('admin.assignSiswaForm') }}"
-                                class="list-group-item list-group-item-action bg-transparent second-text fw-bold fs-7">
-                                <i class="fas fa-chalkboard-teacher me-2"></i>Penugasan Siswa</a>
-                        </li>
-
-                        <li><a href="{{ route('admin.assignMentorForm') }}"
-                                class="list-group-item list-group-item-action bg-transparent second-text fw-bold fs-7">
-                                <i class="fas fa-chalkboard-teacher me-2"></i>Penugasan Mentor</a>
-                        </li>
-                        <li><a href="{{ route('admin.assignPembimbingForm') }}"
-                                class="list-group-item list-group-item-action bg-transparent second-text fw-bold fs-7">
-                                <i class="fas fa-users-cog me-2"></i>Penugasan Pembimbing</a>
-                        </li>
-                        <li><a href="{{ route('admin.assignMitraForm') }}"
-                                class="list-group-item list-group-item-action bg-transparent second-text fw-bold fs-7">
-                                <i class="fas fa-handshake me-2"></i>Penugasan Mitra</a>
-                        </li>
-                    </ul>
-                </div>
                 <a href="{{ route('admin.mitra.index') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-users me-2"></i>Data Mitra

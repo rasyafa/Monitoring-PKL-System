@@ -47,16 +47,13 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::get('/absen/attendance', [AdminController::class, 'downloadAttendancePDF'])->name('admin.absen.attendance');
     Route::get('/admin/kegiatan/activity/{id}', [AdminController::class, 'downloadLogbookPdf'])->name('admin.kegiatan.activity');
 
-    // Routes untuk assign mentor
-    Route::get('/assign-mentor', [AdminController::class, 'assignMentorForm'])->name('admin.assignMentorForm');
-    Route::post('/assign-mentor', [AdminController::class, 'assignMentor'])->name('admin.assignMentor');
+    Route::get('/admin/fetch-data', [AdminController::class, 'fetchData'])->name('admin.fetchData');
 
-    // Routes untuk assign pembimbing
-    Route::get('/assign-pembimbing', [AdminController::class, 'assignPembimbingForm'])->name('admin.assignPembimbingForm');
-    Route::post('/assign-pembimbing', [AdminController::class, 'assignPembimbing'])->name('admin.assignPembimbing');
+    // Route untuk halaman form gabungan semua assign
+    Route::get('/assign-all', [AdminController::class, 'assignAllForm'])->name('assignAllForm');
 
-    Route::get('/assign-mitra', [AdminController::class, 'assignMitraForm'])->name('admin.assignMitraForm');
-    Route::post('/assign-mitra', [AdminController::class, 'assignMitra'])->name('admin.assignMitra');
+    // Route untuk menangani submit semua assign
+    Route::post('/assign-all', [AdminController::class, 'assignAll'])->name('assignAll');
 
     // Menampilkan daftar mitra
     Route::get('/mitra', [AdminController::class, 'indexMitra'])->name('admin.mitra.index');
