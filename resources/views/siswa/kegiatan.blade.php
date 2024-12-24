@@ -137,7 +137,7 @@
         <!-- Tombol untuk menambah kegiatan baru -->
         <div class="row mt-4">
             <div class="col-12 d-flex justify-content-start">
-                <a href="{{ route('siswa.kegiatan.create') }}" class="btn btn-custom me-2">Tambah Kegiatan</a>
+                <a href="{{ route('siswa.kegiatan.create') }}" class="btn btn-custom me-2">Tambah Laporan Harian</a>
             </div>
         </div>
     </div>

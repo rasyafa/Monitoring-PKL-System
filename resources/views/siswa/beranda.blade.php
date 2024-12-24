@@ -11,7 +11,7 @@
       <!-- Card Gabungan untuk Notifikasi Absen dan Laporan Kegiatan -->
       <div class="card mb-4" style="max-width: 900px; margin: 0 auto;">
           <div class="card-header">
-              <h4>Notifikasi Absen dan Laporan Kegiatan</h4> <!-- Judul untuk card ini -->
+              <h4>Notifikasi Terbaru Absen dan Laporan Harian</h4> <!-- Judul untuk card ini -->
           </div>
           <div class="card-body">
               <!-- Mengecek status absen dan laporan kegiatan -->
@@ -124,4 +124,4 @@
   </script>
 
 @endsection
- 
+

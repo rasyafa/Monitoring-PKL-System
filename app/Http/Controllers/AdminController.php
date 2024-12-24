@@ -257,7 +257,10 @@ class AdminController extends Controller
 
     public function assignAll(Request $request)
     {
-        if ($request->action == 'assignMentor') {
+        $messages = [];
+
+        // Assign Mentor
+        if ($request->has('mentor_id') && $request->has('student_id')) {
             $request->validate([
                 'student_id' => ['required', 'exists:users,id'],
                 'mentor_id' => ['required', 'exists:users,id'],
@@ -267,10 +270,12 @@ class AdminController extends Controller
             $student->mentor_id = $request->mentor_id;
             $student->save();
 
-            return back()->with('success', 'Mentor berhasil ditugaskan.');
+            $messages[] = 'Mentor berhasil ditugaskan.';
         }
 
-        if ($request->action == 'assignPembimbing') {
+        // Assign Pembimbing
+        if ($request->has('pembimbing_id') && $request->has('student_id')
+        ) {
             $request->validate([
                 'student_id' => ['required', 'exists:users,id'],
                 'pembimbing_id' => ['required', 'exists:users,id'],
@@ -280,10 +285,11 @@ class AdminController extends Controller
             $student->pembimbing_id = $request->pembimbing_id;
             $student->save();
 
-            return back()->with('success', 'Pembimbing berhasil ditugaskan.');
+            $messages[] = 'Pembimbing berhasil ditugaskan.';
         }
 
-        if ($request->action == 'assignMitraToMentorPembimbing') {
+        // Assign Mitra to Mentor and Pembimbing
+        if ($request->has('mitra_id') && ($request->has('mentor_ids') || $request->has('pembimbing_ids'))) {
             $request->validate([
                 'mitra_id' => 'required|exists:mitras,id',
                 'mentor_ids' => 'required|array',
@@ -293,20 +299,26 @@ class AdminController extends Controller
             ]);
 
             $mitra = Mitra::findOrFail($request->mitra_id);
+
+            // Unassign Mitra from previous users
             User::where('mitra_id', $mitra->id)->update(['mitra_id' => null]);
 
+            // Assign new Mitra to mentors
             foreach ($request->mentor_ids as $mentorId) {
                 $mentor = User::findOrFail($mentorId);
                 $mentor->mitra_id = $mitra->id;
                 $mentor->save();
             }
 
+            // Sync Pembimbing to Mitra
             $mitra->pembimbings()->sync($request->pembimbing_ids);
 
-            return back()->with('success', 'Mitra berhasil di-assign.');
+            $messages[] = 'Mitra berhasil di-assign ke Mentor dan Pembimbing.';
         }
 
-        if ($request->action == 'assignMitraToSiswa') {
+        // Assign Mitra to Student
+        if ($request->has('mitra_id') && $request->has('student_id')
+        ) {
             $request->validate([
                 'student_id' => ['required', 'exists:users,id'],
                 'mitra_id' => 'required|exists:mitras,id',
@@ -316,11 +328,16 @@ class AdminController extends Controller
             $student->mitra_id = $request->mitra_id;
             $student->save();
 
-            return back()->with('success', 'Mitra berhasil ditugaskan ke siswa.');
+            $messages[] = 'Mitra berhasil ditugaskan ke siswa.';
+        }
+
+        if (count($messages) > 0) {
+            return back()->with('success', implode('<br>', $messages));
         }
 
         return back()->withErrors(['action' => 'Aksi tidak valid']);
     }
+
 
     public function fetchData(Request $request)
     {
