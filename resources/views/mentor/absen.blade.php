@@ -37,10 +37,7 @@
             <tr>
                 <td>{{ $absen->user->name }}</td>
                 <td>{{ \Carbon\Carbon::parse($absen->tanggal)->format('d-m-Y') }}</td>
-                <td>
-                    <!-- Menampilkan waktu input -->
-                    {{ \Carbon\Carbon::parse($absen->created_at)->format('H:i:s') }}
-                </td>
+                <td>{{ \Carbon\Carbon::parse($absen->created_at)->setTimezone('Asia/Jakarta')->format('H:i') }}</td>
                 <td>{{ $absen->status }}</td>
                 <td>
                     @if ($absen->foto)

@@ -80,7 +80,7 @@
         <tr>
             <td>{{ $absen->user->name }}</td>
             <td>{{ \Carbon\Carbon::parse($absen->tanggal)->format('d-m-Y') }}</td>
-            <td>{{ \Carbon\Carbon::parse($absen->waktu)->format('H:i:s') }}</td> <!-- Format Waktu -->
+<td>{{ \Carbon\Carbon::parse($absen->created_at)->setTimezone('Asia/Jakarta')->format('H:i') }}</td> <!-- Format Waktu -->
             <td>{{ $absen->status }}</td>
             <td>
                 @if ($absen->foto)

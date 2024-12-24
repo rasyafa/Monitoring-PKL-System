@@ -13,7 +13,7 @@
             <div class="card" style="border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                 <div class="card-body">
                     <!-- Judul Laporan Akhir -->
-                    <h3 class="text-center mb-4">Laporan Akhir {{ $students->name }}</h3>
+                    <h3 class="text-center mb-4" style="color: #686868">Laporan Akhir {{ $students->name }}</h3>
 
                     <!-- Cek jika ada laporan -->
                     <table class="table table-striped table-hover table-bordered">

@@ -83,7 +83,7 @@
                         <td>{{ $siswa->name }}</td>
                         <td class="text-center">
                             <a href="{{ route('pembimbing.show', $siswa->id) }}" class="btn btn-light-green btn-sm">
-                                Lihat laporan {{ $siswa->name }}
+                                Lihat laporan harian
                             </a>
                         </td>
                     </tr>

@@ -259,7 +259,7 @@
             <a href="{{ route('pembimbing.laporanharian') }}" style="text-decoration: none; color: inherit;">
                 <div class="card-body">
                     <div class="card-title">Kegiatan Harian</div>
-                    <div class="card-subtext">{{ $kegiatan }}</div>
+                    <div class="card-subtext">{{ $kegiatans }}</div>
                 </div>
             </a>
         </div>
