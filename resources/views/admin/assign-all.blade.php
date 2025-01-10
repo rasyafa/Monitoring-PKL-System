@@ -6,20 +6,29 @@
 <div class="container">
     <h1 class="mb-4">Penugasan</h1>
 
+    <!-- Success Alert -->
     @if (session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="alert alert-success d-flex align-items-center mb-3" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <div>{!! session('success') !!}</div>
+        </div>
     @endif
 
+    <!-- Error Alerts -->
     @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+    <div class="alert alert-danger d-flex align-items-center mb-3" role="alert">
+        <i class="bi bi-x-circle-fill me-2"></i>
+        <div>
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     </div>
     @endif
 
+    <!-- Assignment Form -->
     <form action="{{ route('assignAll') }}" method="POST">
         @csrf
 
@@ -87,5 +96,29 @@
     .btn-custom-green:hover {
         background-color: #249c42;
     }
+
+    .alert {
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+        font-size: 16px;
+    }
+    .alert-success {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+    }
+    .alert-danger {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+
+    .alert i {
+        font-size: 20px;
+    }
+
+    .alert ul {
+        margin-top: 5px;
+    }
 </style>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 @endpush

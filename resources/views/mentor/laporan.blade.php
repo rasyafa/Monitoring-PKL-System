@@ -27,7 +27,7 @@
                         <td>{{ $student->name }}</td>
                         <td class="text-center">
                             <a href="{{ route('mentor.laporan_akhir', $student->id) }}" class="btn btn-light-green btn-sm">
-                                Lihat laporan akhir {{ $student->name }}
+                                Lihat laporan akhir 
                             </a>
                         </td>
                     </tr>

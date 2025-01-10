@@ -17,13 +17,13 @@ class PembimbingController extends Controller
     public function index()
     {
         // Menghitung jumlah kegiatan harian
-        $kegiatan = Kegiatan::count(); // Total data di tabel Kegiatan
+        $kegiatans = KegiatanHarian::count(); // Total data di tabel Kegiatan
 
         // Menghitung jumlah data absensi
         $absens = Absen::count(); // Total data di tabel Absen
 
         // Passing data ke view
-        return view('pembimbing.home', compact('kegiatan', 'absens'));
+        return view('pembimbing.home', compact('kegiatans', 'absens'));
     }
 
     // PROFILE

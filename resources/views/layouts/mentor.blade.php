@@ -12,24 +12,29 @@
     <style>
         /* Custom CSS Styles */
         :root {
-            --main-bg-color: #009d63;
-            --main-text-color: #32cd32;
-            --second-text-color: #333;
+             --main-bg-color: #03d703;
+            --main-text-color: #03d703;
+            --second-text-color: #686868;
             --second-bg-color: #fff;
-            --toggle-color: #32cd32;
-            --heading-color: #32cd32;
+            --toggle-color: #03d703;
+            --heading-color: #03d703;
         }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            overflow-x: hidden;
+       .primary-text {
+            color: var(--main-text-color);
+        }
+
+        .second-text {
+            color: var(--second-text-color);
         }
 
         #wrapper {
+            overflow-x: hidden;
+            background: #fff;
             display: flex;
+            height: 100vh;
+            transition: margin-left 0.3s ease-out;
         }
-
         #sidebar-wrapper {
             position: fixed;
             top: 0;
@@ -101,28 +106,25 @@
                     <i class="fas fa-home me-2"></i>Beranda</a>
                 <a href="{{ route('mentor.profil', Auth::user()->id) }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-user me-2"></i>Profil</a>
-                <a class="list-group-item list-group-item-action bg-transparent second-text fw-bold dropdown-toggle"
-                    data-bs-toggle="collapse" href="#manageUsersDropdown" role="button" aria-expanded="false"
-                    aria-controls="manageUsersDropdown">
-                    <i class="fas fa-users me-2"></i>Siswa
+               <a class="list-group-item list-group-item-action bg-transparent second-text fw-bold dropdown-toggle"
+                data-bs-toggle="collapse" href="#manageUsersDropdown" role="button" aria-expanded="false"
+                aria-controls="manageUsersDropdown">
+                <i class="fas fa-users me-2"></i>Siswa
                 </a>
 
                 <div class="collapse" id="manageUsersDropdown">
                     <ul class="list-group list-group-flush ms-3">
-                        <li><a href="{{ route('mentor.datasiswa') }}"
-                                class="list-group-item list-group-item-action bg-transparent second-text">
-                                <i class="fas fa-user-graduate me-2"></i>Data</a></li>
-                        <li><a href="{{ route('mentor.absen') }}"
-                                class="list-group-item list-group-item-action bg-transparent second-text">
-                                <i class="fas fa-chalkboard-teacher me-2"></i>Absen</a></li>
-                        <li><a href="{{ route('mentor.kegiatan') }}"
-                                class="list-group-item list-group-item-action bg-transparent second-text">
-                                <i class="fas fa-file-alt me-2"></i>Laporan Harian</a></li>
-                        <li><a href="{{ route('mentor.laporan') }}"
-                                class="list-group-item list-group-item-action bg-transparent second-text">
-                                <i class="fas fa-file-alt me-2"></i>Data Laporan Akhir</a></li>
+                        <li><a href="{{ route('mentor.datasiswa') }}" class="list-group-item list-group-item-action bg-transparent second-text">
+                            <i class="fas fa-user-graduate me-2"></i>Data</a></li>
+                        <li><a href="{{ route('mentor.absen') }}" class="list-group-item list-group-item-action bg-transparent second-text">
+                            <i class="fas fa-chalkboard-teacher me-2"></i>Absen</a></li>
+                        <li><a href="{{ route('mentor.kegiatan') }}" class="list-group-item list-group-item-action bg-transparent second-text">
+                            <i class="fas fa-file-alt me-2"></i>Laporan Harian</a></li>
+                        <li><a href="{{ route('mentor.laporan') }}" class="list-group-item list-group-item-action bg-transparent second-text">
+                            <i class="fas fa-file-alt me-2"></i>Data Laporan Akhir</a></li>
                     </ul>
                 </div>
+
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit"

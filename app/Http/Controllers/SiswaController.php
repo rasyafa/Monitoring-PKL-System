@@ -10,8 +10,6 @@ use Illuminate\Http\Request;
 use App\Models\KegiatanHarian;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Mitra;
-
 
 class SiswaController extends Controller
 {
@@ -41,6 +39,7 @@ class SiswaController extends Controller
     // Fungsi untuk melihat profil siswa
     public function show($id)
     {
+        // Mengambil data pengguna yang sedang login
         $user = Auth::user();
 
         // Cek akses, hanya bisa lihat profil sendiri
@@ -57,13 +56,14 @@ class SiswaController extends Controller
     // Fungsi untuk edit profil siswa
     public function edit($id)
     {
+        // Mencari data siswa berdasarkan ID, jika tidak ditemukan akan menghasilkan error
         $siswa = User::findOrFail($id);
 
         // Pastikan hanya siswa yang sedang login yang bisa mengedit profilnya
         if (Auth::id() !== $siswa->id) {
-
             return redirect()->route('welcome');
         }
+
         return view('siswa.edit', compact('siswa'));
     }
 
@@ -87,6 +87,7 @@ class SiswaController extends Controller
         $siswa->email = $request->input('email');
         $siswa->city = $request->input('city');
 
+        // Jika password diisi, enkripsi password dan simpan
         if ($request->filled('password')) {
             $siswa->password = bcrypt($request->input('password'));
         }
@@ -103,10 +104,9 @@ class SiswaController extends Controller
             $siswa->profile_photo = $photoPath; // Simpan path foto
         }
 
-        // Simpan perubahan ke database
         $siswa->save();
 
-        // Redirect ke halaman profil dengan pesan sukses
+        // Redirect ke halaman profil
         return redirect()->route('siswa.show', $siswa->id);
     }
 // AKHIR PROFILE
@@ -133,6 +133,7 @@ class SiswaController extends Controller
         $endTime = Carbon::createFromTime(14, 0, 0, 'Asia/Jakarta');
         $currentTime = Carbon::now('Asia/Jakarta');
 
+        // Jika waktu sekarang di luar jam absen, tampilkan pesan error
         if ($currentTime->lt($startTime) || $currentTime->gt($endTime)) {
             return back()->withErrors(['error' => 'Absen hanya bisa dilakukan dari jam 07:00 hingga jam 14:00.']);
         }
@@ -142,6 +143,7 @@ class SiswaController extends Controller
             ->where('tanggal', today())
             ->first();
 
+        // Jika sudah absen hari ini, tampilkan pesan error
         if ($existingAbsen) {
             return back()->withErrors(['error' => 'Anda sudah absen hari ini.']);
         }
@@ -155,8 +157,7 @@ class SiswaController extends Controller
             'tanggal' => today(),
             'status' => $request->status,
             'foto' => $fotoPath,
-
-        ]);
+       ]);
 
         return redirect()->route('siswa.absen')->with('success', 'Absen berhasil disimpan.');
     }
@@ -166,19 +167,18 @@ class SiswaController extends Controller
     public function kegiatan()
     {
         // Ambil semua kegiatan yang terkait dengan siswa yang sedang login
-        $kegiatans = KegiatanHarian::where('user_id', Auth::id())->paginate(5);
+        $kegiatans = KegiatanHarian::where('user_id', Auth::id())->paginate(2);
 
-        // Kirimkan data ke view
         return view('siswa.kegiatan', compact('kegiatans'));
     }
 
-    // Metode untuk menampilkan form tambah kegiatan
+    // menampilkan form tambah kegiatan
     public function create()
     {
         return view('siswa.tambah');
     }
 
-    // Metode untuk menyimpan kegiatan baru
+    // menyimpan kegiatan baru
     public function store(Request $request)
     {
         $request->validate([
@@ -191,7 +191,7 @@ class SiswaController extends Controller
 
         // Batas waktu pengisian kegiatan
         $startTime = Carbon::createFromTime(8, 0, 0, 'Asia/Jakarta'); // 08:00
-        $endTime = Carbon::createFromTime(21, 0, 0, 'Asia/Jakarta'); // 16:00
+        $endTime = Carbon::createFromTime(16, 0, 0, 'Asia/Jakarta'); // 16:00
         $currentTime = Carbon::now('Asia/Jakarta'); // Waktu saat ini
 
         if ($currentTime->lt($startTime) || $currentTime->gt($endTime)) {
@@ -229,9 +229,9 @@ class SiswaController extends Controller
 // AKHIR KEGIATAN HARIAN
 
 // AWAL LAPORAN AKHIR
-    // Menampilkan halaman riwayat laporan
     public function showRiwayatLaporan()
     {
+        // Mengambil laporan akhir berdasarkan user yang sedang login, diurutkan berdasarkan tanggal terbaru
         $laporans = LaporanAkhir::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
         return view('siswa.laporan_akhir', compact('laporans'));
     }
@@ -245,10 +245,10 @@ class SiswaController extends Controller
             'link_laporan' => 'required|url',
         ]);
 
-        // Get the original file name
+        // Mendapatkan nama file asli yang diupload oleh pengguna
         $originalFileName = $request->file('file')->getClientOriginalName();
 
-        // Store the file with the original name
+        // Menyimpan file dengan nama asli ke folder 'laporan' di penyimpanan publik
         $filePath = $request->file('file')->storeAs('laporan', $originalFileName, 'public');
 
         LaporanAkhir::create([
@@ -265,6 +265,7 @@ class SiswaController extends Controller
     // Menghapus laporan
     public function hapusLaporan($id)
     {
+        // Mengambil laporan berdasarkan ID, menghapus file terkait, dan menghapus data laporan
         $laporan = LaporanAkhir::findOrFail($id);
         Storage::delete($laporan->file_path);
         $laporan->delete();
@@ -276,9 +277,7 @@ class SiswaController extends Controller
 // NOTIFIKASI
     public function notifikasi()
     {
-        // Ambil pengguna yang sedang login
         $user = Auth::user();
-
         // Pastikan hanya siswa yang dapat mengakses notifikasi
         if ($user->role !== 'siswa') {
             return redirect()->route('welcome');
@@ -288,9 +287,7 @@ class SiswaController extends Controller
         $tanggalHariIni = Carbon::today();
 
         // Cek apakah siswa sudah absen hari ini
-        $absen = Absen::where('user_id',
-            $user->id
-        )
+        $absen = Absen::where('user_id',$user->id)
         ->where('tanggal', $tanggalHariIni)
         ->first();
 
@@ -299,7 +296,6 @@ class SiswaController extends Controller
         ->where('tanggal', $tanggalHariIni)
         ->get();
 
-        // Return ke view notifikasi
         return view('siswa.notifikasi', compact('user', 'absen', 'laporanHarian', 'tanggalHariIni'));
     }
 //AKHIR NOTIFIKASI
@@ -315,10 +311,9 @@ class SiswaController extends Controller
 
         // Pastikan hanya siswa yang memiliki akses
         if ($siswa->role !== 'siswa') {
-            return redirect()->route('welcome')->withErrors(['error' => 'Akses ditolak.']);
+            return redirect()->route('welcome');
         }
 
-        // Kirim data ke view
         return view('siswa.profil-mitra', compact('siswa', 'mitra'));
     }
 }

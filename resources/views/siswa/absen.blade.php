@@ -183,11 +183,6 @@
                             <input class="form-check-input" type="radio" name="status" id="izin" value="Izin">
                             <label class="form-check-label" for="izin">Izin</label>
                         </div>
-                        <!-- Pilihan radio untuk alpha -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="status" id="alpha" value="Alpha">
-                            <label class="form-check-label" for="alpha">Alpha</label>
-                        </div>
                     </div>
                 </div>
 
@@ -205,6 +200,7 @@
                     <tr>
                         <th>Nama</th>
                         <th>Tanggal</th>
+                        <th>Waktu</th>
                         <th>Status</th>
                         <th>Foto</th> <!-- Menampilkan kolom untuk foto -->
                     </tr>
@@ -215,6 +211,7 @@
                     <tr>
                         <td>{{ $absen->user->name }}</td>
                         <td>{{ \Carbon\Carbon::parse($absen->tanggal)->format('d-m-Y') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($absen->created_at)->setTimezone('Asia/Jakarta')->format('H:i') }}</td>
                         <td>{{ $absen->status }}</td>
                         <td>
                             <!-- Menampilkan foto absen jika ada -->

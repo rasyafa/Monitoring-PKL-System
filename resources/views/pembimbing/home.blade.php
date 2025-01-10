@@ -254,24 +254,29 @@
 
 
     <div class="row">
-        <div class="col-md-6">
-            <div class="card income-card">
+    <div class="col-md-6">
+        <div class="card income-card">
+            <a href="{{ route('pembimbing.laporanharian') }}" style="text-decoration: none; color: inherit;">
                 <div class="card-body">
                     <div class="card-title">Kegiatan Harian</div>
-                    <div class="card-subtext">{{ $kegiatan }}</div>
+                    <div class="card-subtext">{{ $kegiatans }}</div>
                 </div>
-            </div>
+            </a>
         </div>
+    </div>
 
-        <div class="col-md-6">
-            <div class="card expenses-card">
+    <div class="col-md-6">
+        <div class="card expenses-card">
+            <a href="{{ route('pembimbing.absen') }}" style="text-decoration: none; color: inherit;">
                 <div class="card-body">
                     <div class="card-title">Data Absen</div>
                     <div class="card-subtext">{{ $absens }}</div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
+</div>
+
 
     <!-- Add the doughnut chart inside a new column in the existing row -->
 

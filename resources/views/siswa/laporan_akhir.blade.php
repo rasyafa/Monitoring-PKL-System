@@ -136,8 +136,9 @@
                         <input type="text" class="form-control" id="judul" name="judul" required>
                     </div>
                     <div class="mb-3">
-                        <label for="file" class="form-label">Unggah File</label>
-                        <input type="file" class="form-control" id="file" name="file" required>
+                        <label for="file" class="form-label">Unggah File (pdf, docx)</label>
+                        <input type="file" class="form-control" id="file" name="file" required onchange="validateFile()">
+                        <small id="fileError" class="text-danger d-none">File harus berformat PDF atau DOCX.</small>
                     </div>
                     <div class="mb-3">
                         <label for="link_laporan" class="form-label">Link Laporan</label>
@@ -184,6 +185,23 @@
         setTimeout(() => {
             toastElement.remove();
         }, 10000); // Toast akan hilang setelah 10 detik
+    }
+
+    function validateFile() {
+        const fileInput = document.getElementById('file');
+        const fileError = document.getElementById('fileError');
+        const allowedExtensions = /\.(pdf|docx)$/i;
+
+        if (fileInput.files.length > 0) {
+            const fileName = fileInput.files[0].name;
+
+            if (!allowedExtensions.test(fileName)) {
+                fileError.classList.remove('d-none'); // Tampilkan pesan kesalahan
+                fileInput.value = ''; // Hapus file yang tidak valid dari input
+            } else {
+                fileError.classList.add('d-none'); // Sembunyikan pesan kesalahan
+            }
+        }
     }
 </script>
 
